@@ -2,111 +2,115 @@
 <html lang="vi">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Document Hub — Quản lý Người dùng</title>
-    <link rel="stylesheet" href="../css/index.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Document Hub — Quản lý Người dùng</title>
+  <link rel="stylesheet" href="../css/index.css">
 </head>
 
 <body>
-    <header class="header">
-        <a href="../index.html" class="logo">
-            <div class="logo-icon">📚</div><span>Document Hub <span
-                    style="font-size:0.75rem;color:var(--color-warning);margin-left:4px">Admin</span></span>
-        </a>
-        <div class="header-spacer"></div>
-        <div class="header-nav">
-            <a href="../index.html" class="btn btn-ghost btn-sm" target="_blank">🔗 Xem Site</a>
-            <div class="avatar avatar-sm" style="background:var(--grad-primary)">A</div>
-        </div>
-    </header>
-    <div class="admin-layout">
-        <nav class="admin-sidebar">
-            <div class="admin-nav-label">Menu</div>
-            <a href="index.html" class="admin-nav-item">📊 Dashboard</a>
-            <a href="documents.html" class="admin-nav-item">📄 Tài liệu</a>
-            <a href="users.html" class="admin-nav-item active">👥 Người dùng</a>
-            <div class="admin-nav-divider"></div>
-            <a href="../index.html" class="admin-nav-item">⬅️ Thoát Admin</a>
-        </nav>
-        <main class="admin-content">
-            <div
-                style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px;flex-wrap:wrap;gap:12px">
-                <div>
-                    <h1 class="page-title">👥 Quản lý Người dùng</h1>
-                    <p class="page-sub" style="margin:0">Xem thông tin lead, điểm số và hành vi người dùng</p>
-                </div>
-            </div>
-
-            <!-- Stage Tabs -->
-            <div class="tabs mb-lg" id="stageTabs">
-                <div class="tab-item active" onclick="setStage('')">Tất cả</div>
-                <div class="tab-item" onclick="setStage('Hot')">🔥 Hot</div>
-                <div class="tab-item" onclick="setStage('Warm')">🌡 Warm</div>
-                <div class="tab-item" onclick="setStage('Cold')">❄️ Cold</div>
-            </div>
-
-            <!-- Search -->
-            <div class="search-wrapper mb-lg" style="max-width:400px">
-                <span class="search-icon">🔍</span>
-                <input class="search-input" id="userSearch" placeholder="Tìm theo tên, email..."
-                    oninput="renderTable()">
-            </div>
-
-            <!-- Table -->
-            <div class="card" style="padding:0;overflow:hidden">
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>Người dùng</th>
-                            <th>Chức vụ</th>
-                            <th>Lead Stage</th>
-                            <th>Lead Score</th>
-                            <th>Tags nhu cầu</th>
-                            <th>Hoạt động gần nhất</th>
-                            <th>Chi tiết</th>
-                        </tr>
-                    </thead>
-                    <tbody id="userTbody"></tbody>
-                </table>
-            </div>
-            <p style="font-size:0.8rem;color:var(--text-muted);margin-top:12px" id="userCount"></p>
-
-            <!-- User Detail Modal -->
-            <div id="userModal" class="modal-overlay">
-                <div class="modal" style="max-width:580px">
-                    <button class="modal-close" onclick="closeModal('userModal')">✕</button>
-                    <div id="userModalContent"></div>
-                </div>
-            </div>
-        </main>
+  <header class="header">
+    <a href="../index.html" class="logo">
+      <div class="logo-icon">📚</div><span>Document Hub <span
+          style="font-size:0.75rem;color:var(--color-warning);margin-left:4px">Admin</span></span>
+    </a>
+    <div class="header-spacer"></div>
+    <div class="header-nav">
+      <a href="../index.html" class="btn btn-ghost btn-sm" target="_blank">🔗 Xem Site</a>
+      <div class="avatar avatar-sm" style="background:var(--grad-primary)">A</div>
     </div>
-    <div id="toastContainer" class="toast-container"></div>
-    <script src="../js/data.js"></script>
-    <script src="../js/auth.js"></script>
-    <script src="../js/tracker.js"></script>
-    <script src="../js/app.js"></script>
-    <script>
-        let activeStage = '';
-        document.addEventListener('DOMContentLoaded', () => { initData(); renderTable(); });
+  </header>
+  <div class="admin-layout">
+    <nav class="admin-sidebar">
+      <div class="admin-nav-label">Menu</div>
+      <a href="index.html" class="admin-nav-item">📊 Dashboard</a>
+      <a href="documents.html" class="admin-nav-item">📄 Tài liệu</a>
+      <a href="users.html" class="admin-nav-item active">👥 Người dùng</a>
+      <a href="finance.html" class="admin-nav-item">💰 Tài chính</a>
+      <div class="admin-nav-divider"></div>
+      <a href="../index.html" class="admin-nav-item">⬅️ Thoát Admin</a>
+    </nav>
+    <main class="admin-content">
+      <div
+        style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px;flex-wrap:wrap;gap:12px">
+        <div>
+          <h1 class="page-title">👥 Quản lý Người dùng</h1>
+          <p class="page-sub" style="margin:0">Xem thông tin lead, điểm số và hành vi người dùng</p>
+        </div>
+      </div>
 
-        function setStage(s) {
-            activeStage = s;
-            document.querySelectorAll('.tab-item').forEach((t, i) => {
-                t.classList.toggle('active', ['', 'Hot', 'Warm', 'Cold'][i] === s);
-            });
-            renderTable();
-        }
+      <!-- Stage Tabs -->
+      <div class="tabs mb-lg" id="stageTabs">
+        <div class="tab-item active" onclick="setStage('')">Tất cả</div>
+        <div class="tab-item" onclick="setStage('Hot')">🔥 Hot</div>
+        <div class="tab-item" onclick="setStage('Warm')">🌡 Warm</div>
+        <div class="tab-item" onclick="setStage('Cold')">❄️ Cold</div>
+      </div>
 
-        function renderTable() {
-            const q = document.getElementById('userSearch').value.toLowerCase();
-            let users = getAllUsers();
-            if (activeStage) users = users.filter(u => u.lead_stage === activeStage);
-            if (q) users = users.filter(u => u.name.toLowerCase().includes(q) || u.email.toLowerCase().includes(q));
-            users = users.sort((a, b) => b.lead_score - a.lead_score);
+      <!-- Search -->
+      <div class="search-wrapper mb-lg" style="max-width:400px">
+        <span class="search-icon">🔍</span>
+        <input class="search-input" id="userSearch" placeholder="Tìm theo tên, email..." oninput="renderTable()">
+      </div>
 
-            const stCls = { Hot: 'badge-hot', Warm: 'badge-warm', Cold: 'badge-cold' };
-            document.getElementById('userTbody').innerHTML = users.map(u => `
+      <!-- Table -->
+      <div class="card" style="padding:0;overflow:hidden">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Người dùng</th>
+              <th>Chức vụ</th>
+              <th>Lead Stage</th>
+              <th>Lead Score</th>
+              <th>Đã chi</th>
+              <th>Tags nhu cầu</th>
+              <th>Hoạt động gần nhất</th>
+              <th>Chi tiết</th>
+            </tr>
+          </thead>
+          <tbody id="userTbody"></tbody>
+        </table>
+      </div>
+      <p style="font-size:0.8rem;color:var(--text-muted);margin-top:12px" id="userCount"></p>
+
+      <!-- User Detail Modal -->
+      <div id="userModal" class="modal-overlay">
+        <div class="modal" style="max-width:580px">
+          <button class="modal-close" onclick="closeModal('userModal')">✕</button>
+          <div id="userModalContent"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <div id="toastContainer" class="toast-container"></div>
+  <script src="../js/data.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/tracker.js"></script>
+  <script src="../js/app.js"></script>
+  <script>
+    let activeStage = '';
+    document.addEventListener('DOMContentLoaded', () => { initData(); renderTable(); });
+
+    function setStage(s) {
+      activeStage = s;
+      document.querySelectorAll('.tab-item').forEach((t, i) => {
+        t.classList.toggle('active', ['', 'Hot', 'Warm', 'Cold'][i] === s);
+      });
+      renderTable();
+    }
+
+    function renderTable() {
+      const q = document.getElementById('userSearch').value.toLowerCase();
+      let users = getAllUsers();
+      if (activeStage) users = users.filter(u => u.lead_stage === activeStage);
+      if (q) users = users.filter(u => u.name.toLowerCase().includes(q) || u.email.toLowerCase().includes(q));
+      users = users.sort((a, b) => b.lead_score - a.lead_score);
+      const orders = getAllOrders();
+
+      const stCls = { Hot: 'badge-hot', Warm: 'badge-warm', Cold: 'badge-cold' };
+      document.getElementById('userTbody').innerHTML = users.map(u => {
+        const spent = orders.filter(o => o.user_id === u.user_id && o.status === 'PAID').reduce((s, o) => s + o.amount, 0);
+        return `
     <tr>
       <td>
         <div style="display:flex;align-items:center;gap:10px">
@@ -125,24 +129,26 @@
           <strong style="color:var(--color-primary);font-size:0.875rem">${u.lead_score}</strong>
         </div>
       </td>
+      <td style="font-size:0.82rem">${spent ? `<span style="color:#10b981;font-weight:700">${formatPrice(spent)}</span>` : '<span style="color:var(--text-muted)">—</span>'}</td>
       <td>
         <div style="display:flex;flex-wrap:wrap;gap:4px;max-width:200px">
           ${u.tags && u.tags.length ? u.tags.slice(0, 3).map(t => `<span class="badge badge-accent" style="font-size:0.65rem">${t.replace('Interest_', '')}</span>`).join('') + (u.tags.length > 3 ? `<span class="badge badge-muted" style="font-size:0.65rem">+${u.tags.length - 3}</span>` : '') : '<span style="color:var(--text-muted);font-size:0.78rem">—</span>'}
         </div>
       </td>
       <td style="font-size:0.78rem;color:var(--text-muted)">${timeAgo(u.last_active)}</td>
-      <td><button class="btn btn-sm btn-ghost" onclick="showUserDetail('${u.user_id}')">👁 Xem</button></td>
-    </tr>`).join('');
-            document.getElementById('userCount').textContent = `${users.length} người dùng`;
-        }
+      <td><button class="btn btn-sm btn-ghost" onclick="showUserDetail('${u.user_id}')">&#x1F441; Xem</button></td>
+    </tr>`;
+      }).join('');
+      document.getElementById('userCount').textContent = `${users.length} người dùng`;
+    }
 
-        function showUserDetail(userId) {
-            const user = getUser(userId); if (!user) return;
-            const events = getUserActivityHistory(userId).filter(e => e.event_type !== 'doc_heartbeat').slice(0, 6);
-            const stageCls = { Hot: 'badge-hot', Warm: 'badge-warm', Cold: 'badge-cold' }[user.lead_stage] || 'badge-muted';
-            const EVENT_ICONS = { doc_view_end: '📖', doc_download_success: '⬇️', doc_preview_start: '👀', doc_detail_view: '👁', doc_view_start: '📗' };
+    function showUserDetail(userId) {
+      const user = getUser(userId); if (!user) return;
+      const events = getUserActivityHistory(userId).filter(e => e.event_type !== 'doc_heartbeat').slice(0, 6);
+      const stageCls = { Hot: 'badge-hot', Warm: 'badge-warm', Cold: 'badge-cold' }[user.lead_stage] || 'badge-muted';
+      const EVENT_ICONS = { doc_view_end: '📖', doc_download_success: '⬇️', doc_preview_start: '👀', doc_detail_view: '👁', doc_view_start: '📗' };
 
-            document.getElementById('userModalContent').innerHTML = `
+      document.getElementById('userModalContent').innerHTML = `
     <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px">
       <div class="avatar" style="width:56px;height:56px;font-size:1.5rem">${user.name.charAt(0)}</div>
       <div>
@@ -165,22 +171,40 @@
     <div class="form-label mb-sm">Hoạt động gần đây</div>
     <div class="timeline">
       ${events.length ? events.map(e => {
-                const doc = getDocument(e.doc_id) || { title: 'Unknown' };
-                const icon = EVENT_ICONS[e.event_type] || '📌';
-                return `<div class="timeline-item">
+        const doc = getDocument(e.doc_id) || { title: 'Unknown' };
+        const icon = EVENT_ICONS[e.event_type] || '📌';
+        return `<div class="timeline-item">
           <div class="timeline-icon" style="background:rgba(255,255,255,0.06)">${icon}</div>
           <div class="timeline-body">
             <div style="font-size:0.82rem;font-weight:500">${e.event_type.replace(/doc_/, '').replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}</div>
             <div style="font-size:0.76rem;color:var(--text-muted)">${doc.title} · ${timeAgo(e.created_at)}</div>
           </div>
         </div>`;
-            }).join('') : '<p style="color:var(--text-muted);font-size:0.85rem">Chưa có hoạt động nào</p>'}
+      }).join('') : '<p style="color:var(--text-muted);font-size:0.85rem">Chưa có hoạt động nào</p>'}
+    </div>
+    <div class="form-label mb-sm mt-md">📦 Lịch sử mua hàng</div>
+    <div>
+      ${(() => {
+          const uOrders = getUserOrders(user.user_id).filter(o => o.status === 'PAID');
+          if (!uOrders.length) return '<p style="color:var(--text-muted);font-size:0.85rem">Chưa có đơn hàng nào</p>';
+          return uOrders.map(o => {
+            const doc = getDocument(o.doc_id) || { title: 'Unknown', file_type: 'PDF' };
+            return `<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border-glass)">
+            <span style="font-size:1.4rem">${FILE_ICONS[doc.file_type] || '📄'}</span>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:0.8rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${doc.title}</div>
+              <div style="font-size:0.72rem;color:var(--text-muted)">${formatDate(o.created_at)} · ${o.payment_method}</div>
+            </div>
+            <strong style="color:#10b981;font-size:0.82rem;flex-shrink:0">${formatPrice(o.amount)}</strong>
+          </div>`;
+          }).join('');
+        })()}
     </div>
     <button class="btn btn-ghost w-full mt-md" onclick="closeModal('userModal')">Đóng</button>
   `;
-            openModal('userModal');
-        }
-    </script>
+      openModal('userModal');
+    }
+  </script>
 </body>
 
 </html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Document Hub — Tài chính & Doanh thu</title>
+    <link rel="stylesheet" href="../css/index.css">
+</head>
+
+<body>
+    <header class="header">
+        <a href="../index.html" class="logo">
+            <div class="logo-icon">📚</div><span>Document Hub <span
+                    style="font-size:0.75rem;color:var(--color-warning);margin-left:4px">Admin</span></span>
+        </a>
+        <div class="header-spacer"></div>
+        <div class="header-nav">
+            <a href="../index.html" class="btn btn-ghost btn-sm" target="_blank">🔗 Xem Site</a>
+            <div class="avatar avatar-sm" style="background:var(--grad-primary)">A</div>
+        </div>
+    </header>
+    <div class="admin-layout">
+        <nav class="admin-sidebar">
+            <div class="admin-nav-label">Menu</div>
+            <a href="index.html" class="admin-nav-item">📊 Dashboard</a>
+            <a href="documents.html" class="admin-nav-item">📄 Tài liệu</a>
+            <a href="users.html" class="admin-nav-item">👥 Người dùng</a>
+            <a href="finance.html" class="admin-nav-item active">💰 Tài chính</a>
+            <div class="admin-nav-divider"></div>
+            <a href="../index.html" class="admin-nav-item">⬅️ Thoát Admin</a>
+        </nav>
+        <main class="admin-content" id="mainContent">
+            <div style="text-align:center;padding:80px">
+                <div class="spinner" style="width:40px;height:40px;margin:0 auto 16px"></div>
+            </div>
+        </main>
+    </div>
+    <div id="toastContainer" class="toast-container"></div>
+    <script src="../js/data.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/tracker.js"></script>
+    <script src="../js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => { initData(); renderFinance(); });
+
+        function renderFinance() {
+            const orders = getAllOrders();
+            const users = getAllUsers();
+            const docs = getAllDocuments();
+
+            const paidOrders = orders.filter(o => o.status === 'PAID');
+            const refundedOrders = orders.filter(o => o.status === 'REFUNDED');
+            const totalRevenue = paidOrders.reduce((s, o) => s + o.amount, 0);
+            const totalRefunded = refundedOrders.reduce((s, o) => s + o.amount, 0);
+            const avgOrder = paidOrders.length ? Math.round(totalRevenue / paidOrders.length) : 0;
+
+            // Revenue by category
+            const catRevenue = {};
+            paidOrders.forEach(o => {
+                const doc = docs.find(d => d.doc_id === o.doc_id);
+                if (!doc) return;
+                catRevenue[doc.category] = (catRevenue[doc.category] || 0) + o.amount;
+            });
+            const catEntries = Object.entries(catRevenue).sort((a, b) => b[1] - a[1]);
+            const maxCatRev = catEntries[0]?.[1] || 1;
+
+            // Revenue by payment method
+            const methodRevenue = {};
+            paidOrders.forEach(o => {
+                methodRevenue[o.payment_method] = (methodRevenue[o.payment_method] || 0) + o.amount;
+            });
+
+            document.getElementById('mainContent').innerHTML = `
+    <div style="margin-bottom:28px">
+      <h1 class="page-title">💰 Tài chính & Doanh thu</h1>
+      <p class="page-sub">Theo dõi doanh thu, đơn hàng và hiệu suất bán tài liệu</p>
+    </div>
+
+    <!-- KPI GRID -->
+    <div class="kpi-grid mb-lg">
+      <div class="kpi-card">
+        <div class="kpi-icon" style="background:rgba(16,185,129,0.15);color:#10b981">💰</div>
+        <div class="kpi-value">${formatPrice(totalRevenue)}</div>
+        <div class="kpi-label">Tổng doanh thu</div>
+        <div class="kpi-trend up">↑ ${paidOrders.length} đơn thành công</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-icon" style="background:rgba(79,142,247,0.15);color:#4F8EF7">🧾</div>
+        <div class="kpi-value">${paidOrders.length}</div>
+        <div class="kpi-label">Đơn hàng thành công</div>
+        <div class="kpi-trend up">↑ ${refundedOrders.length} hoàn tiền</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-icon" style="background:rgba(124,58,237,0.15);color:#9d69ff">📊</div>
+        <div class="kpi-value">${formatPrice(avgOrder)}</div>
+        <div class="kpi-label">Giá trị đơn TB</div>
+        <div class="kpi-trend up">Trên ${paidOrders.length} giao dịch</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-icon" style="background:rgba(239,68,68,0.15);color:#ef4444">↩️</div>
+        <div class="kpi-value">${formatPrice(totalRefunded)}</div>
+        <div class="kpi-label">Tổng hoàn tiền</div>
+        <div class="kpi-trend ${refundedOrders.length > 0 ? 'down' : 'up'}">${refundedOrders.length} đơn hoàn</div>
+      </div>
+    </div>
+
+    <!-- CHARTS ROW -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px" class="charts-grid">
+      <!-- Revenue by Category -->
+      <div class="card">
+        <div class="section-title">📂 Doanh thu theo danh mục</div>
+        <div class="mini-bar-container mt-md">
+          ${catEntries.map(([cat, rev]) => `
+          <div class="mini-bar-item">
+            <div class="mini-bar-header">
+              <span style="font-size:0.8rem;color:var(--text-secondary);flex:1">${cat}</span>
+              <span style="font-size:0.78rem;color:var(--text-muted);flex-shrink:0;margin-left:8px">${formatPrice(rev)}</span>
+            </div>
+            <div class="mini-bar-track"><div class="mini-bar-fill" style="width:${Math.round(rev / maxCatRev * 100)}%"></div></div>
+          </div>`).join('')}
+        </div>
+      </div>
+
+      <!-- Payment Method Breakdown -->
+      <div class="card">
+        <div class="section-title">💳 Phương thức thanh toán</div>
+        <div style="display:flex;flex-direction:column;gap:14px;margin-top:16px">
+          ${Object.entries(methodRevenue).map(([method, rev]) => {
+                const cnt = paidOrders.filter(o => o.payment_method === method).length;
+                const pct = Math.round(rev / totalRevenue * 100);
+                const icons = { 'Thẻ tín dụng': '🏦', 'Ví điện tử': '💳', 'Chuyển khoản': '📱' };
+                return `<div>
+              <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:0.82rem">
+                <span style="color:var(--text-secondary)">${icons[method] || '💰'} ${method}</span>
+                <span style="color:var(--text-muted)">${cnt} đơn · ${formatPrice(rev)} (${pct}%)</span>
+              </div>
+              <div class="mini-bar-track"><div class="mini-bar-fill" style="width:${pct}%;background:var(--grad-accent)"></div></div>
+            </div>`;
+            }).join('')}
+        </div>
+        <div class="divider"></div>
+        <div style="font-size:0.82rem;color:var(--text-secondary);display:flex;justify-content:space-between">
+          <span>Tổng giao dịch</span>
+          <strong style="color:var(--text-primary)">${orders.length} đơn</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- ORDERS TABLE -->
+    <div class="card" style="padding:0;overflow:hidden">
+      <div style="padding:20px 24px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
+        <div class="section-title" style="margin:0">🧾 Lịch sử đơn hàng</div>
+        <div class="search-wrapper" style="max-width:260px">
+          <span class="search-icon">🔍</span>
+          <input class="search-input" id="ordSearch" placeholder="Tìm đơn hàng..." oninput="filterOrders()">
+        </div>
+      </div>
+      <table class="data-table" id="ordTable">
+        <thead>
+          <tr>
+            <th>Mã đơn</th>
+            <th>Người dùng</th>
+            <th>Tài liệu</th>
+            <th>Số tiền</th>
+            <th>Phương thức</th>
+            <th>Trạng thái</th>
+            <th>Ngày mua</th>
+          </tr>
+        </thead>
+        <tbody id="ordTbody"></tbody>
+      </table>
+    </div>
+    <style>@media(max-width:900px){.charts-grid{grid-template-columns:1fr !important}}</style>
+  `;
+            renderOrdersTable(orders, users, docs);
+        }
+
+        function renderOrdersTable(orders, users, docs) {
+            const q = (document.getElementById('ordSearch')?.value || '').toLowerCase();
+            let rows = [...orders].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+            if (q) rows = rows.filter(o => {
+                const u = users.find(u => u.user_id === o.user_id);
+                const d = docs.find(d => d.doc_id === o.doc_id);
+                return (u?.name || '').toLowerCase().includes(q) || (d?.title || '').toLowerCase().includes(q) || o.order_id.toLowerCase().includes(q);
+            });
+            const statusBadge = { PAID: 'badge-success', REFUNDED: 'badge-danger' };
+            const statusLabel = { PAID: '✅ Thành công', REFUNDED: '↩️ Hoàn tiền' };
+            document.getElementById('ordTbody').innerHTML = rows.map(o => {
+                const user = users.find(u => u.user_id === o.user_id) || { name: '—', lead_stage: 'Cold' };
+                const doc = docs.find(d => d.doc_id === o.doc_id) || { title: 'Unknown', file_type: 'PDF' };
+                const stageCls = { Hot: 'badge-hot', Warm: 'badge-warm', Cold: 'badge-cold' }[user.lead_stage] || 'badge-muted';
+                return `<tr>
+              <td style="font-size:0.75rem;color:var(--text-muted);font-family:monospace">${o.order_id}</td>
+              <td>
+                <div style="display:flex;align-items:center;gap:8px">
+                  <div class="avatar avatar-xs">${user.name.charAt(0)}</div>
+                  <div>
+                    <div style="font-size:0.82rem;font-weight:500">${user.name}</div>
+                    <span class="badge ${stageCls}" style="font-size:0.6rem">${user.lead_stage}</span>
+                  </div>
+                </div>
+              </td>
+              <td style="font-size:0.82rem;color:var(--text-secondary);max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${FILE_ICONS[doc.file_type] || '📄'} ${doc.title}</td>
+              <td><strong style="color:var(--color-primary)">${formatPrice(o.amount)}</strong></td>
+              <td style="font-size:0.82rem">${o.payment_method}</td>
+              <td><span class="badge ${statusBadge[o.status] || 'badge-muted'}" style="font-size:0.72rem">${statusLabel[o.status] || o.status}</span></td>
+              <td style="font-size:0.78rem;color:var(--text-muted)">${formatDate(o.created_at)}</td>
+            </tr>`;
+            }).join('');
+        }
+
+        function filterOrders() {
+            const orders = getAllOrders();
+            const users = getAllUsers();
+            const docs = getAllDocuments();
+            renderOrdersTable(orders, users, docs);
+        }
+    </script>
+</body>
+
+</html>

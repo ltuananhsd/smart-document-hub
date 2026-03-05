@@ -26,6 +26,7 @@
             <a href="index.html" class="admin-nav-item">📊 Dashboard</a>
             <a href="documents.html" class="admin-nav-item active">📄 Tài liệu</a>
             <a href="users.html" class="admin-nav-item">👥 Người dùng</a>
+            <a href="finance.html" class="admin-nav-item">💰 Tài chính</a>
             <div class="admin-nav-divider"></div>
             <a href="../index.html" class="admin-nav-item">⬅️ Thoát Admin</a>
         </nav>
@@ -63,6 +64,7 @@
                         <tr>
                             <th>Tài liệu</th>
                             <th>Danh mục</th>
+                            <th>Giá bán</th>
                             <th>Quyền truy cập</th>
                             <th>Trạng thái</th>
                             <th>Lượt xem</th>
@@ -162,6 +164,7 @@
         </div>
       </td>
       <td><span class="badge badge-primary">${d.category}</span></td>
+      <td style="font-size:0.82rem">${d.is_paid ? `<span style="color:#f59e0b;font-weight:700">${formatPrice(d.discount_price||d.price)}</span>` : '<span style="color:#10b981">Miễn phí</span>'}</td>
       <td><span class="badge ${AccessClass[d.access_mode] || ''}">${AccessLabel[d.access_mode] || d.access_mode}</span></td>
       <td><span class="badge ${statusBadge[d.status] || 'badge-muted'}">${statusLabel[d.status] || d.status}</span></td>
       <td style="font-size:0.875rem">${formatNum(d.view_count)}</td>

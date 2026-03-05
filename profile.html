@@ -2,49 +2,49 @@
 <html lang="vi">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Document Hub — Hồ sơ cá nhân</title>
-    <link rel="stylesheet" href="css/index.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Document Hub — Hồ sơ cá nhân</title>
+  <link rel="stylesheet" href="css/index.css">
 </head>
 
 <body>
-    <header class="header">
-        <a href="index.html" class="logo">
-            <div class="logo-icon">📚</div><span>Document Hub</span>
-        </a>
-        <div class="header-spacer"></div>
-        <div class="header-nav">
-            <a href="index.html" class="btn btn-ghost btn-sm">📚 Thư viện</a>
-            <a href="activity.html" class="btn btn-ghost btn-sm">📈 Hoạt động</a>
-            <button class="btn btn-ghost btn-sm" onclick="logout()">Đăng xuất</button>
-        </div>
-    </header>
-    <div style="padding-top:var(--header-height)">
-        <div class="full-content" style="max-width:900px" id="mainContent">
-            <div style="text-align:center;padding:80px">
-                <div class="spinner" style="width:40px;height:40px;margin:0 auto 16px"></div>
-            </div>
-        </div>
+  <header class="header">
+    <a href="index.html" class="logo">
+      <div class="logo-icon">📚</div><span>Document Hub</span>
+    </a>
+    <div class="header-spacer"></div>
+    <div class="header-nav">
+      <a href="index.html" class="btn btn-ghost btn-sm">📚 Thư viện</a>
+      <a href="activity.html" class="btn btn-ghost btn-sm">📈 Hoạt động</a>
+      <button class="btn btn-ghost btn-sm" onclick="logout()">Đăng xuất</button>
     </div>
-    <div id="toastContainer" class="toast-container"></div>
-    <script src="js/data.js"></script>
-    <script src="js/auth.js"></script>
-    <script src="js/tracker.js"></script>
-    <script src="js/app.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            initData();
-            if (!isLoggedIn()) { openLoginModal(); document.getElementById('mainContent').innerHTML = '<div class="empty-state"><div class="empty-icon">🔐</div><h3>Vui lòng đăng nhập</h3></div>'; return; }
-            renderProfile();
-        });
+  </header>
+  <div style="padding-top:var(--header-height)">
+    <div class="full-content" style="max-width:900px" id="mainContent">
+      <div style="text-align:center;padding:80px">
+        <div class="spinner" style="width:40px;height:40px;margin:0 auto 16px"></div>
+      </div>
+    </div>
+  </div>
+  <div id="toastContainer" class="toast-container"></div>
+  <script src="js/data.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/tracker.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      initData();
+      if (!isLoggedIn()) { openLoginModal(); document.getElementById('mainContent').innerHTML = '<div class="empty-state"><div class="empty-icon">🔐</div><h3>Vui lòng đăng nhập</h3></div>'; return; }
+      renderProfile();
+    });
 
-        function renderProfile() {
-            const user = getCurrentUser();
-            if (!user) return;
-            const scorePercent = Math.min(user.lead_score * 2, 100);
-            const stageCls = { Hot: 'badge-hot', Warm: 'badge-warm', Cold: 'badge-cold' }[user.lead_stage] || 'badge-muted';
-            document.getElementById('mainContent').innerHTML = `
+    function renderProfile() {
+      const user = getCurrentUser();
+      if (!user) return;
+      const scorePercent = Math.min(user.lead_score * 2, 100);
+      const stageCls = { Hot: 'badge-hot', Warm: 'badge-warm', Cold: 'badge-cold' }[user.lead_stage] || 'badge-muted';
+      document.getElementById('mainContent').innerHTML = `
     <h1 class="page-title">👤 Hồ sơ cá nhân</h1>
     <p class="page-sub">Quản lý thông tin và xem phân tích hành vi của bạn</p>
 
@@ -145,25 +145,59 @@
         <a href="activity.html" class="btn btn-ghost w-full">📋 Xem lịch sử hoạt động →</a>
       </div>
     </div>
+
+    <!-- PURCHASED DOCUMENTS -->
+    <div class="card mt-lg" style="margin-top:32px">
+      <div class="section-title">📦 Tài liệu đã mua</div>
+      <div id="purchasedList"></div>
+    </div>
+
     <style>@media(max-width:768px){.profile-grid{grid-template-columns:1fr !important}}</style>
   `;
-        }
+      // Render purchased docs
+      const orders = getUserOrders(user.user_id).filter(o => o.status === 'PAID');
+      const container = document.getElementById('purchasedList');
+      if (!orders.length) {
+        container.innerHTML = '<p style="color:var(--text-muted);font-size:0.85rem;padding:16px 0">Chưa có tài liệu nào được mua. <a href="index.html" style="color:var(--color-primary)">Khám phá thư viện →</a></p>';
+        return;
+      }
+      container.innerHTML = orders.map(o => {
+        const doc = getDocument(o.doc_id);
+        if (!doc) return '';
+        const icon = FILE_ICONS[doc.file_type] || '📄';
+        return `<div style="display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--border-glass)">
+                    <span style="font-size:1.8rem;flex-shrink:0">${icon}</span>
+                    <div style="flex:1;min-width:0">
+                        <div style="font-weight:600;font-size:0.875rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${doc.title}</div>
+                        <div style="font-size:0.75rem;color:var(--text-muted);margin-top:3px">${doc.category} · ${formatDate(o.created_at)} · ${formatPrice(o.amount)}</div>
+                    </div>
+                    <div style="display:flex;gap:8px;flex-shrink:0">
+                        <a href="document.html?id=${doc.doc_id}" class="btn btn-sm btn-ghost">👁 Xem</a>
+                        <button class="btn btn-sm btn-accent" onclick="downloadPurchased('${doc.doc_id}')">⬇️ Tải</button>
+                    </div>
+                </div>`;
+      }).join('');
+    }
 
-        function handleSave(e) {
-            e.preventDefault();
-            const user = getCurrentUser(); if (!user) return;
-            const updates = {
-                name: document.getElementById('p_name').value,
-                phone: document.getElementById('p_phone').value,
-                position: document.getElementById('p_position').value,
-                industry: document.getElementById('p_industry').value,
-                consent_email: document.getElementById('p_consent').checked
-            };
-            updateUserProfile(user.user_id, updates);
-            showToast('success', 'Đã lưu', 'Thông tin hồ sơ đã được cập nhật');
-            setTimeout(renderProfile, 300);
-        }
-    </script>
+    function handleSave(e) {
+      e.preventDefault();
+      const user = getCurrentUser(); if (!user) return;
+      const updates = {
+        name: document.getElementById('p_name').value,
+        phone: document.getElementById('p_phone').value,
+        position: document.getElementById('p_position').value,
+        industry: document.getElementById('p_industry').value,
+        consent_email: document.getElementById('p_consent').checked
+      };
+      updateUserProfile(user.user_id, updates);
+      showToast('success', 'Đã lưu', 'Thông tin hồ sơ đã được cập nhật');
+      setTimeout(renderProfile, 300);
+    }
+    function downloadPurchased(docId) {
+      requestDownload(docId);
+      showToast('success', 'Đang tải về...', 'File đã sẵn sàng (Demo mode)');
+    }
+  </script>
 </body>
 
 </html>

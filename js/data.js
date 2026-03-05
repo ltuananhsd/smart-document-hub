@@ -4,12 +4,36 @@
 'use strict';
 
 const CATEGORIES = ['Kinh doanh', 'Marketing', 'Tài chính', 'Nhân sự', 'Công nghệ', 'Pháp lý', 'Vận hành'];
-const TOPICS     = ['AI & Tự động hóa', 'Chiến lược', 'Bán hàng', 'Kế toán', 'Tuyển dụng', 'Luật lao động', 'Quy trình', 'Phân tích dữ liệu', 'Digital Marketing', 'B2B/B2C'];
-const LEVELS     = ['Cơ bản', 'Trung cấp', 'Chuyên gia'];
+const TOPICS = ['AI & Tự động hóa', 'Chiến lược', 'Bán hàng', 'Kế toán', 'Tuyển dụng', 'Luật lao động', 'Quy trình', 'Phân tích dữ liệu', 'Digital Marketing', 'B2B/B2C'];
+const LEVELS = ['Cơ bản', 'Trung cấp', 'Chuyên gia'];
 const INDUSTRIES = ['Tài chính', 'Công nghệ', 'Bán lẻ', 'Sản xuất', 'Giáo dục', 'Y tế', 'Đa ngành'];
 const FILE_TYPES = ['PDF', 'DOCX', 'XLSX', 'PPT'];
 const FILE_ICONS = { PDF: '📄', DOCX: '📝', XLSX: '📊', PPT: '📑' };
 const ACCESS_MODES = { VIEW_ONLY: 'VIEW_ONLY', DOWNLOAD: 'DOWNLOAD_ALLOWED', DEMO: 'DEMO_30' };
+
+// Pricing presets
+const PRICE_MAP = {
+  'doc-001': { price: 299000, discount_price: 199000, is_paid: true },
+  'doc-002': { price: 249000, discount_price: 149000, is_paid: true },
+  'doc-003': { price: 399000, discount_price: 299000, is_paid: true },
+  'doc-004': { price: 0, discount_price: 0, is_paid: false },
+  'doc-005': { price: 199000, discount_price: 99000, is_paid: true },
+  'doc-006': { price: 499000, discount_price: 349000, is_paid: true },
+  'doc-007': { price: 199000, discount_price: 129000, is_paid: true },
+  'doc-008': { price: 149000, discount_price: 99000, is_paid: true },
+  'doc-009': { price: 249000, discount_price: 179000, is_paid: true },
+  'doc-010': { price: 0, discount_price: 0, is_paid: false },
+  'doc-011': { price: 349000, discount_price: 249000, is_paid: true },
+  'doc-012': { price: 449000, discount_price: 299000, is_paid: true },
+  'doc-013': { price: 299000, discount_price: 199000, is_paid: true },
+  'doc-014': { price: 199000, discount_price: 149000, is_paid: true },
+  'doc-015': { price: 149000, discount_price: 99000, is_paid: true },
+  'doc-016': { price: 199000, discount_price: 129000, is_paid: true },
+  'doc-017': { price: 99000, discount_price: 0, is_paid: true },
+  'doc-018': { price: 349000, discount_price: 249000, is_paid: true },
+  'doc-019': { price: 0, discount_price: 0, is_paid: false },
+  'doc-020': { price: 299000, discount_price: 199000, is_paid: true },
+};
 
 const DOCUMENTS = [
   {
@@ -242,6 +266,20 @@ const DOCUMENTS = [
     published_at: '2024-10-05', updated_at: '2024-10-05',
     content_preview: `<h2>Customer Health Score</h2><p>Không có "one-size-fits-all" health score. Bắt đầu với 3–5 signals quan trọng nhất với business bạn: <strong>Product usage frequency, Support ticket volume, NPS, Contract renewal probability...</strong></p>`
   }
+].map(d => ({ ...d, ...(PRICE_MAP[d.doc_id] || { price: 0, discount_price: 0, is_paid: false }) }));
+
+// ─── ORDERS ──────────────────────────────────────────────────────────────────
+const ORDERS = [
+  { order_id: 'ord-001', user_id: 'u-001', doc_id: 'doc-001', amount: 199000, status: 'PAID', payment_method: 'Thẻ tín dụng', created_at: '2025-01-03T14:05:00Z' },
+  { order_id: 'ord-002', user_id: 'u-001', doc_id: 'doc-002', amount: 149000, status: 'PAID', payment_method: 'Ví điện tử', created_at: '2025-01-03T15:20:00Z' },
+  { order_id: 'ord-003', user_id: 'u-001', doc_id: 'doc-007', amount: 129000, status: 'PAID', payment_method: 'Thẻ tín dụng', created_at: '2025-01-04T09:00:00Z' },
+  { order_id: 'ord-004', user_id: 'u-002', doc_id: 'doc-006', amount: 349000, status: 'PAID', payment_method: 'Chuyển khoản', created_at: '2025-01-02T11:10:00Z' },
+  { order_id: 'ord-005', user_id: 'u-002', doc_id: 'doc-012', amount: 299000, status: 'PAID', payment_method: 'Ví điện tử', created_at: '2025-01-02T13:30:00Z' },
+  { order_id: 'ord-006', user_id: 'u-004', doc_id: 'doc-005', amount: 99000, status: 'PAID', payment_method: 'Ví điện tử', created_at: '2025-01-04T09:05:00Z' },
+  { order_id: 'ord-007', user_id: 'u-004', doc_id: 'doc-009', amount: 179000, status: 'PAID', payment_method: 'Thẻ tín dụng', created_at: '2025-01-04T10:00:00Z' },
+  { order_id: 'ord-008', user_id: 'u-005', doc_id: 'doc-011', amount: 249000, status: 'PAID', payment_method: 'Chuyển khoản', created_at: '2024-12-28T15:30:00Z' },
+  { order_id: 'ord-009', user_id: 'u-003', doc_id: 'doc-013', amount: 199000, status: 'REFUNDED', payment_method: 'Thẻ tín dụng', created_at: '2024-12-10T10:00:00Z' },
+  { order_id: 'ord-010', user_id: 'u-001', doc_id: 'doc-018', amount: 249000, status: 'PAID', payment_method: 'Ví điện tử', created_at: '2025-01-05T08:00:00Z' },
 ];
 
 const USERS = [
@@ -288,23 +326,25 @@ const USERS = [
 ];
 
 const EVENT_LOGS = [
-  { event_id:'ev-001', user_id:'u-001', doc_id:'doc-001', event_type:'doc_view_start', session_id:'s-001', duration_sec:0, created_at:'2025-01-03T14:00:00Z' },
-  { event_id:'ev-002', user_id:'u-001', doc_id:'doc-001', event_type:'doc_heartbeat', session_id:'s-001', duration_sec:65, created_at:'2025-01-03T14:01:05Z' },
-  { event_id:'ev-003', user_id:'u-001', doc_id:'doc-001', event_type:'doc_view_end', session_id:'s-001', duration_sec:210, created_at:'2025-01-03T14:03:30Z' },
-  { event_id:'ev-004', user_id:'u-001', doc_id:'doc-001', event_type:'doc_download_success', session_id:'s-001', duration_sec:0, created_at:'2025-01-03T14:03:45Z' },
-  { event_id:'ev-005', user_id:'u-001', doc_id:'doc-002', event_type:'doc_view_start', session_id:'s-002', duration_sec:0, created_at:'2025-01-03T14:10:00Z' },
-  { event_id:'ev-006', user_id:'u-001', doc_id:'doc-002', event_type:'doc_view_end', session_id:'s-002', duration_sec:185, created_at:'2025-01-03T14:13:05Z' },
-  { event_id:'ev-007', user_id:'u-002', doc_id:'doc-006', event_type:'doc_view_start', session_id:'s-003', duration_sec:0, created_at:'2025-01-02T11:00:00Z' },
-  { event_id:'ev-008', user_id:'u-002', doc_id:'doc-006', event_type:'doc_download_success', session_id:'s-003', duration_sec:0, created_at:'2025-01-02T11:05:00Z' },
-  { event_id:'ev-009', user_id:'u-004', doc_id:'doc-005', event_type:'doc_download_success', session_id:'s-004', duration_sec:0, created_at:'2025-01-04T09:00:00Z' },
-  { event_id:'ev-010', user_id:'u-004', doc_id:'doc-019', event_type:'doc_view_start', session_id:'s-005', duration_sec:0, created_at:'2025-01-04T09:15:00Z' },
+  { event_id: 'ev-001', user_id: 'u-001', doc_id: 'doc-001', event_type: 'doc_view_start', session_id: 's-001', duration_sec: 0, created_at: '2025-01-03T14:00:00Z' },
+  { event_id: 'ev-002', user_id: 'u-001', doc_id: 'doc-001', event_type: 'doc_heartbeat', session_id: 's-001', duration_sec: 65, created_at: '2025-01-03T14:01:05Z' },
+  { event_id: 'ev-003', user_id: 'u-001', doc_id: 'doc-001', event_type: 'doc_view_end', session_id: 's-001', duration_sec: 210, created_at: '2025-01-03T14:03:30Z' },
+  { event_id: 'ev-004', user_id: 'u-001', doc_id: 'doc-001', event_type: 'doc_download_success', session_id: 's-001', duration_sec: 0, created_at: '2025-01-03T14:03:45Z' },
+  { event_id: 'ev-005', user_id: 'u-001', doc_id: 'doc-002', event_type: 'doc_view_start', session_id: 's-002', duration_sec: 0, created_at: '2025-01-03T14:10:00Z' },
+  { event_id: 'ev-006', user_id: 'u-001', doc_id: 'doc-002', event_type: 'doc_view_end', session_id: 's-002', duration_sec: 185, created_at: '2025-01-03T14:13:05Z' },
+  { event_id: 'ev-007', user_id: 'u-002', doc_id: 'doc-006', event_type: 'doc_view_start', session_id: 's-003', duration_sec: 0, created_at: '2025-01-02T11:00:00Z' },
+  { event_id: 'ev-008', user_id: 'u-002', doc_id: 'doc-006', event_type: 'doc_download_success', session_id: 's-003', duration_sec: 0, created_at: '2025-01-02T11:05:00Z' },
+  { event_id: 'ev-009', user_id: 'u-004', doc_id: 'doc-005', event_type: 'doc_download_success', session_id: 's-004', duration_sec: 0, created_at: '2025-01-04T09:00:00Z' },
+  { event_id: 'ev-010', user_id: 'u-004', doc_id: 'doc-019', event_type: 'doc_view_start', session_id: 's-005', duration_sec: 0, created_at: '2025-01-04T09:15:00Z' },
 ];
 
 // ─── DATA ACCESS FUNCTIONS ───────────────────────────────────────────────────
 
 function getAllDocuments() {
   const stored = localStorage.getItem('dh_documents');
-  return stored ? JSON.parse(stored) : DOCUMENTS;
+  const docs = stored ? JSON.parse(stored) : DOCUMENTS;
+  // Ensure price fields are always present
+  return docs.map(d => ({ ...(PRICE_MAP[d.doc_id] || { price: 0, discount_price: 0, is_paid: false }), ...d }));
 }
 
 function getDocument(docId) {
@@ -343,10 +383,10 @@ function searchDocuments({ query = '', category = '', topic = '', level = '', in
     d.category.toLowerCase().includes(q) ||
     d.topic.toLowerCase().includes(q)
   );
-  if (category)    docs = docs.filter(d => d.category === category);
-  if (topic)       docs = docs.filter(d => d.topic === topic);
-  if (level)       docs = docs.filter(d => d.level === level);
-  if (industry)    docs = docs.filter(d => d.industry === industry);
+  if (category) docs = docs.filter(d => d.category === category);
+  if (topic) docs = docs.filter(d => d.topic === topic);
+  if (level) docs = docs.filter(d => d.level === level);
+  if (industry) docs = docs.filter(d => d.industry === industry);
   if (access_mode) docs = docs.filter(d => d.access_mode === access_mode);
   return docs;
 }
@@ -359,32 +399,65 @@ function getRelatedDocuments(docId, limit = 4) {
     .slice(0, limit);
 }
 
+// ─── ORDERS ACCESS ───────────────────────────────────────────────────────────
+function getAllOrders() {
+  try { return JSON.parse(localStorage.getItem('dh_orders') || 'null') || ORDERS; } catch { return ORDERS; }
+}
+function saveOrders(orders) {
+  localStorage.setItem('dh_orders', JSON.stringify(orders));
+}
+function getUserOrders(userId) {
+  return getAllOrders().filter(o => o.user_id === userId);
+}
+function hasPurchased(userId, docId) {
+  if (!userId) return false;
+  return getAllOrders().some(o => o.user_id === userId && o.doc_id === docId && o.status === 'PAID');
+}
+function createOrder(userId, docId, amount, paymentMethod = 'Ví điện tử') {
+  const orders = getAllOrders();
+  const order = {
+    order_id: 'ord-' + Date.now(),
+    user_id: userId, doc_id: docId, amount, status: 'PAID',
+    payment_method: paymentMethod,
+    created_at: new Date().toISOString()
+  };
+  orders.push(order);
+  saveOrders(orders);
+  return order;
+}
+
+function formatPrice(amount) {
+  if (!amount) return 'Miễn phí';
+  return '₫' + amount.toLocaleString('vi-VN');
+}
+
 function initData() {
   if (!localStorage.getItem('dh_documents')) saveDocuments(DOCUMENTS);
   if (!localStorage.getItem('dh_users')) saveUsers(USERS);
   if (!localStorage.getItem('dh_events')) localStorage.setItem('dh_events', JSON.stringify(EVENT_LOGS));
+  if (!localStorage.getItem('dh_orders')) saveOrders(ORDERS);
 }
 
 // ─── HELPERS ────────────────────────────────────────────────────────────────
 
 const AccessLabel = {
   'DOWNLOAD_ALLOWED': 'Tải được',
-  'VIEW_ONLY':        'Chỉ xem',
-  'DEMO_30':          'Demo 30%'
+  'VIEW_ONLY': 'Chỉ xem',
+  'DEMO_30': 'Demo 30%'
 };
 const AccessClass = {
   'DOWNLOAD_ALLOWED': 'access-download',
-  'VIEW_ONLY':        'access-view',
-  'DEMO_30':          'access-demo'
+  'VIEW_ONLY': 'access-view',
+  'DEMO_30': 'access-demo'
 };
 const LeadBadge = {
-  'Hot':  'badge-hot',
+  'Hot': 'badge-hot',
   'Warm': 'badge-warm',
   'Cold': 'badge-cold'
 };
 
 function formatNum(n) {
-  if (n >= 1000) return (n/1000).toFixed(1) + 'K';
+  if (n >= 1000) return (n / 1000).toFixed(1) + 'K';
   return String(n);
 }
 function timeAgo(dateStr) {
@@ -398,5 +471,5 @@ function timeAgo(dateStr) {
 }
 function formatDate(dateStr) {
   const d = new Date(dateStr);
-  return `${d.getDate().toString().padStart(2,'0')}/${(d.getMonth()+1).toString().padStart(2,'0')}/${d.getFullYear()}`;
+  return `${d.getDate().toString().padStart(2, '0')}/${(d.getMonth() + 1).toString().padStart(2, '0')}/${d.getFullYear()}`;
 }
