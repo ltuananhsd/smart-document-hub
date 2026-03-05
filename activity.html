@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Document Hub — Lịch sử hoạt động</title>
+    <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body>
+    <header class="header">
+        <a href="index.html" class="logo">
+            <div class="logo-icon">📚</div><span>Document Hub</span>
+        </a>
+        <div class="header-spacer"></div>
+        <div class="header-nav">
+            <a href="index.html" class="btn btn-ghost btn-sm">📚 Thư viện</a>
+            <a href="profile.html" class="btn btn-ghost btn-sm">👤 Hồ sơ</a>
+            <button class="btn btn-ghost btn-sm" onclick="logout()">Đăng xuất</button>
+        </div>
+    </header>
+    <div style="padding-top:var(--header-height)">
+        <div class="full-content" style="max-width:960px" id="mainContent">
+            <div style="text-align:center;padding:80px">
+                <div class="spinner" style="width:40px;height:40px;margin:0 auto 16px"></div>
+            </div>
+        </div>
+    </div>
+    <div id="toastContainer" class="toast-container"></div>
+    <script src="js/data.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/tracker.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        let activeFilter = 'all';
+        document.addEventListener('DOMContentLoaded', () => {
+            initData();
+            if (!isLoggedIn()) { location.href = 'index.html'; return; }
+            renderActivity();
+        });
+
+        const EVENT_LABELS = {
+            doc_list_view: { icon: '🏠', label: 'Vào thư viện' },
+            doc_detail_view: { icon: '👁', label: 'Xem chi tiết' },
+            doc_preview_start: { icon: '👀', label: 'Xem trước 30%' },
+            doc_view_start: { icon: '📖', label: 'Bắt đầu đọc' },
+            doc_heartbeat: { icon: '💓', label: 'Đang đọc' },
+            doc_view_end: { icon: '✅', label: 'Kết thúc đọc' },
+            doc_download_request: { icon: '📥', label: 'Gửi yêu cầu tải' },
+            doc_download_success: { icon: '⬇️', label: 'Tải thành công' },
+        };
+
+        function renderActivity() {
+            const user = getCurrentUser();
+            const allEvents = getUserActivityHistory(user.user_id);
+            const now = Date.now();
+            const filterMap = { all: Infinity, today: 1, week: 7, month: 30 };
+            const days = filterMap[activeFilter];
+            const events = allEvents.filter(e => {
+                if (!e.user_id || e.event_type === 'doc_heartbeat') return false;
+                return (now - new Date(e.created_at).getTime()) < days * 24 * 60 * 60 * 1000;
+            });
+
+            // Stats
+            const views = events.filter(e => e.event_type === 'doc_view_end').length;
+            const dls = events.filter(e => e.event_type === 'doc_download_success').length;
+            const totalSec = events.reduce((s, e) => s + (e.duration_sec || 0), 0);
+            const totalMin = Math.round(totalSec / 60);
+
+            const el = document.getElementById('mainContent');
+            el.innerHTML = `
+    <h1 class="page-title">📈 Lịch sử hoạt động</h1>
+    <p class="page-sub">Toàn bộ hoạt động xem và tải tài liệu của bạn</p>
+
+    <!-- Stats -->
+    <div class="kpi-grid mb-lg">
+      <div class="kpi-card"><div class="kpi-icon" style="background:rgba(79,142,247,0.15)">📖</div><div class="kpi-value" style="font-size:1.5rem">${views}</div><div class="kpi-label">Lượt đọc</div></div>
+      <div class="kpi-card"><div class="kpi-icon" style="background:rgba(16,185,129,0.15)">⬇️</div><div class="kpi-value" style="font-size:1.5rem">${dls}</div><div class="kpi-label">Lượt tải</div></div>
+      <div class="kpi-card"><div class="kpi-icon" style="background:rgba(124,58,237,0.15)">⏱</div><div class="kpi-value" style="font-size:1.5rem">${totalMin}'</div><div class="kpi-label">Thời gian đọc</div></div>
+      <div class="kpi-card"><div class="kpi-icon" style="background:rgba(245,158,11,0.15)">🎯</div><div class="kpi-value" style="font-size:1.5rem">${user.lead_score}</div><div class="kpi-label">Lead Score</div></div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs mb-lg">
+      ${[['all', 'Tất cả'], ['today', 'Hôm nay'], ['week', '7 ngày'], ['month', '30 ngày']].map(([v, l]) => `<div class="tab-item ${activeFilter === v ? 'active' : ''}" onclick="setFilter('${v}')">${l}</div>`).join('')}
+    </div>
+
+    <!-- Timeline -->
+    <div class="card">
+      <div class="section-title">Hoạt động</div>
+      ${events.length === 0 ? `<div class="empty-state"><div class="empty-icon">📭</div><h3>Chưa có hoạt động nào</h3><p>Hãy khám phá thư viện tài liệu</p><a href="index.html" class="btn btn-primary mt-md">📚 Đến Thư viện</a></div>` :
+                    `<div class="timeline">${events.map(e => {
+                        const doc = getDocument(e.doc_id);
+                        const info = EVENT_LABELS[e.event_type] || { icon: '📌', label: e.event_type };
+                        const bgMap = { doc_download_success: 'rgba(16,185,129,0.15)', doc_view_end: 'rgba(79,142,247,0.15)', doc_preview_start: 'rgba(245,158,11,0.15)' };
+                        const bg = bgMap[e.event_type] || 'rgba(255,255,255,0.06)';
+                        return `<div class="timeline-item">
+          <div class="timeline-icon" style="background:${bg}">${info.icon}</div>
+          <div class="timeline-body">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:4px">
+              <div>
+                <span style="font-size:0.875rem;font-weight:600">${info.label}</span>
+                ${doc ? `<span style="color:var(--text-muted);font-size:0.8rem"> · <a href="document.html?id=${doc.doc_id}" style="color:var(--color-primary)">${doc.title}</a></span>` : ''}
+              </div>
+              <span class="timeline-time">${timeAgo(e.created_at)}</span>
+            </div>
+            ${e.duration_sec > 0 ? `<span class="badge badge-muted text-xs">⏱ ${Math.round(e.duration_sec / 60)}' đọc</span>` : ''}
+          </div>
+        </div>`;
+                    }).join('')}</div>`}
+    </div>
+  `;
+        }
+        function setFilter(f) { activeFilter = f; renderActivity(); }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Smart Document Hub — Thư viện Tài liệu</title>
+  <meta name="description" content="Nền tảng chia sẻ tài liệu chuyên nghiệp — tìm kiếm, xem và tải tài liệu kinh doanh chất lượng cao.">
+  <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+<!-- HEADER -->
+<header class="header">
+  <a href="index.html" class="logo">
+    <div class="logo-icon">📚</div>
+    <span>Document Hub</span>
+  </a>
+  <div class="header-spacer"></div>
+  <div class="header-nav">
+    <a href="activity.html" class="btn btn-ghost btn-sm" id="activityBtn" style="display:none">📈 Hoạt động</a>
+    <button class="btn btn-primary btn-sm" id="loginBtn" onclick="openLoginModal()">🔐 Đăng nhập</button>
+    <div id="userMenu" class="hidden" style="display:flex;align-items:center;gap:10px">
+      <a href="activity.html" class="btn btn-ghost btn-sm">📈</a>
+      <a href="profile.html" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--text-primary)">
+        <div class="avatar avatar-sm" id="userAvatar">U</div>
+        <span id="userName" style="font-size:0.875rem;font-weight:500"></span>
+      </a>
+      <button class="btn btn-ghost btn-sm" onclick="logout()">Đăng xuất</button>
+    </div>
+  </div>
+</header>
+
+<!-- LAYOUT -->
+<div class="app-layout">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="filter-section">
+      <div class="filter-title" onclick="this.classList.toggle('collapsed')">Danh mục</div>
+      <div class="filter-options" id="filterCategories"></div>
+    </div>
+    <div class="filter-section">
+      <div class="filter-title" onclick="this.classList.toggle('collapsed')">Chủ đề</div>
+      <div class="filter-options" id="filterTopics"></div>
+    </div>
+    <div class="filter-section">
+      <div class="filter-title" onclick="this.classList.toggle('collapsed')">Cấp độ</div>
+      <div class="filter-options" id="filterLevels"></div>
+    </div>
+    <div class="filter-section">
+      <div class="filter-title" onclick="this.classList.toggle('collapsed')">Ngành nghề</div>
+      <div class="filter-options" id="filterIndustries"></div>
+    </div>
+    <div class="divider"></div>
+    <div class="filter-section">
+      <div class="filter-title" onclick="this.classList.toggle('collapsed')">Quyền truy cập</div>
+      <div class="filter-options">
+        <label class="filter-option"><input type="radio" name="access" value=""> Tất cả</label>
+        <label class="filter-option"><input type="radio" name="access" value="DOWNLOAD_ALLOWED"> 🟢 Tải được</label>
+        <label class="filter-option"><input type="radio" name="access" value="VIEW_ONLY"> 🔵 Chỉ xem</label>
+        <label class="filter-option"><input type="radio" name="access" value="DEMO_30"> 🟡 Demo 30%</label>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <button class="btn btn-ghost btn-sm w-full" onclick="clearFilters()">✕ Xóa bộ lọc</button>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main-content">
+    <!-- HERO SEARCH -->
+    <div style="background:linear-gradient(135deg,rgba(79,142,247,0.08),rgba(124,58,237,0.06));border:1px solid var(--border);border-radius:var(--radius-xl);padding:32px;margin-bottom:28px">
+      <h1 class="page-title" style="font-size:2rem">Thư viện Tài liệu</h1>
+      <p class="page-sub" style="margin-bottom:20px">Khám phá <span id="totalCount" style="color:var(--color-primary);font-weight:700">20</span> tài liệu chuyên sâu về kinh doanh, công nghệ, marketing và hơn thế nữa</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <div class="search-wrapper" style="flex:1;min-width:280px">
+          <span class="search-icon">🔍</span>
+          <input class="search-input" id="searchInput" placeholder="Tìm tài liệu, chủ đề, từ khoá..." autocomplete="off">
+          <span class="search-clear" id="searchClear" onclick="clearSearch()">✕</span>
+        </div>
+        <select class="form-select" id="sortSelect" style="width:auto;min-width:160px" onchange="renderDocs()">
+          <option value="popular">Phổ biến nhất</option>
+          <option value="newest">Mới nhất</option>
+          <option value="downloads">Tải nhiều nhất</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- DOC GRID HEADER -->
+    <div class="doc-grid-header">
+      <span class="doc-count">Hiển thị <strong id="showCount">0</strong> tài liệu</span>
+      <div style="display:flex;gap:8px;font-size:0.85rem;color:var(--text-muted)">
+        <span id="activeFilters"></span>
+      </div>
+    </div>
+
+    <!-- DOC GRID -->
+    <div class="doc-grid" id="docGrid">
+      <div class="empty-state" style="grid-column:1/-1">
+        <div class="spinner" style="width:32px;height:32px;margin:0 auto 16px"></div>
+        <p>Đang tải tài liệu...</p>
+      </div>
+    </div>
+    <div id="emptyState" class="empty-state hidden">
+      <div class="empty-icon">🔍</div>
+      <h3>Không tìm thấy tài liệu</h3>
+      <p>Thử thay đổi từ khoá hoặc bộ lọc</p>
+      <button class="btn btn-ghost mt-md" onclick="clearFilters()">Xóa bộ lọc</button>
+    </div>
+  </main>
+</div>
+
+<div id="toastContainer" class="toast-container"></div>
+
+<script src="js/data.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/tracker.js"></script>
+<script src="js/app.js"></script>
+<script>
+  // State
+  let filters = { category:'', topic:'', level:'', industry:'', access_mode:'' };
+  let searchQuery = '';
+  let searchDebounce;
+
+  // Init
+  document.addEventListener('DOMContentLoaded', () => {
+    initData(); updateHeaderUI(); buildFilters(); renderDocs();
+    trackEvent('doc_list_view', null);
+    document.getElementById('searchInput').addEventListener('input', e => {
+      searchQuery = e.target.value;
+      document.getElementById('searchClear').classList.toggle('visible', !!searchQuery);
+      clearTimeout(searchDebounce);
+      searchDebounce = setTimeout(renderDocs, 300);
+    });
+    document.querySelectorAll('input[name="access"]').forEach(r => r.addEventListener('change', e => {
+      filters.access_mode = e.target.value; renderDocs();
+    }));
+  });
+
+  function buildFilters() {
+    const docs = getAllDocuments().filter(d=>d.status==='PUBLISHED');
+    const cats = [...new Set(docs.map(d=>d.category))].sort();
+    const topics = [...new Set(docs.map(d=>d.topic))].sort();
+    const levels = ['Cơ bản','Trung cấp','Chuyên gia'];
+    const industries = [...new Set(docs.map(d=>d.industry))].sort();
+
+    const makeOpts = (id, key, items) => {
+      const container = document.getElementById(id);
+      items.forEach(item => {
+        const cnt = docs.filter(d=>d[key]===item).length;
+        const label = document.createElement('label');
+        label.className = 'filter-option';
+        label.innerHTML = `<input type="checkbox" value="${item}"> ${item} <span class="filter-count">${cnt}</span>`;
+        label.querySelector('input').addEventListener('change', () => { filters[key] = getChecked(id, key); renderDocs(); });
+        container.appendChild(label);
+      });
+    };
+    makeOpts('filterCategories','category',cats);
+    makeOpts('filterTopics','topic',topics);
+    makeOpts('filterLevels','level',levels);
+    makeOpts('filterIndustries','industry',industries);
+  }
+
+  function getChecked(containerId, key) {
+    const checked = [...document.querySelectorAll(`#${containerId} input:checked`)].map(i=>i.value);
+    return checked.join(',');
+  }
+
+  function renderDocs() {
+    const sort = document.getElementById('sortSelect').value;
+    let docs = searchDocuments({ query:searchQuery, ...buildActiveFilters() });
+    if (sort==='newest') docs = docs.sort((a,b)=>new Date(b.published_at)-new Date(a.published_at));
+    else if (sort==='downloads') docs = docs.sort((a,b)=>b.download_count-a.download_count);
+    else docs = docs.sort((a,b)=>b.view_count-a.view_count);
+
+    const grid = document.getElementById('docGrid');
+    const empty = document.getElementById('emptyState');
+    document.getElementById('showCount').textContent = docs.length;
+
+    if (docs.length === 0) { grid.innerHTML=''; empty.classList.remove('hidden'); return; }
+    empty.classList.add('hidden');
+    grid.innerHTML = docs.map(d => renderDocCard(d)).join('');
+  }
+
+  function buildActiveFilters() {
+    const active = {};
+    ['category','topic','level','industry','access_mode'].forEach(k => { if(filters[k]) active[k]=filters[k].split(',')[0]; });
+    return active;
+  }
+
+  function clearFilters() {
+    filters = { category:'', topic:'', level:'', industry:'', access_mode:'' };
+    document.querySelectorAll('.sidebar input[type="checkbox"]').forEach(i=>i.checked=false);
+    document.querySelectorAll('input[name="access"]')[0].checked=true;
+    clearSearch(); renderDocs();
+  }
+  function clearSearch() {
+    searchQuery=''; document.getElementById('searchInput').value='';
+    document.getElementById('searchClear').classList.remove('visible');
+    renderDocs();
+  }
+</script>
+</body></html>

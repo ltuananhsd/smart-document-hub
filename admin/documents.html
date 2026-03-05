@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Document Hub — Quản lý Tài liệu</title>
+    <link rel="stylesheet" href="../css/index.css">
+</head>
+
+<body>
+    <header class="header">
+        <a href="../index.html" class="logo">
+            <div class="logo-icon">📚</div><span>Document Hub <span
+                    style="font-size:0.75rem;color:var(--color-warning);margin-left:4px">Admin</span></span>
+        </a>
+        <div class="header-spacer"></div>
+        <div class="header-nav">
+            <a href="../index.html" class="btn btn-ghost btn-sm" target="_blank">🔗 Xem Site</a>
+            <div class="avatar avatar-sm" style="background:var(--grad-primary)">A</div>
+        </div>
+    </header>
+    <div class="admin-layout">
+        <nav class="admin-sidebar">
+            <div class="admin-nav-label">Menu</div>
+            <a href="index.html" class="admin-nav-item">📊 Dashboard</a>
+            <a href="documents.html" class="admin-nav-item active">📄 Tài liệu</a>
+            <a href="users.html" class="admin-nav-item">👥 Người dùng</a>
+            <div class="admin-nav-divider"></div>
+            <a href="../index.html" class="admin-nav-item">⬅️ Thoát Admin</a>
+        </nav>
+        <main class="admin-content">
+            <div
+                style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px;flex-wrap:wrap;gap:12px">
+                <div>
+                    <h1 class="page-title">📄 Quản lý Tài liệu</h1>
+                    <p class="page-sub" style="margin:0">Upload, chỉnh sửa và quản lý trạng thái tài liệu</p>
+                </div>
+                <button class="btn btn-primary" onclick="openAddModal()">+ Thêm tài liệu</button>
+            </div>
+
+            <!-- Filters -->
+            <div style="display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap">
+                <div class="search-wrapper" style="flex:1;min-width:200px"><span class="search-icon">🔍</span><input
+                        class="search-input" id="docSearch" placeholder="Tìm tài liệu..." oninput="renderTable()"></div>
+                <select class="form-select" id="statusFilter" style="width:auto" onchange="renderTable()">
+                    <option value="">Tất cả trạng thái</option>
+                    <option value="PUBLISHED">Đã đăng</option>
+                    <option value="DRAFT">Nháp</option>
+                    <option value="ARCHIVED">Đã ẩn</option>
+                </select>
+                <select class="form-select" id="catFilter" style="width:auto" onchange="renderTable()">
+                    <option value="">Tất cả danh mục</option>
+                    ${['Kinh doanh','Marketing','Tài chính','Nhân sự','Công nghệ','Pháp lý','Vận hành'].map(c=>`<option>
+                        ${c}</option>`).join('')}
+                </select>
+            </div>
+
+            <!-- Table -->
+            <div class="card" style="padding:0;overflow:hidden">
+                <table class="data-table" id="docTable">
+                    <thead>
+                        <tr>
+                            <th>Tài liệu</th>
+                            <th>Danh mục</th>
+                            <th>Quyền truy cập</th>
+                            <th>Trạng thái</th>
+                            <th>Lượt xem</th>
+                            <th>Lượt tải</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody id="docTbody"></tbody>
+                </table>
+            </div>
+            <p style="font-size:0.8rem;color:var(--text-muted);margin-top:12px" id="countLabel"></p>
+
+            <!-- Add Modal -->
+            <div id="addModal" class="modal-overlay">
+                <div class="modal" style="max-width:600px">
+                    <button class="modal-close" onclick="closeModal('addModal')">✕</button>
+                    <div class="modal-title">📤 Thêm tài liệu mới</div>
+                    <div class="modal-sub">Điền thông tin và metadata cho tài liệu</div>
+                    <form onsubmit="handleAddDoc(event)" style="display:flex;flex-direction:column;gap:14px">
+                        <div class="form-group"><label class="form-label">Tiêu đề *</label><input id="d_title"
+                                class="form-input" required placeholder="Tên tài liệu..."></div>
+                        <div class="form-row">
+                            <div class="form-group"><label class="form-label">Danh mục</label>
+                                <select id="d_cat" class="form-select">${['Kinh doanh','Marketing','Tài chính','Nhân
+                                    sự','Công nghệ','Pháp lý','Vận hành'].map(c=>`<option>${c}</option>
+                                    `).join('')}</select>
+                            </div>
+                            <div class="form-group"><label class="form-label">Chủ đề</label>
+                                <select id="d_topic" class="form-select">${['AI & Tự động hóa','Chiến lược','Bán
+                                    hàng','Kế toán','Tuyển dụng','Luật lao động','Quy trình','Phân tích dữ
+                                    liệu','Digital Marketing','B2B/B2C'].map(t=>`<option>${t}</option>
+                                    `).join('')}</select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group"><label class="form-label">Cấp độ</label>
+                                <select id="d_level" class="form-select">
+                                    <option>Cơ bản</option>
+                                    <option>Trung cấp</option>
+                                    <option>Chuyên gia</option>
+                                </select>
+                            </div>
+                            <div class="form-group"><label class="form-label">Loại file</label>
+                                <select id="d_type" class="form-select">
+                                    <option>PDF</option>
+                                    <option>DOCX</option>
+                                    <option>XLSX</option>
+                                    <option>PPT</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group"><label class="form-label">Quyền truy cập</label>
+                            <select id="d_access" class="form-select">
+                                <option value="DOWNLOAD_ALLOWED">Tải được</option>
+                                <option value="VIEW_ONLY">Chỉ xem</option>
+                                <option value="DEMO_30">Demo 30%</option>
+                            </select>
+                        </div>
+                        <div class="form-group"><label class="form-label">Mô tả</label><textarea id="d_desc"
+                                class="form-textarea" placeholder="Mô tả ngắn về nội dung..."></textarea></div>
+                        <div style="display:flex;gap:12px;justify-content:flex-end">
+                            <button type="button" class="btn btn-ghost" onclick="closeModal('addModal')">Hủy</button>
+                            <button type="submit" class="btn btn-primary">💾 Lưu tài liệu</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+    <div id="toastContainer" class="toast-container"></div>
+    <script src="../js/data.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/tracker.js"></script>
+    <script src="../js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => { initData(); renderTable(); });
+
+        function renderTable() {
+            const q = document.getElementById('docSearch').value.toLowerCase();
+            const st = document.getElementById('statusFilter').value;
+            const cat = document.getElementById('catFilter').value;
+            let docs = getAllDocuments();
+            if (q) docs = docs.filter(d => d.title.toLowerCase().includes(q) || d.description.toLowerCase().includes(q));
+            if (st) docs = docs.filter(d => d.status === st);
+            if (cat) docs = docs.filter(d => d.category === cat);
+            const statusBadge = { PUBLISHED: 'badge-success', DRAFT: 'badge-warning', ARCHIVED: 'badge-muted' };
+            const statusLabel = { PUBLISHED: 'Đã đăng', DRAFT: 'Nháp', ARCHIVED: 'Đã ẩn' };
+            document.getElementById('docTbody').innerHTML = docs.map(d => `
+    <tr>
+      <td>
+        <div style="display:flex;align-items:center;gap:10px">
+          <span style="font-size:1.4rem">${FILE_ICONS[d.file_type] || '📄'}</span>
+          <div>
+            <div style="font-size:0.875rem;font-weight:600">${d.title}</div>
+            <div style="font-size:0.75rem;color:var(--text-muted)">${d.topic} · v${d.version}</div>
+          </div>
+        </div>
+      </td>
+      <td><span class="badge badge-primary">${d.category}</span></td>
+      <td><span class="badge ${AccessClass[d.access_mode] || ''}">${AccessLabel[d.access_mode] || d.access_mode}</span></td>
+      <td><span class="badge ${statusBadge[d.status] || 'badge-muted'}">${statusLabel[d.status] || d.status}</span></td>
+      <td style="font-size:0.875rem">${formatNum(d.view_count)}</td>
+      <td style="font-size:0.875rem">${formatNum(d.download_count)}</td>
+      <td>
+        <div class="actions">
+          ${d.status === 'PUBLISHED'
+                    ? `<button class="btn btn-sm btn-ghost" onclick="toggleStatus('${d.doc_id}','ARCHIVED')">🙈 Ẩn</button>`
+                    : `<button class="btn btn-sm btn-success" onclick="toggleStatus('${d.doc_id}','PUBLISHED')">✅ Đăng</button>`}
+          <a href="../document.html?id=${d.doc_id}" class="btn btn-sm btn-ghost" target="_blank">👁</a>
+        </div>
+      </td>
+    </tr>`).join('');
+            document.getElementById('countLabel').textContent = `Hiển thị ${docs.length} tài liệu`;
+        }
+
+        function toggleStatus(docId, newStatus) {
+            const docs = getAllDocuments(); const d = docs.find(x => x.doc_id === docId);
+            if (d) { d.status = newStatus; saveDocuments(docs); }
+            renderTable(); showToast('success', 'Đã cập nhật', `Tài liệu đã ${newStatus === 'PUBLISHED' ? 'được đăng' : 'bị ẩn'}`);
+        }
+
+        function openAddModal() { openModal('addModal'); }
+        function handleAddDoc(e) {
+            e.preventDefault();
+            const doc = {
+                doc_id: 'doc-' + Date.now(), title: document.getElementById('d_title').value,
+                category: document.getElementById('d_cat').value, topic: document.getElementById('d_topic').value,
+                level: document.getElementById('d_level').value, industry: 'Đa ngành',
+                access_mode: document.getElementById('d_access').value, status: 'DRAFT', version: 1,
+                file_type: document.getElementById('d_type').value, tags: [],
+                description: document.getElementById('d_desc').value,
+                pages: 0, size: '—', view_count: 0, download_count: 0,
+                published_at: new Date().toISOString().split('T')[0],
+                updated_at: new Date().toISOString().split('T')[0],
+                content_preview: '<p>Nội dung đang được cập nhật...</p>'
+            };
+            const docs = getAllDocuments(); docs.push(doc); saveDocuments(docs);
+            closeModal('addModal'); renderTable();
+            showToast('success', 'Đã thêm', 'Tài liệu mới đã được tạo ở trạng thái Nháp');
+        }
+    </script>
+</body>
+
+</html>

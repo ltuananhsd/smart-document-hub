@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Document Hub — Xem trước 30%</title>
+    <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body>
+    <header class="header">
+        <a href="index.html" class="logo">
+            <div class="logo-icon">📚</div><span>Document Hub</span>
+        </a>
+        <div class="header-spacer"></div>
+        <div class="header-nav">
+            <span
+                style="font-size:0.8rem;color:var(--text-muted);background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.3);border-radius:99px;padding:4px 12px">👁
+                Xem trước 30%</span>
+            <button class="btn btn-ghost btn-sm" onclick="goBack()">← Quay lại</button>
+            <button class="btn btn-primary btn-sm" id="loginBtn" onclick="openLoginModal()">🔐 Đăng nhập</button>
+            <div id="userMenu" class="hidden" style="display:flex;align-items:center;gap:8px">
+                <div class="avatar avatar-sm" id="userAvatar">U</div>
+                <span id="userName" style="font-size:0.875rem"></span>
+                <button class="btn btn-ghost btn-sm" onclick="logout()">Đăng xuất</button>
+            </div>
+        </div>
+    </header>
+
+    <div style="padding-top:var(--header-height)">
+        <div class="full-content" id="mainContent">
+            <div style="text-align:center;padding:80px">
+                <div class="spinner" style="width:40px;height:40px;margin:0 auto 16px"></div>
+            </div>
+        </div>
+    </div>
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="js/data.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/tracker.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        const docId = new URLSearchParams(location.search).get('id');
+        document.addEventListener('DOMContentLoaded', () => {
+            initData(); updateHeaderUI();
+            const doc = getDocument(docId);
+            if (!doc) { location.href = 'index.html'; return; }
+            renderPreview(doc);
+            startPreviewSession(docId);
+        });
+        window.addEventListener('beforeunload', () => { if (_heartbeatTimer) clearInterval(_heartbeatTimer); });
+        function goBack() { history.back(); }
+        function goViewFull() {
+            if (_heartbeatTimer) clearInterval(_heartbeatTimer);
+            if (!isLoggedIn()) { openLoginModal(`viewer.html?id=${docId}`); return; }
+            location.href = `viewer.html?id=${docId}`;
+        }
+        function renderPreview(doc) {
+            const preview = doc.content_preview || '<p>Nội dung mẫu...</p>';
+            document.getElementById('mainContent').innerHTML = `
+    <div class="breadcrumb">
+      <a href="index.html">🏠 Thư viện</a><span class="breadcrumb-sep">›</span>
+      <a href="document.html?id=${docId}">${doc.title}</a><span class="breadcrumb-sep">›</span>
+      <span class="current">Xem trước 30%</span>
+    </div>
+    <div style="max-width:800px;margin:0 auto">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px">
+        <div>
+          <h1 style="font-size:1.3rem;font-weight:700;margin-bottom:6px">${doc.title}</h1>
+          <div style="display:flex;gap:8px">
+            <span class="badge badge-muted">${doc.file_type}</span>
+            <span class="badge badge-warning">Demo 30%</span>
+            <span class="badge badge-primary">${doc.pages} trang</span>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-outline btn-sm" onclick="goBack()">← Quay lại</button>
+          <button class="btn btn-primary btn-sm" onclick="goViewFull()">📖 Xem đầy đủ</button>
+        </div>
+      </div>
+
+      <!-- Progress Bar -->
+      <div style="background:rgba(255,255,255,0.08);border-radius:4px;height:6px;margin-bottom:24px;overflow:hidden">
+        <div style="width:30%;height:100%;background:var(--grad-primary);border-radius:4px"></div>
+      </div>
+      <p style="font-size:0.78rem;color:var(--text-muted);text-align:center;margin-bottom:20px">Bạn đang xem 30% nội dung • Đăng nhập để đọc toàn bộ tài liệu</p>
+
+      <!-- Viewer Wrapper -->
+      <div class="viewer-wrapper">
+        <div class="viewer-toolbar">
+          <span style="font-size:0.85rem;color:var(--text-muted)">📄 Trang 1–${Math.floor(doc.pages * 0.3)} / ${doc.pages}</span>
+          <div class="header-spacer"></div>
+          <div class="live-dot"></div><span style="font-size:0.75rem;color:var(--text-muted);margin-left:6px">Đang theo dõi thời gian đọc</span>
+        </div>
+        <div class="doc-pages" style="position:relative">
+          <!-- Page 1 — visible -->
+          <div class="doc-page">${preview}</div>
+          <!-- Page 2 — partial blur -->
+          <div class="doc-page" style="position:relative">
+            <div style="filter:blur(3px);pointer-events:none;user-select:none">
+              <h2>2. Phân tích chi tiết</h2>
+              <p>Dữ liệu từ khảo sát 500+ doanh nghiệp tại Việt Nam cho thấy xu hướng rõ ràng trong việc áp dụng công nghệ mới. Các yếu tố quan trọng bao gồm: chi phí triển khai, thời gian đào tạo nhân viên, và ROI kỳ vọng...</p>
+              <p>Phân tích theo ngành cho thấy sự khác biệt đáng kể: ngành Fintech dẫn đầu với tỷ lệ adoption 67%, trong khi manufacturing chỉ đạt 23% do phức tạp về tích hợp legacy system...</p>
+            </div>
+            <!-- Paywall overlay -->
+            <div class="paywall-overlay">
+              <div class="paywall-card">
+                <div style="font-size:2.5rem;margin-bottom:12px">🔒</div>
+                <h3 style="font-family:'Outfit',sans-serif;font-size:1.2rem;font-weight:700;margin-bottom:8px">Xem toàn bộ ${doc.pages} trang</h3>
+                <p style="font-size:0.875rem;color:var(--text-secondary);margin-bottom:20px">Đăng nhập miễn phí để đọc đầy đủ${doc.access_mode === 'DOWNLOAD_ALLOWED' ? ' và tải về tài liệu này' : ''}</p>
+                <button class="btn btn-primary w-full btn-lg" onclick="goViewFull()">🚀 Đăng nhập để xem tiếp</button>
+                <p style="font-size:0.75rem;color:var(--text-muted);margin-top:12px">Miễn phí • Chỉ cần email</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom CTA -->
+      <div style="text-align:center;padding:32px 20px;background:var(--grad-card);border:1px solid var(--border);border-radius:var(--radius-xl);margin-top:24px">
+        <div style="font-size:2rem;margin-bottom:12px">📖</div>
+        <h3 style="font-family:'Outfit',sans-serif;margin-bottom:8px">Bạn đang đọc phần xem trước giới hạn</h3>
+        <p style="color:var(--text-muted);font-size:0.875rem;margin-bottom:20px">Đăng nhập miễn phí để mở khóa ${doc.pages - Math.floor(doc.pages * 0.3)} trang còn lại${doc.access_mode === 'DOWNLOAD_ALLOWED' ? ' và quyền tải về' : ''}</p>
+        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+          <button class="btn btn-primary btn-lg" onclick="goViewFull()">📖 Xem đầy đủ ngay</button>
+          <button class="btn btn-ghost" onclick="goBack()">← Xem tài liệu khác</button>
+        </div>
+      </div>
+    </div>
+  `;
+        }
+    </script>
+</body>
+
+</html>

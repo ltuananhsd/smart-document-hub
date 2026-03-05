@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Document Hub — Đọc tài liệu</title>
+    <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body>
+    <header class="header">
+        <a href="index.html" class="logo">
+            <div class="logo-icon">📚</div><span>Document Hub</span>
+        </a>
+        <div class="header-spacer"></div>
+        <div style="font-size:0.85rem;color:var(--text-muted)" id="viewerMeta"></div>
+        <div class="header-nav">
+            <div class="live-dot"></div>
+            <span style="font-size:0.75rem;color:var(--text-muted)">Đang theo dõi</span>
+            <span id="readTimer"
+                style="font-size:0.8rem;color:var(--color-primary);font-weight:600;min-width:50px">0:00</span>
+            <button class="btn btn-ghost btn-sm" onclick="goBack()">← Quay lại</button>
+            <button class="btn btn-accent btn-sm hidden" id="downloadBtn" onclick="handleDownload()">⬇️ Tải về</button>
+            <div id="userMenu" style="display:flex;align-items:center;gap:8px">
+                <a href="profile.html"
+                    style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:6px">
+                    <div class="avatar avatar-sm" id="userAvatar">U</div>
+                    <span id="userName" style="font-size:0.875rem"></span>
+                </a>
+                <button class="btn btn-ghost btn-sm" onclick="logout()">Đăng xuất</button>
+            </div>
+        </div>
+    </header>
+
+    <div style="padding-top:var(--header-height)">
+        <div class="full-content" id="mainContent">
+            <div style="text-align:center;padding:80px">
+                <div class="spinner" style="width:40px;height:40px;margin:0 auto 16px"></div>
+            </div>
+        </div>
+    </div>
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="js/data.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/tracker.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        const docId = new URLSearchParams(location.search).get('id');
+        let timerInterval;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initData();
+            if (!isLoggedIn()) { openLoginModal(`viewer.html?id=${docId}`); return; }
+            updateHeaderUI();
+            const doc = getDocument(docId);
+            if (!doc) { location.href = 'index.html'; return; }
+            renderViewer(doc);
+            startViewSession(docId);
+            startReadTimer();
+            if (doc.access_mode === 'DOWNLOAD_ALLOWED') document.getElementById('downloadBtn').classList.remove('hidden');
+            document.getElementById('viewerMeta').textContent = `${doc.title} · ${doc.pages} trang`;
+        });
+
+        window.addEventListener('beforeunload', () => {
+            clearInterval(timerInterval);
+            endViewSession(docId);
+        });
+
+        function startReadTimer() {
+            let secs = 0;
+            timerInterval = setInterval(() => {
+                secs++;
+                const m = Math.floor(secs / 60), s = secs % 60;
+                document.getElementById('readTimer').textContent = `${m}:${s.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        function goBack() { endViewSession(docId); history.back(); }
+        function handleDownload() {
+            const btn = document.getElementById('downloadBtn');
+            btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>';
+            requestDownload(docId);
+            showToast('success', 'Đang tải về...', 'File sẽ được tải trong giây lát (Demo)');
+            setTimeout(() => { btn.disabled = false; btn.innerHTML = '⬇️ Tải về'; }, 2000);
+        }
+
+        function renderViewer(doc) {
+            const user = getCurrentUser();
+            // Generate mock pages based on content_preview
+            const pages = generateMockPages(doc);
+
+            document.getElementById('mainContent').innerHTML = `
+    <div class="breadcrumb">
+      <a href="index.html">🏠 Thư viện</a><span class="breadcrumb-sep">›</span>
+      <a href="document.html?id=${docId}">${doc.title}</a><span class="breadcrumb-sep">›</span>
+      <span class="current">Đọc toàn bộ</span>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 260px;gap:24px;max-width:1200px;margin:0 auto" class="viewer-grid">
+      <div>
+        <div class="viewer-wrapper">
+          <div class="viewer-toolbar">
+            <span style="font-size:0.85rem;color:var(--text-secondary)">📄 ${doc.title}</span>
+            <div class="header-spacer"></div>
+            <span style="font-size:0.78rem;color:var(--text-muted)">${doc.pages} trang · ${doc.size}</span>
+          </div>
+          <div class="doc-pages">
+            ${pages}
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div style="position:sticky;top:80px;display:flex;flex-direction:column;gap:16px">
+        <div class="card">
+          <div class="section-title">Thông tin tài liệu</div>
+          <div style="display:flex;flex-direction:column;gap:10px;font-size:0.82rem">
+            <div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Danh mục</span><span class="badge badge-primary">${doc.category}</span></div>
+            <div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Chủ đề</span><span style="color:var(--text-secondary)">${doc.topic}</span></div>
+            <div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Cấp độ</span><span class="badge badge-muted">${doc.level}</span></div>
+            <div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Trang</span><strong>${doc.pages}</strong></div>
+          </div>
+        </div>
+        <div class="card" style="background:rgba(79,142,247,0.06)">
+          <div style="font-size:0.8rem;color:var(--text-secondary)">👤 Đang đọc với tư cách</div>
+          <div style="display:flex;align-items:center;gap:8px;margin-top:8px">
+            <div class="avatar avatar-sm">${(user?.name || 'U').charAt(0)}</div>
+            <div>
+              <div style="font-size:0.85rem;font-weight:600">${user?.name || 'Ẩn danh'}</div>
+              <div style="font-size:0.72rem;color:var(--text-muted)">${user?.email || ''}</div>
+            </div>
+          </div>
+          <div style="margin-top:12px">
+            <div style="display:flex;justify-content:space-between;font-size:0.75rem;color:var(--text-muted);margin-bottom:4px"><span>Lead Score</span><strong style="color:var(--color-primary)">${user?.lead_score || 0} điểm</strong></div>
+            <div class="score-bar"><div class="score-fill" style="width:${Math.min((user?.lead_score || 0) * 2, 100)}%"></div></div>
+          </div>
+          <span class="badge badge-${(user?.lead_stage || 'cold').toLowerCase()} mt-sm">${user?.lead_stage || 'Cold'} Lead</span>
+        </div>
+        <a href="activity.html" class="btn btn-ghost btn-sm">📈 Xem lịch sử đọc</a>
+      </div>
+    </div>
+    <style>@media(max-width:900px){.viewer-grid{grid-template-columns:1fr !important}}</style>
+  `;
+        }
+
+        function generateMockPages(doc) {
+            const preview = doc.content_preview || '<p>Nội dung tài liệu...</p>';
+            const mockSections = [
+                { h: 'Tổng quan', p: 'Tài liệu này cung cấp phân tích chuyên sâu và dữ liệu thực tế từ các nghiên cứu hàng đầu trong ngành. Các số liệu được cập nhật và xác minh qua nhiều nguồn uy tín, đảm bảo tính chính xác và có thể ứng dụng trực tiếp vào thực tiễn kinh doanh.' },
+                { h: 'Phương pháp nghiên cứu', p: 'Chúng tôi đã thu thập dữ liệu từ hơn 200 nguồn khác nhau, bao gồm khảo sát thực địa với 500+ doanh nghiệp, phỏng vấn chuyên gia, và phân tích dữ liệu thứ cấp từ các báo cáo ngành. Phương pháp mixed-method đảm bảo tính đa chiều và độ tin cậy của kết quả.' },
+                { h: 'Phát hiện chính', p: 'Kết quả từ nghiên cứu chỉ ra 5 xu hướng quan trọng đang định hình ngành trong năm 2024-2025. Những xu hướng này có tác động mạnh đến chiến lược vận hành và cơ hội tăng trưởng của các doanh nghiệp ở mọi quy mô.' },
+                { h: 'Phân tích theo phân khúc', p: 'Sự phân hóa rõ ràng theo quy mô doanh nghiệp và ngành nghề cho thấy không có giải pháp "one-size-fits-all". SMEs và Enterprise có nhu cầu, khả năng đầu tư, và lộ trình triển khai khác biệt đáng kể.' },
+                { h: 'Khuyến nghị chiến lược', p: 'Dựa trên phân tích toàn diện, chúng tôi đề xuất lộ trình 3 giai đoạn (0-3 tháng / 3-12 tháng / 12-24 tháng) với các ưu tiên rõ ràng, KPI đo lường được, và nguồn lực cần thiết cho từng giai đoạn.' },
+                { h: 'Case Studies thực tế', p: '5 case study từ doanh nghiệp Việt Nam và quốc tế minh họa cả thành công lẫn thất bại, rút ra bài học thực tiễn giúp tránh các sai lầm phổ biến và tối ưu xác suất thành công khi triển khai.' },
+                { h: 'Kết luận & Bước tiếp theo', p: 'Tổng hợp 10 điểm then chốt cần nhớ và action plan cụ thể cho tuần tiếp theo. Tài liệu bổ sung và tài nguyên hỗ trợ có sẵn tại thư viện của chúng tôi.' }
+            ];
+            let html = `<div class="doc-page">${preview}</div>`;
+            mockSections.forEach((s, i) => {
+                html += `<div class="doc-page"><h2 style="color:#1e3a5f;margin-bottom:16px;font-size:1.3rem">${i + 2}. ${s.h}</h2><p style="color:#2d3748;line-height:1.9">${s.p}</p><p style="color:#4a5568;margin-top:16px;line-height:1.8">Chi tiết phân tích và dữ liệu hỗ trợ được trình bày trong phần phụ lục kèm theo. Các số liệu thống kê được cập nhật định kỳ theo quý để đảm bảo tính thời sự và phù hợp với bối cảnh thị trường hiện tại.</p></div>`;
+            });
+            return html;
+        }
+    </script>
+</body>
+
+</html>

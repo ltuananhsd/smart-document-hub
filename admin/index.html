@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Document Hub — Admin Dashboard</title>
+    <link rel="stylesheet" href="../css/index.css">
+</head>
+
+<body>
+    <header class="header">
+        <a href="../index.html" class="logo">
+            <div class="logo-icon">📚</div><span>Document Hub <span
+                    style="font-size:0.75rem;color:var(--color-warning);margin-left:4px">Admin</span></span>
+        </a>
+        <div class="header-spacer"></div>
+        <div class="header-nav">
+            <a href="../index.html" class="btn btn-ghost btn-sm" target="_blank">🔗 Xem Site</a>
+            <div class="avatar avatar-sm" style="background:var(--grad-primary)">A</div>
+            <span style="font-size:0.875rem">Admin</span>
+        </div>
+    </header>
+    <div class="admin-layout">
+        <nav class="admin-sidebar">
+            <div class="admin-nav-label">Menu</div>
+            <a href="index.html" class="admin-nav-item active">📊 Dashboard</a>
+            <a href="documents.html" class="admin-nav-item">📄 Tài liệu</a>
+            <a href="users.html" class="admin-nav-item">👥 Người dùng</a>
+            <div class="admin-nav-divider"></div>
+            <div class="admin-nav-label">Cài đặt</div>
+            <a href="../index.html" class="admin-nav-item">⬅️ Thoát Admin</a>
+        </nav>
+        <main class="admin-content" id="mainContent">
+            <div style="text-align:center;padding:80px">
+                <div class="spinner" style="width:40px;height:40px;margin:0 auto 16px"></div>
+            </div>
+        </main>
+    </div>
+    <div id="toastContainer" class="toast-container"></div>
+    <script src="../js/data.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/tracker.js"></script>
+    <script src="../js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => { initData(); renderDashboard(); });
+
+        function renderDashboard() {
+            const docs = getAllDocuments();
+            const users = getAllUsers();
+            const events = JSON.parse(localStorage.getItem('dh_events') || '[]');
+            const totalViews = docs.reduce((s, d) => s + d.view_count, 0);
+            const totalDls = docs.reduce((s, d) => s + d.download_count, 0);
+            const hotLeads = users.filter(u => u.lead_stage === 'Hot').length;
+            const warmLeads = users.filter(u => u.lead_stage === 'Warm').length;
+            const coldLeads = users.filter(u => u.lead_stage === 'Cold').length;
+            const topDocs = [...docs].sort((a, b) => b.view_count - a.view_count).slice(0, 5);
+            const maxViews = topDocs[0]?.view_count || 1;
+            const recentEvts = events.filter(e => e.user_id && e.event_type !== 'doc_heartbeat').sort((a, b) => new Date(b.created_at) - new Date(a.created_at)).slice(0, 8);
+            const EVENT_ICONS = { doc_view_end: '📖', doc_download_success: '⬇️', doc_preview_start: '👀', doc_detail_view: '👁', doc_view_start: '📗' };
+
+            document.getElementById('mainContent').innerHTML = `
+    <div style="margin-bottom:28px">
+      <h1 class="page-title">📊 Dashboard</h1>
+      <p class="page-sub">Tổng quan hiệu suất nền tảng tài liệu</p>
+    </div>
+
+    <!-- KPI -->
+    <div class="kpi-grid mb-lg">
+      <div class="kpi-card">
+        <div class="kpi-icon" style="background:rgba(79,142,247,0.15);color:#4F8EF7">👁</div>
+        <div class="kpi-value">${formatNum(totalViews)}</div>
+        <div class="kpi-label">Tổng lượt xem</div>
+        <div class="kpi-trend up">↑ +12% so với tháng trước</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-icon" style="background:rgba(16,185,129,0.15);color:#10b981">⬇️</div>
+        <div class="kpi-value">${formatNum(totalDls)}</div>
+        <div class="kpi-label">Lượt tải xuống</div>
+        <div class="kpi-trend up">↑ +8% so với tháng trước</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-icon" style="background:rgba(124,58,237,0.15);color:#9d69ff">👥</div>
+        <div class="kpi-value">${users.length}</div>
+        <div class="kpi-label">Người dùng</div>
+        <div class="kpi-trend up">↑ +${Math.floor(users.length * 0.15)} mới tháng này</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-icon" style="background:rgba(255,90,54,0.15);color:#ff5a36">🔥</div>
+        <div class="kpi-value">${hotLeads}</div>
+        <div class="kpi-label">Hot Leads</div>
+        <div class="kpi-trend up">↑ Cần chăm sóc ngay</div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px" class="charts-grid">
+      <!-- Bar Chart -->
+      <div class="card">
+        <div class="section-title">🏆 Top tài liệu phổ biến nhất</div>
+        <div class="mini-bar-container mt-md">
+          ${topDocs.map(d => `
+          <div class="mini-bar-item">
+            <div class="mini-bar-header">
+              <span style="font-size:0.8rem;color:var(--text-secondary);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px" title="${d.title}">${d.title}</span>
+              <span style="font-size:0.78rem;color:var(--text-muted);flex-shrink:0;margin-left:8px">${formatNum(d.view_count)}</span>
+            </div>
+            <div class="mini-bar-track"><div class="mini-bar-fill" style="width:${Math.round(d.view_count / maxViews * 100)}%"></div></div>
+          </div>`).join('')}
+        </div>
+      </div>
+
+      <!-- Donut Chart -->
+      <div class="card">
+        <div class="section-title">📊 Phân bố Lead Stage</div>
+        <div class="donut-chart-wrapper mt-md">
+          <svg width="120" height="120" viewBox="0 0 120 120">
+            ${buildDonut(hotLeads, warmLeads, coldLeads)}
+          </svg>
+          <div class="donut-legend">
+            <div class="legend-item"><div class="legend-dot" style="background:#ff5a36"></div><span>🔥 Hot — ${hotLeads} người (${pct(hotLeads, users.length)}%)</span></div>
+            <div class="legend-item"><div class="legend-dot" style="background:#f59e0b"></div><span>🌡 Warm — ${warmLeads} người (${pct(warmLeads, users.length)}%)</span></div>
+            <div class="legend-item"><div class="legend-dot" style="background:#64748b"></div><span>❄️ Cold — ${coldLeads} người (${pct(coldLeads, users.length)}%)</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <div class="section-title" style="margin:0">⚡ Hoạt động gần đây</div>
+        <div class="live-dot"></div>
+      </div>
+      <table class="data-table">
+        <thead><tr><th>Người dùng</th><th>Tài liệu</th><th>Hành động</th><th>Thời gian</th></tr></thead>
+        <tbody>
+          ${recentEvts.map(e => {
+                const user = getAllUsers().find(u => u.user_id === e.user_id) || { name: '—', lead_stage: 'Cold' };
+                const doc = getDocument(e.doc_id) || { title: 'Unknown' };
+                const icon = EVENT_ICONS[e.event_type] || '📌';
+                const stageCls = { Hot: 'badge-hot', Warm: 'badge-warm', Cold: 'badge-cold' }[user.lead_stage] || 'badge-muted';
+                return `<tr>
+              <td style="display:flex;align-items:center;gap:8px">
+                <div class="avatar avatar-xs">${user.name.charAt(0)}</div>
+                <div><div style="font-size:0.85rem;font-weight:500">${user.name}</div><span class="badge ${stageCls}" style="font-size:0.65rem">${user.lead_stage}</span></div>
+              </td>
+              <td style="font-size:0.82rem;color:var(--text-secondary);max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${doc.title}</td>
+              <td><span style="font-size:0.85rem">${icon} ${(e.event_type || '').replace(/doc_/, '').replace(/_/g, ' ')}</span></td>
+              <td style="font-size:0.78rem;color:var(--text-muted);white-space:nowrap">${timeAgo(e.created_at)}</td>
+            </tr>`;
+            }).join('')}
+        </tbody>
+      </table>
+    </div>
+
+    <style>@media(max-width:900px){.charts-grid{grid-template-columns:1fr !important}}</style>
+  `;
+        }
+
+        function pct(val, total) { return total > 0 ? Math.round(val / total * 100) : 0; }
+        function buildDonut(hot, warm, cold) {
+            const total = hot + warm + cold || 1; const r = 48, cx = 60, cy = 60; let off = 0;
+            const segs = [[hot, '#ff5a36'], [warm, '#f59e0b'], [cold, '#475569']];
+            const circumference = 2 * Math.PI * r;
+            return segs.map(([val, color]) => {
+                const pctVal = val / total; const dashArr = pctVal * circumference; const dashOff = -off * circumference;
+                off += pctVal;
+                return `<circle cx="${cx}" cy="${cy}" r="${r}" fill="transparent" stroke="${color}" stroke-width="18" stroke-dasharray="${dashArr} ${circumference - dashArr}" stroke-dashoffset="${-(off - pctVal) * circumference}" transform="rotate(-90 ${cx} ${cy})" />`;
+            }).join('') + `<circle cx="${cx}" cy="${cy}" r="30" fill="var(--bg-card)" /><text x="${cx}" y="${cy}" text-anchor="middle" dominant-baseline="middle" fill="var(--text-primary)" font-size="14" font-weight="bold">${total}</text>`;
+        }
+    </script>
+</body>
+
+</html>
