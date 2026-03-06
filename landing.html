@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Nhận Tài Liệu Miễn Phí</title>
+    <!-- Gộp CSS reset và utility -->
+    <link rel="stylesheet" href="css/index.css">
+    <style>
+        body {
+            background-color: #0b1120; /* Màu nền nền đậm */
+            color: #f1f5f9;
+            font-family: 'Outfit', 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        /* Vòng sáng (Glow) phía sau */
+        .ambient-glow {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, rgba(11, 17, 32, 0) 70%);
+            top: -100px;
+            left: -100px;
+            z-index: 0;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .ambient-glow.right {
+            top: auto;
+            bottom: -200px;
+            left: auto;
+            right: -100px;
+            background: radial-gradient(circle, rgba(14, 165, 233, 0.15) 0%, rgba(11, 17, 32, 0) 70%);
+        }
+
+        .landing-container {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            max-width: 1200px;
+            width: 90%;
+            gap: 60px;
+            align-items: center;
+            margin: 40px auto;
+        }
+
+        /* Cột Nội dung bên Trái */
+        .content-col {
+            flex: 1.2;
+            padding-right: 20px;
+        }
+
+        .main-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            color: #ffffff;
+            letter-spacing: -1px;
+        }
+
+        .main-title span.highlight-purple {
+            color: #a78bfa;
+        }
+        .main-title span.highlight-cyan {
+            background: -webkit-linear-gradient(right, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .sub-description {
+            font-size: 1.1rem;
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 40px;
+            padding-left: 16px;
+            border-left: 3px solid #6366f1;
+        }
+
+        .doc-features {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .feature-card {
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(51, 65, 85, 0.5);
+            border-radius: 12px;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.95rem;
+            color: #cbd5e1;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Cột Form bên Phải */
+        .form-col {
+            flex: 1;
+        }
+
+        .lead-form-card {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(51, 65, 85, 0.4);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(12px);
+        }
+
+        .form-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+
+        .form-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 0 8px 0;
+            color: #ffffff;
+        }
+
+        .form-header p {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            margin: 0;
+        }
+
+        .badge-tag {
+            background: rgba(99, 102, 241, 0.2);
+            color: #a78bfa;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 6px;
+            text-transform: uppercase;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #64748b;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .form-control {
+            width: 100%;
+            background: rgba(30, 41, 59, 0.4);
+            border: 1px solid rgba(51, 65, 85, 0.6);
+            color: #f1f5f9;
+            padding: 14px 16px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        .form-control:focus {
+            background: rgba(30, 41, 59, 0.8);
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 16px;
+        }
+        .form-row .input-group {
+            flex: 1;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #6366f1 0%, #0ea5e9 100%);
+            color: #ffffff;
+            border: none;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px -10px rgba(99, 102, 241, 0.6);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 25px -10px rgba(99, 102, 241, 0.8);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 900px) {
+            .landing-container {
+                flex-direction: column;
+                gap: 40px;
+                margin: 40px auto;
+            }
+            .main-title {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="ambient-glow"></div>
+    <div class="ambient-glow right"></div>
+
+    <div class="landing-container">
+        <!-- Cột Nội dung bên Trái (Sẽ load động từ JS) -->
+        <div class="content-col" id="docContentPane">
+            <h1 class="main-title">
+                Khám phá <span class="highlight-purple">Tài liệu</span><br>
+                <span class="highlight-cyan" id="displayTitle">Cao Cấp Khóa Học</span>
+            </h1>
+            <div class="sub-description" id="displayDesc">
+                Điền thông tin để nhận miễn phí tài liệu độc quyền từ Document Hub. Nâng cao hiệu suất với các kiến thức cập nhật.
+            </div>
+            <div class="doc-features">
+                <div class="feature-card">
+                    <span>📄</span> Cập nhật 2024
+                </div>
+                <div class="feature-card">
+                    <span>💡</span> Bao gồm Case Study
+                </div>
+            </div>
+        </div>
+
+        <!-- Cột Form bên Phải -->
+        <div class="form-col">
+            <div class="lead-form-card">
+                <div class="form-header">
+                    <div>
+                        <h2>Đăng ký nhận</h2>
+                        <p>Điền thông tin để nhận trọn bộ giải pháp</p>
+                    </div>
+                    <span class="badge-tag">FREE EBOOK</span>
+                </div>
+
+                <form id="leadForm" onsubmit="handleCaptureLead(event)">
+                    <div class="input-group">
+                        <label>Họ và tên</label>
+                        <input type="text" id="lf_name" class="form-control" placeholder="Nguyễn Văn A" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="input-group">
+                            <label>Số điện thoại</label>
+                            <input type="tel" id="lf_phone" class="form-control" placeholder="09xxxx" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Nghề nghiệp/Ngành</label>
+                            <select id="lf_job" class="form-control" required style="appearance: none;">
+                                <option value="" disabled selected>Lựa chọn</option>
+                                <option value="Marketing">Marketing / Truyền thông</option>
+                                <option value="Sales">Kinh doanh / Sales</option>
+                                <option value="HR">Nhân sự / Đào tạo</option>
+                                <option value="IT">Công nghệ thông tin</option>
+                                <option value="Management">Quản lý / Founder</option>
+                                <option value="Other">Khác</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Địa chỉ Email</label>
+                        <input type="email" id="lf_email" class="form-control" placeholder="email@example.com" required>
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="submitBtn">
+                        NHẬN EBOOK MIỄN PHÍ <span>→</span>
+                    </button>
+                    <p style="text-align:center;font-size:0.75rem;color:#64748b;margin-top:16px;">Cam kết không gửi tin nhắn rác. Tài liệu sẽ được truy cập ngay lập tức.</p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        // Lấy ID tài liệu từ tham số URL
+        const docId = new URLSearchParams(location.search).get('id');
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initData();
+            
+            // Nếu có tham số ID, lấy thông tin tài liệu để hiển thị
+            if (docId) {
+                const doc = getDocument(docId);
+                if (doc) {
+                    document.getElementById('displayTitle').textContent = doc.title;
+                    if(doc.description) {
+                        document.getElementById('displayDesc').textContent = doc.description;
+                    }
+                } else {
+                    document.getElementById('displayTitle').textContent = "Tài liệu không tồn tại";
+                }
+            }
+            
+            // Nếu người dùng ĐÃ đăng nhập từ trước, có thể bỏ qua bước điền form và cho thẳng vào trang đọc
+            if (isLoggedIn()) {
+                if(docId) {
+                    window.location.href = `viewer.html?id=${docId}`;
+                } else {
+                    window.location.href = 'index.html';
+                }
+            }
+        });
+
+        // Xử lý nộp Form
+        function handleCaptureLead(e) {
+            e.preventDefault();
+            
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner" style="border-width:2px;width:20px;height:20px;border-top-color:#fff;"></span> ĐANG XỬ LÝ...';
+
+            const name = document.getElementById('lf_name').value;
+            const phone = document.getElementById('lf_phone').value;
+            const jobOption = document.getElementById('lf_job');
+            const job = jobOption.options[jobOption.selectedIndex].text;
+            const email = document.getElementById('lf_email').value;
+
+            // Gọi hàm captureLead từ auth.js để Upsert User và tự động tạo Session
+            captureLead(name, phone, job, email);
+
+            // Ghi nhận sự kiện Lead đã đăng ký (giả lập Tracking cho tương lai)
+            console.log(`[New Lead Captured] - ${name} - ${email}`);
+
+            // Chuyển hướng tới Viewer ngay lập tức
+            setTimeout(() => {
+                if (docId) {
+                    window.location.href = `viewer.html?id=${docId}`;
+                } else {
+                    window.location.href = 'index.html';
+                }
+            }, 800); // Delay giả lập một chút cho chuyên nghiệp
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Document Hub — Soạn thảo Tài liệu</title>
+    <link rel="stylesheet" href="../css/index.css">
+    
+    <!-- Quill.js v2 cho soạn thảo Rich Text/Markdown -->
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
+    <style>
+        #editor-container {
+            height: 400px;
+            background: white;
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+            font-size: 16px;
+        }
+        /* Fix lỗi tương phản màu chữ: Mặc định editor nền trắng thì chữ phải tối màu */
+        #editor-container .ql-editor {
+            color: #1e293b;
+        }
+        .ql-toolbar.ql-snow {
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            background: #f8fafc;
+            border-color: var(--border);
+        }
+        .ql-container.ql-snow {
+            border-color: var(--border);
+        }
+        
+        /* Chỉnh màu block đen thành xanh dương theo yêu cầu */
+        #editor-container .ql-editor pre,
+        #editor-container .ql-editor pre.ql-syntax {
+            background-color: #1e3a8a !important; /* Xanh dương đậm */
+            color: #eff6ff !important;
+            border-radius: 6px;
+        }
+        #editor-container .ql-editor blockquote {
+            border-left-color: #3b82f6 !important; 
+            background-color: rgba(59, 130, 246, 0.05) !important;
+            color: #1e3a8a !important;
+        }
+        
+        .editor-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+            margin-top: 24px;
+        }
+        
+        @media (max-width: 900px) {
+            .editor-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <a href="../index.html" class="logo">
+            <div class="logo-icon">📚</div><span>Document Hub <span
+                    style="font-size:0.75rem;color:var(--color-warning);margin-left:4px">Admin</span></span>
+        </a>
+        <div class="header-spacer"></div>
+        <div class="header-nav">
+            <a href="../index.html" class="btn btn-ghost btn-sm" target="_blank">🔗 Xem Site</a>
+            <div class="avatar avatar-sm" style="background:var(--grad-primary)">A</div>
+        </div>
+    </header>
+    
+    <div class="admin-layout">
+        <nav class="admin-sidebar">
+            <div class="admin-nav-label">Menu</div>
+            <a href="index.html" class="admin-nav-item">📊 Dashboard</a>
+            <a href="documents.html" class="admin-nav-item active">📄 Tài liệu</a>
+            <a href="users.html" class="admin-nav-item">👥 Người dùng</a>
+            <a href="finance.html" class="admin-nav-item">💰 Tài chính</a>
+            <div class="admin-nav-divider"></div>
+            <a href="../index.html" class="admin-nav-item">⬅️ Thoát Admin</a>
+        </nav>
+        
+        <main class="admin-content">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px">
+                <div>
+                    <h1 class="page-title">📝 Soạn thảo Tài liệu</h1>
+                    <p class="page-sub" style="margin:0">Tạo tài liệu mới với định dạng phong phú</p>
+                </div>
+                <div style="display:flex;gap:12px">
+                    <a href="documents.html" class="btn btn-ghost">Hủy bỏ</a>
+                    <button class="btn btn-primary" onclick="saveDocument()">💾 Lưu tài liệu</button>
+                </div>
+            </div>
+
+            <div class="editor-layout">
+                <!-- Cột trái: Soạn thảo nội dung -->
+                <div style="display:flex;flex-direction:column;gap:16px">
+                    <div class="form-group">
+                        <label class="form-label" style="font-size: 1.1rem">Tiêu đề tài liệu *</label>
+                        <input id="d_title" class="form-input" required placeholder="Nhập tiêu đề tài liệu của bạn..." style="font-size: 1.25rem; padding: 12px">
+                    </div>
+                    
+                    <div class="form-group">
+                        <div style="display:flex; justify-content:space-between; align-items:flex-end;">
+                            <label class="form-label">Nội dung chi tiết</label>
+                            <!-- Nút Import Đa định dạng -->
+                            <button class="btn btn-ghost btn-sm" onclick="document.getElementById('fileInput').click()" type="button" style="display:flex; gap:6px; align-items:center">
+                                <span>📥 Import File (.md, .docx, .html)</span>
+                            </button>
+                            <input type="file" id="fileInput" accept=".md,.docx,.html" style="display:none" onchange="handleFileUpload(event)">
+                        </div>
+                        <!-- Khu vực soạn thảo Quill -->
+                        <div id="editor-container"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Mô tả ngắn</label>
+                        <textarea id="d_desc" class="form-textarea" placeholder="Mô tả tóm tắt xuất hiện bên ngoài thẻ tài liệu..." rows="3"></textarea>
+                    </div>
+                </div>
+                
+                <!-- Cột phải: Cài đặt thuộc tính -->
+                <div class="card" style="align-self: flex-start; display:flex;flex-direction:column;gap:16px">
+                    <div class="form-group">
+                        <label class="form-label">Danh mục</label>
+                        <select id="d_cat" class="form-select">
+                            <option>Kinh doanh</option>
+                            <option>Marketing</option>
+                            <option>Tài chính</option>
+                            <option>Nhân sự</option>
+                            <option>Công nghệ</option>
+                            <option>Pháp lý</option>
+                            <option>Vận hành</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Chủ đề</label>
+                        <select id="d_topic" class="form-select">
+                            <option>AI & Tự động hóa</option>
+                            <option>Chiến lược</option>
+                            <option>Bán hàng</option>
+                            <option>Kế toán</option>
+                            <option>Tuyển dụng</option>
+                            <option>Luật lao động</option>
+                            <option>Quy trình</option>
+                            <option>Phân tích dữ liệu</option>
+                            <option>Digital Marketing</option>
+                            <option>B2B/B2C</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Cấp độ</label>
+                            <select id="d_level" class="form-select">
+                                <option>Cơ bản</option>
+                                <option>Trung cấp</option>
+                                <option>Chuyên gia</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Định dạng file</label>
+                            <select id="d_type" class="form-select">
+                                <option>PDF</option>
+                                <option>DOCX</option>
+                                <option>XLSX</option>
+                                <option>PPT</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Quyền truy cập</label>
+                        <select id="d_access" class="form-select">
+                            <option value="VIEW_ONLY">Chỉ xem</option>
+                            <option value="DOWNLOAD_ALLOWED">Tải được</option>
+                            <option value="DEMO_30">Demo 30%</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Trạng thái lưu</label>
+                        <select id="d_status" class="form-select">
+                            <option value="PUBLISHED">✅ Xuất bản ngay</option>
+                            <option value="DRAFT">🗂 Lưu nháp</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <div id="toastContainer" class="toast-container"></div>
+    
+    <script src="../js/data.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/tracker.js"></script>
+    <script src="../js/app.js"></script>
+    
+    <!-- Marked.js để parse Markdown sang HTML -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- Mammoth.js để đọc file Word -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+    <!-- Quill Library v2 -->
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => { 
+            initData();
+        });
+
+        // Khởi tạo Quill Editor với đầy đủ tính năng ảnh/định dạng
+        var toolbarOptions = [
+            ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+            ['blockquote', 'code-block'],
+            [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+            [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+            [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+            [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+            [{ 'align': [] }],
+            ['link', 'image', 'video'],
+            ['clean']                                         // remove formatting button
+        ];
+
+        var quill = new Quill('#editor-container', {
+            modules: {
+                toolbar: toolbarOptions,
+                table: true
+            },
+            placeholder: 'Nhập nội dung tài liệu ở đây, hỗ trợ dán văn bản và hình ảnh...',
+            theme: 'snow'
+        });
+
+        function saveDocument() {
+            const title = document.getElementById('d_title').value;
+            if (!title) {
+                showToast('error', 'Lỗi', 'Vui lòng nhập tiêu đề tài liệu');
+                return;
+            }
+
+            // Lấy nội dung HTML đã được định dạng
+            const content = quill.root.innerHTML;
+            const plainText = quill.getText();
+            
+            // Xử lý mô tả ngắn: nếu rỗng, lấy một đoạn từ nội dung
+            let desc = document.getElementById('d_desc').value;
+            if (!desc && plainText.trim().length > 0) {
+                desc = plainText.substring(0, 150) + '...';
+            }
+
+            const doc = {
+                doc_id: 'doc-' + Date.now(), 
+                title: title,
+                category: document.getElementById('d_cat').value, 
+                topic: document.getElementById('d_topic').value,
+                level: document.getElementById('d_level').value, 
+                industry: 'Đa ngành',
+                access_mode: document.getElementById('d_access').value, 
+                status: document.getElementById('d_status').value, 
+                version: 1,
+                file_type: document.getElementById('d_type').value, 
+                tags: [],
+                description: desc,
+                pages: 1, // Mặc định
+                size: '—', 
+                view_count: 0, 
+                download_count: 0,
+                published_at: new Date().toISOString().split('T')[0],
+                updated_at: new Date().toISOString().split('T')[0],
+                content_preview: content
+            };
+
+            const docs = getAllDocuments(); 
+            docs.unshift(doc); // Thêm lên đầu danh sách
+            saveDocuments(docs);
+            
+            showToast('success', 'Thành công', 'Đã lưu tài liệu mới');
+            setTimeout(() => {
+                window.location.href = 'documents.html';
+            }, 1000);
+        }
+
+        // --- Xử lý chức năng Import Nhiều Định Dạng ---
+        function handleFileUpload(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const ext = file.name.substring(file.name.lastIndexOf('.')).toLowerCase();
+            const fileNameWithoutExt = file.name.replace(ext, '');
+            
+            // Gán tự động vào ô Title
+            const titleEl = document.getElementById('d_title');
+            if(!titleEl.value) { titleEl.value = fileNameWithoutExt; }
+            
+            showToast('success', 'Đang xử lý...', `Hệ thống đang trích xuất nội dung từ ${file.name}`);
+
+            if (ext === '.docx') {
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    const arrayBuffer = evt.target.result;
+                    // Xử lý DOCX thông qua Mammoth
+                    mammoth.convertToHtml({arrayBuffer: arrayBuffer})
+                        .then(function(result){
+                            const html = result.value; 
+                            quill.clipboard.dangerouslyPasteHTML(html);
+                            showToast('success', 'Import thành công', 'File Word đã được chuyển đổi sang Editor thành công!');
+                        })
+                        .catch(function(err){
+                            showToast('error', 'Lỗi File Word', 'Không thể trích xuất do lỗi định dạng.');
+                        });
+                };
+                reader.readAsArrayBuffer(file);
+            } 
+            else if (ext === '.md') {
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    const mdContent = evt.target.result;
+                    marked.setOptions({ gfm: true, breaks: true });
+                    const htmlContent = marked.parse(mdContent);
+                    quill.clipboard.dangerouslyPasteHTML(htmlContent);
+                    showToast('success', 'Import thành công', 'File Markdown đã được chuyển đổi sang HTML');
+                };
+                reader.readAsText(file);
+            }
+            else if (ext === '.html') {
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    quill.clipboard.dangerouslyPasteHTML(evt.target.result);
+                    showToast('success', 'Import thành công', 'Mã HTML vừa được xử lý thành văn bản.');
+                };
+                reader.readAsText(file);
+            }
+            else {
+                showToast('error', 'Không hỗ trợ', 'Định dạng chưa được hỗ trợ, vui lòng sử dụng Markdown hoặc Docx.');
+            }
+            
+            e.target.value = '';
+        }
+    </script>
+</body>
+
+</html>

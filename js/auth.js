@@ -9,14 +9,19 @@ const OTP_TTL = 5 * 60 * 1000;
 const MAX_RESEND = 3;
 
 function isLoggedIn() {
-    const s = getSession(); return s && s.expires > Date.now();
+    // Để tích hợp với Phễu Landing Page: Chỉ đăng nhập khi có Session
+    return !!getSession(); 
 }
 function getSession() {
     try { return JSON.parse(localStorage.getItem(AUTH_KEY)); } catch { return null; }
 }
 function getCurrentUser() {
-    const s = getSession(); if (!s) return null;
-    return getAllUsers().find(u => u.user_id === s.user_id) || null;
+    // Trả về thông tin user dựa trên session đang hoạt động
+    const s = getSession(); 
+    if (s) {
+        return getAllUsers().find(u => u.user_id === s.user_id) || null;
+    } 
+    return null;
 }
 function saveSession(user) {
     localStorage.setItem(AUTH_KEY, JSON.stringify({
@@ -86,6 +91,20 @@ function updateUserProfile(userId, updates) {
     if (idx === -1) return null;
     users[idx] = { ...users[idx], ...updates, last_active: new Date().toISOString() };
     saveUsers(users); return users[idx];
+}
+
+// Xử lý Form Thu Thập Lead trực tiếp (Không cần OTP cho phễu Landing Page)
+function captureLead(name, phone, position, email) {
+    if (!name || !email) return { ok: false, error: 'Thiếu thông tin bắt buộc' };
+    
+    // Gọi hàm Upsert: Sẽ tạo mới nếu Email chưa có, nếu Email đã có thì Update (không cần Pass)
+    const user = upsertUser({ name, phone, email, position });
+    
+    // Đăng nhập tự động ngay tại thiết bị lấy Form
+    saveSession(user);
+    
+    console.log(`%c[Lead Captured] Ghi nhận ${name} (${email})`, 'background:#10b981;color:#fff;padding:4px 8px;border-radius:4px;font-weight:bold;');
+    return { ok: true, user };
 }
 function updateHeaderUI() {
     const loginBtn = document.getElementById('loginBtn');

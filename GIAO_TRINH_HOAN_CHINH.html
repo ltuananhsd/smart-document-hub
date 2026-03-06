@@ -1,0 +1,2984 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='utf-8'>
+
+<style>
+    body { font-family: "Helvetica Neue", Arial, sans-serif; line-height: 1.6; color: #333; margin: 40px; }
+    h1, h2, h3 { color: #1a4971; margin-top: 1.2em; font-weight: 600; }
+    h1 { font-size: 24pt; text-align: center; margin-bottom: 2em; }
+    h2 { font-size: 18pt; border-bottom: 1px solid #ddd; padding-bottom: 0.3em; margin-bottom: 1em; }
+    h3 { font-size: 14pt; }
+    p { margin-bottom: 1em; font-size: 11pt; }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 1em; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; font-size: 10pt; }
+    th { background-color: #f5f5f5; font-weight: bold; }
+    code { font-family: "Courier New", monospace; font-size: 10pt; background-color: #f7f7f9; padding: 2px 4px; border-radius: 3px; }
+    pre { background-color: #f5f7f9; padding: 15px; border: 1px solid #e1e4e8; border-radius: 5px; overflow-x: auto; margin-bottom: 1em; }
+    pre code { background-color: transparent; border: none; padding: 0; }
+    blockquote { border-left: 4px solid #1a4971; padding-left: 15px; color: #555; font-style: italic; background-color: #f9f9f9; padding: 10px; margin-left: 0; margin-bottom: 1em; }
+    img { max-width: 100%; height: auto; display: block; margin: 15px 0; border: 1px solid #ddd; border-radius: 5px; }
+</style>
+
+</head>
+<body>
+<h1>📖 30 NGÀY LÀM CHỦ ANTIGRAVITY</h1>
+<h3>X10 Hiệu Suất · Vibe Coding · Tự Động Hóa</h3>
+<p><strong>Mục lục — 9 files</strong></p>
+<hr />
+<h2>🗂️ Cấu trúc bộ sách</h2>
+<pre><code>30-ngay-lam-chu-antigravity/
+├── INDEX.md                 ← File này
+├── LOI-MO-DAU.md            ← Câu chuyện, cam kết, cài đặt
+├── HUONG-DAN-GIAO-DIEN.md   ← ★ Làm quen giao diện (đọc trước Ngày 1!)
+├── TUAN-1.md                ← Ngày 1-7:  Nền tảng
+├── TUAN-2.md                ← Ngày 8-14: Tăng tốc
+├── TUAN-3.md                ← Ngày 15-21: Vibe Coding
+├── TUAN-4.md                ← Ngày 22-30: Làm chủ
+├── BO-SUNG-TUAN-1-2.md      ← Kiến trúc: ANTIGRAVITY.md + SKILL.md
+└── BO-SUNG-TUAN-4.md        ← Kiến trúc: Agent/Workflow + MCP
+</code></pre>
+<hr />
+<h2>📐 HUONG-DAN-GIAO-DIEN.md — Nội dung chính (đọc ngày 0)</h2>
+<table>
+<thead>
+<tr>
+<th>Phần</th>
+<th>Nội dung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1 · Workspace &amp; Explorer</strong></td>
+<td>Tạo workspace, quản lý file/thư mục, tìm kiếm</td>
+</tr>
+<tr>
+<td><strong>2 · Editor &amp; Preview</strong></td>
+<td>Xem kết quả HTML, Artifacts, quản lý Tabs</td>
+</tr>
+<tr>
+<td><strong>3 · Chat Panel</strong></td>
+<td>Nhập prompt, đính kèm file, @mention, lịch sử, gọi /workflow</td>
+</tr>
+<tr>
+<td><strong>4 · Lựa chọn Model</strong></td>
+<td>Flash/Pro/Sonnet/Opus — khi nào dùng cái nào</td>
+</tr>
+<tr>
+<td><strong>5 · Terminal</strong></td>
+<td>Để AI dùng — bạn chỉ đọc output đỏ khi có lỗi</td>
+</tr>
+<tr>
+<td><strong>6 · Settings</strong></td>
+<td>Ngôn ngữ, model mặc định, font, shortcuts</td>
+</tr>
+<tr>
+<td><strong>7 · Quy trình hàng ngày</strong></td>
+<td>Layout, thói quen, 5 tình huống thường gặp</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>🏗️ 4 Tầng Kiến Trúc dự án</h2>
+<table>
+<thead>
+<tr>
+<th>Tầng</th>
+<th>File</th>
+<th>Ngày</th>
+<th>Xem thêm</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 · Instruction</td>
+<td><code>ANTIGRAVITY.md</code></td>
+<td><strong>Ngày 3 ★</strong></td>
+<td><code>BO-SUNG-TUAN-1-2</code></td>
+</tr>
+<tr>
+<td>2 · Skills</td>
+<td><code>SKILL.md</code></td>
+<td><strong>Ngày 8 ★</strong></td>
+<td><code>BO-SUNG-TUAN-1-2</code></td>
+</tr>
+<tr>
+<td>3 · Agent</td>
+<td>Workflows <code>.agents/</code></td>
+<td><strong>Ngày 22-23 ★</strong></td>
+<td><code>BO-SUNG-TUAN-4</code></td>
+</tr>
+<tr>
+<td>4 · MCP</td>
+<td><code>settings.json</code> + servers</td>
+<td><strong>Ngày 25 ★</strong></td>
+<td><code>BO-SUNG-TUAN-4</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>🗓️ Bản đồ 30 ngày</h2>
+<table>
+<thead>
+<tr>
+<th>Tuần</th>
+<th>Ngày</th>
+<th>Chủ đề</th>
+<th>Kỹ năng</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Ngày 0</strong></td>
+<td>—</td>
+<td><strong>HUONG-DAN-GIAO-DIEN ★</strong></td>
+<td>Toàn bộ giao diện UI</td>
+</tr>
+<tr>
+<td><strong>1</strong></td>
+<td>1</td>
+<td>Gặp gỡ AI</td>
+<td>Agent concept</td>
+</tr>
+<tr>
+<td></td>
+<td>2</td>
+<td>Prompt C.L.E.A.R</td>
+<td>Viết prompt hiệu quả</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>3 ★</strong></td>
+<td>ANTIGRAVITY.md (Tầng 1)</td>
+<td>8 phần, cấu trúc, settings</td>
+</tr>
+<tr>
+<td></td>
+<td>4</td>
+<td>Văn bản</td>
+<td>Tóm tắt, chuyển đổi</td>
+</tr>
+<tr>
+<td></td>
+<td>5</td>
+<td>Dữ liệu</td>
+<td>Data Dump &amp; Ask</td>
+</tr>
+<tr>
+<td></td>
+<td>6</td>
+<td>Nghiên cứu</td>
+<td>Báo cáo nhanh</td>
+</tr>
+<tr>
+<td></td>
+<td>7</td>
+<td>Review</td>
+<td>AI-First mindset</td>
+</tr>
+<tr>
+<td><strong>2</strong></td>
+<td><strong>8 ★</strong></td>
+<td>SKILL.md (Tầng 2)</td>
+<td>Kỹ năng chuyên môn</td>
+</tr>
+<tr>
+<td></td>
+<td>9</td>
+<td>Meeting</td>
+<td>Agenda, MoM</td>
+</tr>
+<tr>
+<td></td>
+<td>10</td>
+<td>Email</td>
+<td>Inbox Zero</td>
+</tr>
+<tr>
+<td></td>
+<td>11</td>
+<td>Templates</td>
+<td>Tái sử dụng</td>
+</tr>
+<tr>
+<td></td>
+<td>12</td>
+<td>Dự án</td>
+<td>Planning</td>
+</tr>
+<tr>
+<td></td>
+<td>13</td>
+<td>Trình bày</td>
+<td>SCQA → Slides</td>
+</tr>
+<tr>
+<td></td>
+<td>14</td>
+<td>ROI</td>
+<td>Đo impact</td>
+</tr>
+<tr>
+<td><strong>3</strong></td>
+<td>15</td>
+<td>Vibe Coding</td>
+<td>PM mindset</td>
+</tr>
+<tr>
+<td></td>
+<td>16-18</td>
+<td>3 Apps</td>
+<td>Dashboard/Form/Calculator</td>
+</tr>
+<tr>
+<td></td>
+<td>19-20</td>
+<td>UX + Multi-page</td>
+<td>Nâng cấp giao diện</td>
+</tr>
+<tr>
+<td></td>
+<td>21</td>
+<td>Capstone</td>
+<td>App hoàn chỉnh</td>
+</tr>
+<tr>
+<td><strong>4</strong></td>
+<td><strong>22-23 ★</strong></td>
+<td>Agent &amp; Workflow (Tầng 3)</td>
+<td>Anatomy, templates</td>
+</tr>
+<tr>
+<td></td>
+<td>24</td>
+<td>Import/Export</td>
+<td>Dữ liệu thực</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>25 ★</strong></td>
+<td>MCP (Tầng 4)</td>
+<td>Drive, Gmail, Slack</td>
+</tr>
+<tr>
+<td></td>
+<td>26-27</td>
+<td>Digital Twin + Chia sẻ</td>
+<td>Nhân rộng</td>
+</tr>
+<tr>
+<td></td>
+<td>28-29</td>
+<td>Agent + Deploy</td>
+<td>Tự chủ + Internet</td>
+</tr>
+<tr>
+<td></td>
+<td>30</td>
+<td>Tốt nghiệp</td>
+<td>Kế hoạch 90 ngày</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>⚡ Quick Start</h2>
+<table>
+<thead>
+<tr>
+<th>Mục tiêu</th>
+<th>Đọc ngay</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Làm quen giao diện</td>
+<td><code>HUONG-DAN-GIAO-DIEN.md</code></td>
+</tr>
+<tr>
+<td>AI hiểu đúng công việc</td>
+<td>Ngày 3 + <code>BO-SUNG-TUAN-1-2</code></td>
+</tr>
+<tr>
+<td>Kỹ năng chuyên môn</td>
+<td>Ngày 8 + SKILL.md</td>
+</tr>
+<tr>
+<td>Tự động hoá quy trình</td>
+<td>Ngày 22-23 + <code>BO-SUNG-TUAN-4</code></td>
+</tr>
+<tr>
+<td>Kết nối Drive/Gmail</td>
+<td>Ngày 25 (MCP)</td>
+</tr>
+<tr>
+<td>Tạo app ngay</td>
+<td>Ngày 15-18</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<blockquote>
+<p><em>"Bạn không cần biết lập trình. Bạn chỉ cần biết chính xác điều bạn muốn."</em></p>
+</blockquote>
+<p><em>Bắt đầu: <code>LOI-MO-DAU.md</code> → <code>HUONG-DAN-GIAO-DIEN.md</code> → <code>TUAN-1.md</code> 🚀</em></p>
+<h1>30 NGÀY LÀM CHỦ ANTIGRAVITY</h1>
+<h2>X10 Hiệu Suất Công Việc Văn Phòng · Vibe Coding · Tự Động Hóa Công Việc</h2>
+<hr />
+<blockquote>
+<p><em>"Kỹ năng tương lai không phải là biết lập trình —</em><br />
+<em>mà là biết cách nói chuyện với AI để nó lập trình thay bạn."</em></p>
+</blockquote>
+<hr />
+<h2>LỜI MỞ ĐẦU</h2>
+<h3>Câu chuyện của một nhân viên bình thường</h3>
+<p>Hãy tưởng tượng bạn là Minh — trưởng nhóm hành chính của một công ty 200 người. Mỗi sáng thứ Hai, Minh mất gần 3 tiếng đồng hồ chỉ để tổng hợp báo cáo tuần từ 8 phòng ban khác nhau, copy-paste vào Excel, format lại và gửi email cho sếp. Công việc nhàm chán, lặp đi lặp lại, và cảm giác mình đang lãng phí thời gian làm những thứ không ai nhớ ơn.</p>
+<p>Rồi một ngày, Minh phát hiện ra Antigravity.</p>
+<p>Ba tuần sau, công việc báo cáo đó chỉ còn mất <strong>7 phút</strong>. Minh đã tạo một ứng dụng web nhỏ tự động tổng hợp dữ liệu, vẽ biểu đồ, và xuất ra file PDF chuyên nghiệp. Không viết một dòng code nào. Không học lập trình. Chỉ cần nói chuyện với AI bằng tiếng Việt.</p>
+<p>Minh dùng 2,5 tiếng còn lại đó để làm những việc thực sự quan trọng: gặp gỡ nhân viên, lên kế hoạch cải thiện quy trình, và — lần đầu tiên trong nhiều tháng — ra về đúng giờ.</p>
+<p><strong>Cuốn sách này được viết cho bạn — người đang ở vị trí của Minh ngày hôm đó.</strong></p>
+<hr />
+<h3>Cuốn sách này dành cho ai?</h3>
+<p>Cuốn sách này được viết đặc biệt cho bạn nếu bạn:</p>
+<ul>
+<li>Làm việc văn phòng: hành chính, kế toán, nhân sự, kinh doanh, marketing, vận hành...</li>
+<li>Không có nền tảng lập trình — và không có ý định học</li>
+<li>Cảm thấy mình đang mất quá nhiều thời gian cho các công việc lặp lại</li>
+<li>Tò mò về AI nhưng chưa biết bắt đầu từ đâu</li>
+<li>Muốn tạo ra công cụ/ứng dụng hỗ trợ công việc mà không cần nhờ IT</li>
+</ul>
+<hr />
+<h3>Bạn sẽ đạt được gì sau 30 ngày?</h3>
+<p><strong>Tuần 1 — Nền tảng:</strong> Làm quen Antigravity, viết prompt hiệu quả, tiết kiệm 1-2 giờ/ngày ngay từ ngày đầu tiên.</p>
+<p><strong>Tuần 2 — Tăng tốc:</strong> Tự động hoá các tác vụ lặp lại, xây dựng thư viện công cụ cá nhân, đạt trạng thái làm việc x3 hiệu suất.</p>
+<p><strong>Tuần 3 — Vibe Coding:</strong> Tạo ứng dụng web thực sự từ ý tưởng — dashboard, form nhập liệu, công cụ phân tích — không cần code.</p>
+<p><strong>Tuần 4 — Làm chủ:</strong> Kết nối mọi thứ lại, xây dựng hệ thống tự động hoá hoàn chỉnh, đạt trạng thái x10 hiệu suất.</p>
+<hr />
+<h3>Cách đọc cuốn sách này</h3>
+<p>Mỗi ngày gồm 4 phần:<br />
+- <strong>🧠 Bài học hôm nay</strong> — Khái niệm/kỹ năng cần nắm (đọc 5-10 phút)<br />
+- <strong>⚡ Thực hành ngay</strong> — Bài tập cụ thể, làm luôn trong ngày (15-30 phút)<br />
+- <strong>💡 Mẹo pro</strong> — Tip từ người dùng thực tế<br />
+- <strong>✅ Checkpoint</strong> — Tự kiểm tra xem đã đạt chưa</p>
+<p>Cam kết của bạn: <strong>30 phút mỗi ngày, liên tục 30 ngày.</strong> Chỉ vậy thôi.</p>
+<hr />
+<h3>Trước khi bắt đầu: Cài đặt môi trường</h3>
+<p><strong>Bước 1:</strong> Tải và cài đặt Antigravity</p>
+<pre><code>→ Truy cập: antigravity.google.com
+→ Đăng nhập bằng tài khoản Google
+→ Tải phiên bản dành cho Mac/Windows
+→ Cài đặt như phần mềm thông thường
+</code></pre>
+<p><strong>Bước 2:</strong> Tạo workspace đầu tiên</p>
+<pre><code>File → New Workspace → Đặt tên &quot;hoc-antigravity&quot; → Chọn thư mục Desktop
+</code></pre>
+<p><strong>Bước 3:</strong> Test kết nối</p>
+<pre><code>Gõ vào ô Chat: &quot;Chào! Hôm nay là ngày 1 của tôi. Hãy chào đón tôi!&quot;
+→ Nếu AI trả lời → Bạn đã sẵn sàng. Let's go! 🚀
+</code></pre>
+<hr />
+<p><em>Bây giờ, lật sang trang tiếp theo. Ngày 1 đang chờ bạn.</em></p>
+<h1>HƯỚNG DẪN SỬ DỤNG GIAO DIỆN ANTIGRAVITY</h1>
+<h2>Dành cho Nhân Viên Văn Phòng Non-Tech</h2>
+<h3>"Làm Chủ Từng Góc Màn Hình"</h3>
+<blockquote>
+<p><strong>Vị trí trong sách:</strong> Đọc sau <code>LOI-MO-DAU.md</code>, trước <code>TUAN-1.md</code><br />
+<strong>Thời gian đọc:</strong> 20-30 phút<br />
+<strong>Yêu cầu:</strong> Đã cài Antigravity và mở được workspace đầu tiên</p>
+</blockquote>
+<hr />
+<h2>TỔNG QUAN GIAO DIỆN — BỨC TRANH TOÀN CẢNH</h2>
+<p><img alt="Mockup Giao Diện Chính Antigravity" src="/Users/admin/.gemini/antigravity/brain/b8b7e196-774f-4758-a401-2be2c330f787/antigravity_main_ui_mockup_1772506050488.png" /></p>
+<p><em>Sơ đồ cấu trúc các thành phần chính:</em></p>
+<pre><code class="language-text">┌─────────────────────────────────────────────────────────────────┐
+│  [1] THANH TIÊU ĐỀ  ── File | Edit | View | Help   [2] MODEL  │
+├──────────────┬──────────────────────────┬────────────────────────┤
+│              │                          │                        │
+│ [3] EXPLORER │    [4] EDITOR / PREVIEW  │   [5] CHAT PANEL       │
+│              │                          │                        │
+│ 📁 Workspace │  Code / Trang web /      │  💬 Hỏi AI ở đây      │
+│ 📄 Files     │  Kết quả hiển thị        │                        │
+│ 🔍 Search    │  trực tiếp tại đây       │  [Artifacts]           │
+│              │                          │  [History]             │
+│              │                          │                        │
+├──────────────┴──────────────────────────┴────────────────────────┤
+│  [6] TERMINAL (ẩn/hiện)  ──  AI tự dùng, bạn không cần đụng vào │
+└─────────────────────────────────────────────────────────────────┘
+</code></pre>
+<p><strong>Quy tắc vàng cho người mới:</strong><br />
+- 👀 Bạn chú ý nhất: <strong>[5] Chat Panel</strong> và <strong>[4] Preview</strong><br />
+- 🤖 AI lo: <strong>[6] Terminal</strong> — không cần hiểu, không cần đụng<br />
+- 🗂️ Quản lý file: <strong>[3] Explorer</strong></p>
+<hr />
+<h2>PHẦN 1: QUẢN LÝ WORKSPACE &amp; THƯ MỤC</h2>
+<h3>1.1 Workspace là gì?</h3>
+<p><strong>Workspace</strong> = "Văn phòng ảo" nơi AI làm việc cùng bạn.<br />
+Mỗi dự án nên có 1 workspace riêng — giống như mở tab mới trên trình duyệt.</p>
+<pre><code>Ví dụ các workspace nên có:
+✅ &quot;bao-cao-kinh-doanh&quot;     ← Workspace riêng cho báo cáo KD
+✅ &quot;quan-ly-cong-van&quot;       ← Workspace riêng cho HC
+✅ &quot;du-an-crm-moi&quot;          ← Workspace của từng dự án
+✅ &quot;hoc-tap-ca-nhan&quot;        ← Workspace thực hành/thử nghiệm
+
+❌ Dùng chung 1 workspace cho tất cả mọi thứ → AI bị nhầm ngữ cảnh
+</code></pre>
+<h3>1.2 Tạo &amp; Mở Workspace</h3>
+<p><strong>Tạo workspace mới:</strong></p>
+<pre><code>Cách 1: File → Open Folder → Chọn thư mục dự án
+Cách 2: Kéo thả thư mục từ Finder/Explorer vào Antigravity
+Cách 3: Gõ lệnh trong Terminal: [Antigravity tự mở]
+</code></pre>
+<p><strong>Mở workspace đã có:</strong></p>
+<pre><code>File → Open Recent → Chọn tên workspace từ danh sách
+Hoặc: File → Open Folder → tìm đến thư mục
+</code></pre>
+<blockquote>
+<p>💡 <strong>Mẹo:</strong> Ghim workspace hay dùng vào "Favorites" (click phải → Add to Favorites) để mở nhanh hơn.</p>
+</blockquote>
+<h3>1.3 Explorer Panel — Quản Lý File &amp; Thư Mục</h3>
+<p><strong>Explorer</strong> là cột bên trái. Đây là "Cây thư mục" của dự án.</p>
+<pre><code>📁 ten-du-an/           ← Thư mục gốc (click để expand)
+├── 📄 ANTIGRAVITY.md   ← Double-click để mở và chỉnh sửa
+├── 📁 docs/            ← Click mũi tên để mở thư mục
+│   └── 📄 huong-dan.md
+├── 📁 .antigravity/    ← Thư mục ẩn (có thể bị ẩn mặc định)
+└── 📁 src/
+    └── 📄 index.html   ← File kết quả Vibe Coding
+</code></pre>
+<p><strong>Các thao tác cơ bản trong Explorer:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Thao tác</th>
+<th>Cách làm</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tạo file mới</td>
+<td>Click icon 📄 hoặc chuột phải → New File</td>
+</tr>
+<tr>
+<td>Tạo thư mục</td>
+<td>Click icon 📁 hoặc chuột phải → New Folder</td>
+</tr>
+<tr>
+<td>Đổi tên</td>
+<td>Click phải vào file → Rename (hoặc F2)</td>
+</tr>
+<tr>
+<td>Xoá file</td>
+<td>Click phải → Delete (cẩn thận!)</td>
+</tr>
+<tr>
+<td>Mở file</td>
+<td>Double-click</td>
+</tr>
+<tr>
+<td>Copy đường dẫn</td>
+<td>Click phải → Copy Path</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Hiện file ẩn (<code>.antigravity</code>, <code>.agents</code>):</strong></p>
+<pre><code>View → Show Hidden Files (hoặc Ctrl+Shift+. trên Mac)
+</code></pre>
+<h3>1.4 Tìm kiếm trong dự án</h3>
+<p><strong>Tìm file theo tên:</strong></p>
+<pre><code>Ctrl+P (Mac: Cmd+P) → Gõ tên file → Press Enter
+</code></pre>
+<p><strong>Tìm nội dung trong file:</strong></p>
+<pre><code>Ctrl+Shift+F (Mac: Cmd+Shift+F) → Gõ từ khoá → Enter
+</code></pre>
+<p><strong>Tìm bằng AI (mạnh hơn):</strong></p>
+<pre><code>Gõ vào Chat: &quot;Tìm file nào có chứa thông tin về [chủ đề X]&quot;
+→ AI sẽ tìm và chỉ ra đúng file + dòng cần xem
+</code></pre>
+<hr />
+<h2>PHẦN 2: EDITOR &amp; KHU VỰC HIỂN THỊ KẾT QUẢ</h2>
+<h3>2.1 Editor là gì?</h3>
+<p>Vùng giữa màn hình = <strong>Editor</strong> — nơi hiển thị nội dung file và kết quả.</p>
+<p><strong>3 chế độ hiển thị quan trọng:</strong></p>
+<pre><code>[Code View]     ← Xem code/text thuần (mặc định khi mở .md, .json)
+[Preview]       ← Xem kết quả render (quan trọng với .html, .md)
+[Split View]    ← Xem cả Code và Preview cùng lúc (recommend!)
+</code></pre>
+<p><strong>Chuyển chế độ:</strong><br />
+- Nhấn icon <strong>Preview</strong> (mắt 👁️) ở góc trên phải Editor<br />
+- Hoặc Click phải tab → Split Editor Right</p>
+<h3>2.2 Xem kết quả HTML (Vibe Coding)</h3>
+<p>Khi AI tạo file <code>.html</code>, bạn muốn xem ngay trên màn hình:</p>
+<p><strong>Cách 1 — Preview trong Antigravity:</strong></p>
+<pre><code>1. AI tạo xong file index.html
+2. Click file → nó mở trong Editor
+3. Click icon Preview (👁️) ở góc trên phải
+4. Thấy webpage xuất hiện ngay bên phải!
+</code></pre>
+<p><strong>Cách 2 — Mở trong trình duyệt thật:</strong></p>
+<pre><code>1. Click phải file .html trong Explorer
+2. Chọn &quot;Reveal in Finder&quot; (Mac) / &quot;Open in Explorer&quot; (Windows)
+3. Double-click file → Mở trong Chrome/Edge
+</code></pre>
+<p><strong>Cách 3 — AI mở browser tự động:</strong></p>
+<pre><code>Gõ: &quot;Hãy preview file vừa tạo trong browser&quot;
+→ AI Agent tự mở browser, chụp screenshot, gửi lại cho bạn xem
+</code></pre>
+<h3>2.3 Artifacts — Kết quả được lưu thành file</h3>
+<p>Mỗi khi AI tạo ra một file quan trọng, nó xuất hiện trong <strong>Artifacts Panel</strong> (tab bên phải Chat):</p>
+<pre><code>📎 ARTIFACTS
+├── index.html          ← App vừa tạo
+├── bao-cao-thang2.md   ← Báo cáo vừa viết  
+└── phan-tich.json      ← Dữ liệu đã phân tích
+</code></pre>
+<p><strong>Các action với Artifact:</strong><br />
+- <strong>Open</strong> → Mở trong Editor<br />
+- <strong>Save</strong> → Lưu vào thư mục cụ thể<br />
+- <strong>Copy</strong> → Copy nội dung vào clipboard<br />
+- <strong>Download</strong> → Tải về máy</p>
+<blockquote>
+<p>💡 Artifacts là nơi AI "trả hàng" cho bạn. Kiểm tra đây trước khi hỏi "AI có làm xong chưa?"</p>
+</blockquote>
+<h3>2.4 Tabs — Mở nhiều file cùng lúc</h3>
+<pre><code>[ANTIGRAVITY.md] [index.html] [bao-cao.md] [+]
+      ↑                                      ↑
+  Tab đang mở                          Mở tab mới
+</code></pre>
+<p><strong>Shortcuts quan trọng:</strong><br />
+- <code>Ctrl+W</code> — Đóng tab hiện tại<br />
+- <code>Ctrl+Tab</code> — Chuyển giữa các tab<br />
+- <code>Ctrl+1/2/3</code> — Nhảy đến tab thứ 1, 2, 3</p>
+<hr />
+<h2>PHẦN 3: CHAT PANEL — TRUNG TÂM ĐIỀU HÀNH</h2>
+<h3>3.1 Anatomy của Chat Panel</h3>
+<p><img alt="Mockup Giao Diện Chat Panel" src="/Users/admin/.gemini/antigravity/brain/b8b7e196-774f-4758-a401-2be2c330f787/antigravity_chat_ui_mockup_1772506069630.png" /></p>
+<p><em>Cấu trúc chi tiết của Chat Panel:</em></p>
+<pre><code class="language-text">┌─────────────────────────────────────────┐
+│ 💬 Chat                    [New Chat +] │  ← Tạo cuộc trò chuyện mới
+├─────────────────────────────────────────┤
+│                                         │
+│  🤖 AI: Xin chào! Tôi có thể giúp      │  ← Tin nhắn của AI
+│         gì cho bạn hôm nay?            │
+│                                         │
+│  👤 Bạn: Tạo báo cáo tuần cho tôi      │  ← Tin nhắn của bạn
+│                                         │
+│  🤖 AI: [đang xử lý...]                 │  ← Trạng thái thinking
+│  ⚙️  Agent đang chạy bước 2/5...        │  ← Tiến trình Agent
+│                                         │
+├─────────────────────────────────────────┤
+│ 📎 [Attach] [/workflow] [@file]         │  ← Shortcuts
+│ ┌─────────────────────────────────────┐ │
+│ │ Nhập câu hỏi hoặc lệnh...          │ │  ← Ô nhập
+│ └─────────────────────────────────────┘ │
+│                              [Send ↵]  │
+└─────────────────────────────────────────┘
+</code></pre>
+<h3>3.2 Nhập nội dung vào Chat</h3>
+<p><strong>Nhập văn bản thông thường:</strong></p>
+<pre><code>Gõ câu hỏi/yêu cầu → Enter để gửi
+Shift+Enter → Xuống dòng mà không gửi
+</code></pre>
+<p><strong>Nhập nhiều dòng (Prompt dài):</strong></p>
+<pre><code>Shift+Enter để xuống dòng
+→ Thích hợp cho prompt C.L.E.A.R nhiều bước
+→ Gõ xong nhấn Enter hoặc click nút Send
+</code></pre>
+<p><strong>Paste dữ liệu lớn (Excel, bảng, log...):</strong></p>
+<pre><code>Ctrl+V → Paste trực tiếp vào ô chat
+→ AI nhận diện tự động: bảng / JSON / CSV / text
+→ Dữ liệu lớn: AI sẽ thông báo nếu vượt giới hạn
+</code></pre>
+<p><strong>Đính kèm file:</strong></p>
+<pre><code>Cách 1: Click icon 📎 (Attach) → Chọn file
+Cách 2: Kéo thả file từ Explorer vào ô chat
+Cách 3: Gõ @ten-file để reference file trong workspace
+</code></pre>
+<p><strong>Tham chiếu file trong workspace:</strong></p>
+<pre><code>Gõ @ → Danh sách file xuất hiện → Chọn file cần tham chiếu
+
+Ví dụ: &quot;Hãy đọc @ANTIGRAVITY.md và cập nhật phần quy trình&quot;
+→ AI tự đọc file đó mà không cần bạn paste nội dung
+</code></pre>
+<h3>3.3 Quản lý lịch sử Chat</h3>
+<p><strong>Chat History</strong> — mỗi cuộc trò chuyện được lưu tự động:</p>
+<pre><code>📜 HISTORY
+├── Hôm nay
+│   ├── &quot;Tạo dashboard KPI&quot; (10:30)
+│   └── &quot;Phân tích báo cáo T2&quot; (09:15)
+├── Hôm qua
+│   └── &quot;Setup ANTIGRAVITY.md&quot; (16:45)
+└── Tuần trước
+    └── &quot;Tạo app quản lý công văn&quot; (...)
+</code></pre>
+<p><strong>Tìm kiếm trong lịch sử:</strong></p>
+<pre><code>Click icon 🔍 trên History panel → Gõ từ khoá
+→ Tìm lại các cuộc trò chuyện theo nội dung
+</code></pre>
+<p><strong>Khi nào nên tạo New Chat:</strong></p>
+<pre><code>✅ Bắt đầu dự án/tác vụ hoàn toàn mới
+✅ Khi context cũ gây nhầm lẫn (AI &quot;nhớ&quot; sai)
+✅ Sau khi mở workspace khác
+
+❌ Không cần New Chat khi chỉ hỏi thêm về cùng chủ đề
+</code></pre>
+<p><strong>Khi nào tiếp tục Chat cũ:</strong></p>
+<pre><code>✅ Cùng một dự án, hỏi thêm chi tiết
+✅ Yêu cầu chỉnh sửa kết quả vừa tạo
+✅ Theo dõi tiến độ công việc đang làm
+</code></pre>
+<h3>3.4 Gọi Workflow từ Chat</h3>
+<pre><code>Gõ / → Danh sách workflow xuất hiện:
+  /bao-cao-tuan       ← Báo cáo tuần
+  /phan-tich-nhanh    ← Phân tích data
+  /kiem-tra-chat-luong← Review văn bản
+  /tao-proposal       ← Tạo đề xuất
+
+→ Click hoặc Enter để chạy
+</code></pre>
+<blockquote>
+<p>💡 Nhấn <code>/</code> bất cứ lúc nào để xem danh sách workflow bạn đã tạo.</p>
+</blockquote>
+<h3>3.5 Điều hướng Agent Task</h3>
+<p>Khi AI Agent đang chạy nhiệm vụ phức tạp, bạn thấy:</p>
+<p><img alt="Mockup Giao Diện Điều Hướng Workflow &amp; Agent" src="/Users/admin/.gemini/antigravity/brain/b8b7e196-774f-4758-a401-2be2c330f787/antigravity_workflow_mockup_1772506085075.png" /></p>
+<p><em>Giao diện trạng thái Agent:</em></p>
+<pre><code class="language-text">⚙️ Agent đang thực hiện:
+   ✅ Bước 1: Đọc ANTIGRAVITY.md
+   ✅ Bước 2: Phân tích dữ liệu  
+   🔄 Bước 3: Tạo dashboard HTML... (đang chạy)
+   ⏳ Bước 4: Kiểm tra kết quả (chờ)
+   ⏳ Bước 5: Xuất PDF (chờ)
+
+[Pause]  [Cancel]  [View Details]
+</code></pre>
+<p><strong>Tương tác với Agent đang chạy:</strong><br />
+- <strong>Pause</strong> → Tạm dừng, bạn xem và phê duyệt trước khi tiếp<br />
+- <strong>Cancel</strong> → Dừng hẳn (không undo được hành động đã làm)<br />
+- <strong>View Details</strong> → Xem chi tiết AI đang làm gì<br />
+- <strong>Inline comment</strong> → Click vào bước đang chạy → Thêm hướng dẫn</p>
+<blockquote>
+<p>⚠️ <strong>Quan trọng:</strong> Nếu Agent làm sai hướng → <strong>Pause ngay</strong> và nói điều chỉnh. Đừng để chạy hết rồi mới sửa — tốn thời gian hơn.</p>
+</blockquote>
+<hr />
+<h2>PHẦN 4: LỰA CHỌN MODEL — ĐÚNG CÔNG CỤ ĐÚNG VIỆC</h2>
+<h3>4.1 Các Model có trong Antigravity</h3>
+<pre><code>┌─────────────────────────────────────────────────────┐
+│  MODEL SELECTOR                               [▼]   │
+├─────────────────────────────────────────────────────┤
+│  ● Gemini 3.1 Pro       ← Mặc định, đa năng        │
+│  ○ Gemini 3 Flash       ← Nhanh hơn, nhẹ hơn       │
+│  ○ Claude Sonnet 4.6    ← Viết lách, phân tích      │
+│  ○ Claude Opus 4.6      ← Phức tạp nhất, chậm nhất  │
+│  ○ Custom Model...      ← Thêm model khác           │
+└─────────────────────────────────────────────────────┘
+</code></pre>
+<h3>4.2 Khi nào dùng model nào?</h3>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Tốc độ</th>
+<th>Độ sâu</th>
+<th>Phù hợp nhất</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Gemini Flash</strong></td>
+<td>⚡⚡⚡</td>
+<td>⭐⭐</td>
+<td>Tác vụ nhanh, draft đầu tiên, câu hỏi đơn giản</td>
+</tr>
+<tr>
+<td><strong>Gemini Pro</strong></td>
+<td>⚡⚡</td>
+<td>⭐⭐⭐⭐</td>
+<td><strong>Đa năng nhất</strong> — 90% công việc hàng ngày</td>
+</tr>
+<tr>
+<td><strong>Claude Sonnet</strong></td>
+<td>⚡⚡</td>
+<td>⭐⭐⭐⭐</td>
+<td>Viết văn bản sáng tạo, phân tích tài liệu dài</td>
+</tr>
+<tr>
+<td><strong>Claude Opus</strong></td>
+<td>⚡</td>
+<td>⭐⭐⭐⭐⭐</td>
+<td>Tác vụ phức tạp đặc biệt, lý luận nhiều bước</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Hướng dẫn chọn model theo tình huống:</strong></p>
+<pre><code>📝 Soạn email, tóm tắt, format đơn giản
+→ Gemini Flash (nhanh, đủ dùng)
+
+📊 Phân tích dữ liệu, tạo báo cáo, vibe coding
+→ Gemini Pro (mặc định, cân bằng)
+
+✍️ Viết đề xuất, báo cáo dài, sáng tạo nội dung
+→ Claude Sonnet (viết llưu loát hơn)
+
+🧠 Phân tích chiến lược phức tạp, tính toán nhiều bước
+→ Claude Opus (chất lượng cao nhất, dùng khi thật sự cần)
+</code></pre>
+<blockquote>
+<p>💡 <strong>Mẹo thực tế:</strong> Bắt đầu với <strong>Gemini Pro</strong> cho mọi việc. Chỉ chuyển model khi kết quả chưa đạt yêu cầu sau 2-3 lần thử.</p>
+</blockquote>
+<h3>4.3 Thay đổi Model trong lúc chat</h3>
+<pre><code>Cách 1: Click tên model ở góc trên → Chọn model khác
+Cách 2: Trong ô chat gõ: &quot;Chuyển sang Claude Sonnet và thử lại&quot;
+Cách 3: Mở Settings → Default Model → Chọn model mặc định
+</code></pre>
+<p><strong>Thay đổi model không ảnh hưởng đến lịch sử chat</strong> — AI model mới vẫn đọc được toàn bộ cuộc trò chuyện trước đó.</p>
+<h3>4.4 Context Window — Giới hạn "bộ nhớ ngắn hạn"</h3>
+<p><strong>Context window</strong> = Lượng thông tin AI có thể "nhớ" trong 1 cuộc chat.</p>
+<pre><code>Antigravity (Gemini): 2,000,000 tokens ← Rất lớn!
+Tương đương: ~1,500 cuốn sách 200 trang
+
+Thực tế: Đủ để chứa toàn bộ codebase hàng trăm file
+→ Bạn hầu như KHÔNG BAO GIỜ bị giới hạn vì context
+</code></pre>
+<p><strong>Khi nào bị warning về context:</strong></p>
+<pre><code>⚠️ &quot;Cuộc trò chuyện quá dài, đề nghị tóm tắt&quot;
+→ Giải pháp: &quot;Hãy tóm tắt những gì đã làm và tiếp tục&quot;
+→ Hoặc: Tạo New Chat, cung cấp lại ANTIGRAVITY.md
+</code></pre>
+<hr />
+<h2>PHẦN 5: SETTINGS — CẤU HÌNH THEO Ý BẠN</h2>
+<h3>5.1 Mở Settings</h3>
+<pre><code>File → Preferences → Settings
+Hoặc: Ctrl+, (Mac: Cmd+,)
+</code></pre>
+<h3>5.2 Các cài đặt quan trọng nhất</h3>
+<p><strong>Ngôn ngữ mặc định:</strong></p>
+<pre><code class="language-json">&quot;antigravity.language&quot;: &quot;vi&quot;,
+&quot;antigravity.responseLanguage&quot;: &quot;Vietnamese&quot;
+</code></pre>
+<p><strong>Model mặc định:</strong></p>
+<pre><code class="language-json">&quot;antigravity.defaultModel&quot;: &quot;gemini-3.1-pro&quot;
+</code></pre>
+<p><strong>Auto-save:</strong></p>
+<pre><code class="language-json">&quot;files.autoSave&quot;: &quot;afterDelay&quot;,
+&quot;files.autoSaveDelay&quot;: 1000
+</code></pre>
+<p><strong>Font size (nếu khó đọc):</strong></p>
+<pre><code class="language-json">&quot;editor.fontSize&quot;: 14
+</code></pre>
+<p><strong>Theme (màu sắc giao diện):</strong></p>
+<pre><code>Color Theme → Dark Modern (recommend)
+             Light Modern
+             Dark+ (tối giản)
+</code></pre>
+<h3>5.3 Keyboard Shortcuts quan trọng</h3>
+<table>
+<thead>
+<tr>
+<th>Phím tắt</th>
+<th>Chức năng</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Ctrl+Shift+P</code></td>
+<td>Command Palette — tìm mọi lệnh</td>
+</tr>
+<tr>
+<td><code>Ctrl+/</code></td>
+<td>Focus vào Chat</td>
+</tr>
+<tr>
+<td><code>Ctrl+P</code></td>
+<td>Quick Open file</td>
+</tr>
+<tr>
+<td><code>Ctrl+Z</code></td>
+<td>Undo chỉnh sửa file</td>
+</tr>
+<tr>
+<td><code>Ctrl+S</code></td>
+<td>Lưu file đang mở</td>
+</tr>
+<tr>
+<td>`Ctrl+``</td>
+<td>Mở/đóng Terminal</td>
+</tr>
+<tr>
+<td><code>Ctrl+B</code></td>
+<td>Ẩn/hiện Explorer</td>
+</tr>
+<tr>
+<td><code>Ctrl+J</code></td>
+<td>Ẩn/hiện panel dưới</td>
+</tr>
+<tr>
+<td><code>F11</code></td>
+<td>Toàn màn hình</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>PHẦN 6: TERMINAL — GÓC NÀY ĐỂ AI LÀM VIỆC</h2>
+<h3>6.1 Terminal là gì và tại sao có nó?</h3>
+<p>Terminal (cột / thanh dưới cùng) là nơi AI <strong>tự động chạy lệnh</strong> — cài thư viện, chạy server, kiểm tra file...</p>
+<p><strong>Nguyên tắc cho nhân viên văn phòng:</strong></p>
+<pre><code>✅ Quan sát để biết AI đang làm gì
+✅ Đọc output màu đỏ (lỗi) để báo lại cho AI
+❌ Không tự gõ lệnh nếu không hiểu
+❌ Không đóng Terminal khi AI đang chạy
+</code></pre>
+<h3>6.2 Đọc hiểu output Terminal</h3>
+<pre><code>$ npm install          ← Lệnh AI đang chạy (bắt đầu bằng $)
+  Installing...        ← Đang xử lý (chữ trắng/xám = bình thường)
+  ✓ Done in 3.2s      ← Thành công (chữ xanh/✓ = OK)
+
+$ node app.js
+  Error: Port 3000     ← Lỗi (chữ đỏ = có vấn đề)
+  already in use       ← Thông báo lỗi chi tiết
+</code></pre>
+<p><strong>Khi thấy chữ đỏ:</strong></p>
+<pre><code>Copy toàn bộ thông báo lỗi → Paste vào Chat
+→ Gõ: &quot;Tôi gặp lỗi này, hãy giúp tôi sửa&quot;
+→ AI sẽ phân tích và tự sửa
+</code></pre>
+<hr />
+<h2>PHẦN 7: CÁCH LÀM VIỆC HIỆU QUẢ NHẤT</h2>
+<h3>7.1 Layout được đề xuất</h3>
+<p><strong>Màn hình laptop (13-14 inch):</strong></p>
+<pre><code>[Explorer] │ [Chat Panel] — Ẩn Editor, focus vào Chat
+→ Khi cần xem kết quả: Ctrl+Shift+P → &quot;Preview&quot;
+</code></pre>
+<p><strong>Màn hình lớn (15 inch trở lên):</strong></p>
+<pre><code>[Explorer] │ [Preview/Editor] │ [Chat Panel]
+→ Xem code và chat cùng lúc
+</code></pre>
+<p><strong>Màn hình đôi (2 màn hình):</strong></p>
+<pre><code>Màn hình 1: Antigravity (Explorer + Chat)
+Màn hình 2: Chrome mở app HTML đang build
+→ Real-time preview không cần alt-tab
+</code></pre>
+<h3>7.2 Quy trình làm việc chuẩn mỗi ngày</h3>
+<pre><code>9:00 - Mở Antigravity (trước khi mở email!)
+     - Chọn workspace phù hợp công việc hôm nay
+     - Gõ: &quot;Chào buổi sáng! Hôm nay tôi cần làm: [danh sách]
+            Hãy giúp tôi ưu tiên và bắt đầu với việc quan trọng nhất&quot;
+
+Trong ngày:
+     - Mỗi tác vụ mới → Describe rõ trước khi bắt đầu
+     - Sau mỗi kết quả → Kiểm tra Preview/Artifacts
+     - Khi không hài lòng → &quot;Gần đúng, nhưng hãy [X]&quot;
+
+Cuối ngày:
+     - Gọi /bao-cao-tuan (nếu thứ Sáu)
+     - Gõ: &quot;Tóm tắt những gì đã làm hôm nay và gợi ý việc cần làm sáng mai&quot;
+</code></pre>
+<h3>7.3 Xử lý 5 tình huống hay gặp</h3>
+<p><strong>Tình huống 1: AI trả lời bằng tiếng Anh</strong></p>
+<pre><code>→ Gõ: &quot;Hãy trả lời bằng tiếng Việt từ bây giờ&quot;
+→ Hoặc thêm vào ANTIGRAVITY.md: &quot;Luôn trả lời bằng tiếng Việt&quot;
+</code></pre>
+<p><strong>Tình huống 2: AI làm sai hoàn toàn</strong></p>
+<pre><code>→ Đừng xoá chat! Hãy nói: &quot;Không phải như vậy. Ý tôi là [giải thích lại rõ hơn]&quot;
+→ Hoặc: &quot;Hãy bỏ qua kết quả trước và làm lại theo hướng này: [...]&quot;
+</code></pre>
+<p><strong>Tình huống 3: AI hỏi quá nhiều, không làm</strong></p>
+<pre><code>→ Gõ: &quot;Đừng hỏi thêm. Hãy đưa ra quyết định tốt nhất và làm luôn.
+        Tôi sẽ chỉnh sau nếu chưa đúng.&quot;
+</code></pre>
+<p><strong>Tình huống 4: Agent bị stuck (quay vòng không xong)</strong></p>
+<pre><code>→ Nhấn Pause → Gõ: &quot;Dừng lại. Hãy mô tả bạn đang bị kẹt ở đâu&quot;
+→ AI sẽ giải thích → Bạn cung cấp thêm thông tin → Continue
+</code></pre>
+<p><strong>Tình huống 5: Không tìm lại được kết quả cũ</strong></p>
+<pre><code>→ Click lịch sử Chat (History) → Tìm cuộc trò chuyện tương ứng
+→ Hoặc: Kiểm tra tab Artifacts
+→ Hoặc: Gõ: &quot;Bạn có nhớ lần trước chúng ta đã tạo [tên app/file] không?&quot;
+</code></pre>
+<hr />
+<h2>BẢNG TÓM TẮT NHANH — IN VÀ DÁN LÊN MÀN HÌNH</h2>
+<pre><code>╔══════════════════════════════════════════════════════╗
+║         🚀 ANTIGRAVITY QUICK REFERENCE               ║
+╠══════════════════════════════════════════════════════╣
+║  MODEL:  Flash=Nhanh | Pro=Đa năng | Opus=Sâu sắc   ║
+╠══════════════════════════════════════════════════════╣
+║  CHAT:   @file → tham chiếu │ / → workflow          ║
+║          Shift+Enter = xuống dòng │ Enter = gửi     ║
+╠══════════════════════════════════════════════════════╣
+║  KẾT QUẢ: Artifacts tab │ Preview (👁️) │ Browser   ║
+╠══════════════════════════════════════════════════════╣
+║  PHÍM TẮT: Cmd+P=Tìm file │ Cmd+,=Settings          ║
+║            Cmd+/=Focus chat │ Cmd+`=Terminal         ║
+╠══════════════════════════════════════════════════════╣
+║  KHI LỖI: Copy thông báo đỏ → Paste vào Chat → Hỏi ║
+╚══════════════════════════════════════════════════════╝
+</code></pre>
+<hr />
+<p><em>Bây giờ bạn đã biết từng góc của Antigravity. Lật sang <code>TUAN-1.md</code> để bắt đầu hành trình 30 ngày! 🎯</em></p>
+<h1>TUẦN 1: XÂY NỀN TẢNG</h1>
+<h2>"Từ Người Lạ Đến Người Quen"</h2>
+<h3>Ngày 1 → 7</h3>
+<blockquote>
+<p><em>Mục tiêu tuần này: Hiểu Antigravity hoạt động như thế nào,<br />
+viết được prompt tốt, và tiết kiệm ít nhất 1 giờ/ngày.</em></p>
+</blockquote>
+<hr />
+<h2>NGÀY 1: GẶP GỠ NGƯỜI BẠN AI MỚI</h2>
+<h3>🧠 Bài học hôm nay</h3>
+<p>Hôm nay bạn sẽ không cố học tất cả mọi thứ. Nhiệm vụ duy nhất: <strong>hiểu Antigravity nghĩ như thế nào</strong>.</p>
+<p>Antigravity không phải Google. Bạn không dùng nó để tìm kiếm thông tin. Antigravity là một <strong>cộng sự thông minh</strong> — nó:<br />
+- <strong>Hiểu ngữ cảnh:</strong> Nhớ toàn bộ cuộc trò chuyện và dự án của bạn<br />
+- <strong>Tự làm việc:</strong> Lên kế hoạch, viết code, chạy thử, sửa lỗi — tự động<br />
+- <strong>Học nhanh:</strong> Cho nó biết bạn muốn gì → nó điều chỉnh ngay</p>
+<p><strong>Khái niệm then chốt: AI Agent</strong></p>
+<p>Khác với ChatGPT đơn thuần (chỉ trả lời câu hỏi), Antigravity có <strong>AI Agent</strong> — một "nhân viên ảo" có thể:<br />
+- Tự mở trình duyệt để kiểm tra kết quả<br />
+- Chạy lệnh trong máy tính<br />
+- Lặp lại nhiều bước tự động cho đến khi hoàn thành</p>
+<p>Bạn giao việc → Agent làm → Bạn kiểm tra → Agent sửa.</p>
+<h3>⚡ Thực hành ngay</h3>
+<p><strong>Bài tập "Phá băng" — 15 phút:</strong></p>
+<p>Mở Antigravity, gõ lần lượt 5 câu sau và quan sát cách AI phản hồi:</p>
+<pre><code>1. &quot;Hãy giới thiệu bản thân và những gì bạn có thể giúp tôi.&quot;
+
+2. &quot;Tôi là [chức danh] ở công ty [ngành nghề]. 
+    Tôi hay phải làm những việc: [kể 3 việc bạn hay làm nhất].
+    Bạn có thể giúp tôi những gì?&quot;
+
+3. &quot;Hãy tạo cho tôi bảng to-do list đơn giản cho hôm nay,
+    dạng bảng markdown có cột: Việc cần làm / Ưu tiên / Thời gian dự kiến&quot;
+
+4. &quot;Thêm cột 'Ghi chú' vào bảng vừa tạo.&quot;
+
+5. &quot;Chuyển bảng đó thành trang HTML đẹp mắt tôi có thể mở 
+    trên trình duyệt.&quot;
+</code></pre>
+<p>Chú ý sự khác biệt giữa câu 1, 3, và 5 — bạn đang thấy AI <strong>leo thang năng lực</strong> theo yêu cầu.</p>
+<h3>💡 Mẹo pro</h3>
+<blockquote>
+<p>Antigravity hoạt động tốt nhất khi bạn <strong>cụ thể</strong>. Thay vì "làm bảng đẹp", hãy nói "bảng có viền màu xanh navy, font chữ lớn hơn, nền trắng tinh."</p>
+</blockquote>
+<h3>✅ Checkpoint ngày 1</h3>
+<ul>
+<li>[ ] Đã mở Antigravity thành công</li>
+<li>[ ] Đã thử 5 câu hỏi phá băng</li>
+<li>[ ] Đã xem được trang HTML từ bảng to-do</li>
+<li>[ ] Cảm giác: <em>"Ồ, thú vị đấy"</em> 😄</li>
+</ul>
+<hr />
+<h2>NGÀY 2: NGHỆ THUẬT NÓI CHUYỆN VỚI AI</h2>
+<h3>🧠 Bài học hôm nay</h3>
+<p><strong>Prompt = Câu lệnh bạn gửi cho AI.</strong> Prompt tốt không phải là câu dài nhất — mà là câu <strong>rõ ràng nhất</strong>.</p>
+<p>Hãy nhớ công thức <strong>C.L.E.A.R:</strong></p>
+<pre><code>C — Context    (Bối cảnh)  : Bạn là ai? Đang làm gì?
+L — Length     (Độ dài)    : Output cần ngắn hay dài?
+E — Example    (Ví dụ)     : Cho AI xem mẫu kết quả bạn muốn
+A — Action     (Hành động) : Động từ cụ thể: Tạo / Phân tích / Viết / Tóm tắt
+R — Result     (Kết quả)   : Định dạng output: bảng / PDF / web / email
+</code></pre>
+<p><strong>So sánh prompt:</strong></p>
+<p>❌ <strong>Prompt yếu:</strong> <em>"Viết email cho khách hàng"</em></p>
+<p>✅ <strong>Prompt mạnh (C.L.E.A.R):</strong></p>
+<pre><code>[Context]  Tôi là nhân viên CSKH, vừa nhận phàn nàn từ khách về giao hàng trễ.
+[Action]   Viết email xin lỗi chuyên nghiệp.
+[Example]  Tone: lịch sự, chân thành, không quá trang trọng.
+[Length]   Không quá 150 từ.
+[Result]   Tiếng Việt, định dạng email hoàn chỉnh (Kính gửi... / Kính thư...).
+</code></pre>
+<h3>⚡ Thực hành ngay</h3>
+<p><strong>Bài tập "Viết lại Prompt" — 20 phút:</strong></p>
+<p>Lấy 3 công việc bạn <strong>thực sự đang làm</strong> tuần này. Viết prompt C.L.E.A.R cho từng việc. Sau đó thử với AI và so sánh kết quả với prompt đơn giản ban đầu.</p>
+<p><strong>Ví dụ bộ 3 prompt theo ngành:</strong></p>
+<p><em>Kế toán:</em></p>
+<pre><code>[Context]  Tôi làm kế toán, có file Excel 200 dòng chi phí tháng 2.
+[Action]   Phân tích và tóm tắt: tổng chi, top 5 hạng mục tốn nhiều nhất,
+           so sánh với tháng 1 (tháng 1 tổng 450 triệu).
+[Data]     [paste dữ liệu vào đây]
+[Result]   Bảng tóm tắt + 3 nhận xét quan trọng + 1 khuyến nghị.
+</code></pre>
+<p><em>Nhân sự:</em></p>
+<pre><code>[Context]  Tôi là HR, cần thông báo chính sách nghỉ phép mới cho toàn công ty.
+[Action]   Viết thông báo nội bộ về: tăng phép năm từ 12 lên 15 ngày,
+           thêm 2 ngày nghỉ sức khoẻ tâm thần.
+[Result]   Tiếng Việt, tone thân thiện nhưng chuyên nghiệp, kèm FAQ 5 câu hỏi thường gặp.
+</code></pre>
+<p><em>Kinh doanh:</em></p>
+<pre><code>[Context]  Tôi chuẩn bị gặp khách hàng tiềm năng là công ty sản xuất 500 nhân viên.
+[Action]   Tạo checklist 10 câu hỏi để khám phá nhu cầu trong buổi gặp đầu tiên.
+[Result]   Câu hỏi mở, sắp xếp theo logic: từ khái quát → cụ thể → vấn đề → giải pháp.
+</code></pre>
+<h3>💡 Mẹo pro</h3>
+<blockquote>
+<p>Khi AI trả lời chưa đúng ý, đừng viết lại từ đầu. Chỉ cần nói: <em>"Gần đúng rồi! Nhưng hãy [thêm/bỏ/thay đổi] phần [X]."</em> AI sẽ chỉ sửa những gì bạn chỉ ra.</p>
+</blockquote>
+<h3>✅ Checkpoint ngày 2</h3>
+<ul>
+<li>[ ] Hiểu công thức C.L.E.A.R</li>
+<li>[ ] Đã viết 3 prompt C.L.E.A.R từ công việc thực tế</li>
+<li>[ ] Nhận thấy chất lượng output cải thiện rõ rệt</li>
+</ul>
+<hr />
+<h2>NGÀY 3: XÂY NHÀ CHO DỰ ÁN (ANTIGRAVITY.md)</h2>
+<h3>🧠 Bài học hôm nay</h3>
+<p>Hôm nay bạn học cách làm cho AI <strong>nhớ mọi thứ về bạn</strong> — để không phải giải thích lại từ đầu mỗi lần.</p>
+<p><strong>File ANTIGRAVITY.md</strong> = "Bộ nhớ dài hạn" của AI về dự án của bạn.</p>
+<p>Khi bạn tạo file này trong thư mục dự án, mỗi lần mở workspace đó, AI tự đọc và hiểu ngữ cảnh ngay lập tức. Như thuê một nhân viên mới mà bạn chỉ cần onboard một lần — mãi mãi sau đó họ tự biết việc.</p>
+<p><strong>Cấu trúc ANTIGRAVITY.md hoàn hảo:</strong></p>
+<pre><code># [Tên dự án]
+
+## Tôi là ai
+[Tên, chức danh, phòng ban, công ty]
+
+## Dự án này làm gì
+[Mô tả mục đích, vấn đề đang giải quyết]
+
+## Quy trình nghiệp vụ
+[Mô tả cách bạn làm việc hiện tại, từng bước]
+
+## Yêu cầu bất biến
+- Ngôn ngữ: Tiếng Việt
+- Định dạng ngày: DD/MM/YYYY
+- Đơn vị: VNĐ
+- [Thêm yêu cầu riêng của bạn]
+
+## Context quan trọng
+[Thông tin nền: quy mô công ty, ngành nghề, đặc thù]
+
+## AI không được phép
+- [Điều cấm 1]
+- [Điều cấm 2]
+</code></pre>
+<h3>⚡ Thực hành ngay</h3>
+<p><strong>Bài tập "ANTIGRAVITY.md cá nhân" — 25 phút:</strong></p>
+<ol>
+<li>Tạo thư mục mới: <code>cong-viec-hang-ngay</code></li>
+<li>Tạo file <code>ANTIGRAVITY.md</code> trong đó</li>
+<li>Điền đầy đủ theo template trên, dùng thông tin thật của bạn</li>
+<li>Mở workspace này trong Antigravity</li>
+<li>Gõ: <em>"Đọc ANTIGRAVITY.md và tóm tắt bạn hiểu gì về tôi và công việc của tôi"</em></li>
+<li>Nếu AI hiểu chưa đúng → chỉnh file → thử lại</li>
+</ol>
+<p><strong>Mục tiêu:</strong> AI tóm tắt đúng ít nhất 90% thông tin bạn đã viết.</p>
+<h3>💡 Mẹo pro</h3>
+<blockquote>
+<p>ANTIGRAVITY.md càng cụ thể → AI càng ít hỏi lại và làm đúng ý hơn. Dành 30 phút viết tốt file này = tiết kiệm hàng chục giờ sau này.</p>
+</blockquote>
+<h3>✅ Checkpoint ngày 3</h3>
+<ul>
+<li>[ ] Đã tạo ANTIGRAVITY.md cá nhân</li>
+<li>[ ] AI đọc và tóm tắt đúng thông tin</li>
+<li>[ ] Cảm giác: AI "hiểu mình" hơn hẳn</li>
+</ul>
+<hr />
+<h2>NGÀY 4: SIÊU NĂNG LỰC SỐ 1 — TỰ ĐỘNG XỬ LÝ VĂN BẢN</h2>
+<h3>🧠 Bài học hôm nay</h3>
+<p><strong>80% thời gian văn phòng</strong> là làm việc với văn bản: email, báo cáo, đề xuất, hợp đồng, thông báo... Hôm nay bạn học cách biến Antigravity thành <strong>"máy viết chuyên nghiệp"</strong> hoạt động 24/7.</p>
+<p>Các tác vụ văn bản Antigravity làm tốt hơn bạn:</p>
+<table>
+<thead>
+<tr>
+<th>Tác vụ</th>
+<th>Bạn mất</th>
+<th>AI mất</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Soạn email chuyên nghiệp</td>
+<td>15-20 phút</td>
+<td>30 giây</td>
+</tr>
+<tr>
+<td>Viết báo cáo từ dữ liệu</td>
+<td>2-3 giờ</td>
+<td>5 phút</td>
+</tr>
+<tr>
+<td>Tóm tắt tài liệu dài</td>
+<td>1 giờ</td>
+<td>1 phút</td>
+</tr>
+<tr>
+<td>Dịch văn bản</td>
+<td>30 phút</td>
+<td>10 giây</td>
+</tr>
+<tr>
+<td>Soạn thảo hợp đồng mẫu</td>
+<td>3-4 giờ</td>
+<td>10 phút</td>
+</tr>
+</tbody>
+</table>
+<h3>⚡ Thực hành ngay</h3>
+<p>Thực hành 3 tác vụ văn bản ngay trong ngày hôm nay:</p>
+<p><strong>Tác vụ 1 — Tóm tắt thông minh:</strong></p>
+<pre><code>Hãy tóm tắt nội dung sau thành 5 bullet points quan trọng nhất,
+ngắn gọn, mỗi dòng tối đa 20 từ:
+
+[Paste một tài liệu/email dài bạn đang cần đọc]
+</code></pre>
+<p><strong>Tác vụ 2 — Chuyển đổi định dạng:</strong></p>
+<pre><code>Tôi có dữ liệu thô sau đây (copy từ email/chat):
+[Paste dữ liệu lộn xộn]
+
+Hãy:
+1. Sắp xếp thành bảng có cấu trúc rõ ràng
+2. Thêm cột &quot;Ghi chú&quot; nếu có thông tin bổ sung
+3. Highlight (in đậm) những mục có mức độ ưu tiên Cao
+</code></pre>
+<p><strong>Tác vụ 3 — Nâng cấp văn bản:</strong></p>
+<pre><code>Hãy cải thiện đoạn văn sau: làm chuyên nghiệp hơn, 
+loại bỏ lỗi ngữ pháp, giữ nguyên ý chính:
+[Paste đoạn văn của bạn]
+</code></pre>
+<h3>💡 Mẹo pro</h3>
+<blockquote>
+<p>Tạo thư mục <code>tools/prompts/van-ban.md</code> và lưu các prompt tốt vào đó. Sau 1 tuần bạn sẽ có bộ công cụ văn bản cá nhân cực kỳ mạnh.</p>
+</blockquote>
+<h3>✅ Checkpoint ngày 4</h3>
+<ul>
+<li>[ ] Đã tóm tắt thành công ít nhất 1 tài liệu dài</li>
+<li>[ ] Đã chuyển đổi dữ liệu lộn xộn thành bảng có cấu trúc</li>
+<li>[ ] Bắt đầu lưu prompt vào thư mục riêng</li>
+</ul>
+<hr />
+<h2>NGÀY 5: SIÊU NĂNG LỰC SỐ 2 — PHÂN TÍCH DỮ LIỆU KHÔNG CẦN EXCEL</h2>
+<h3>🧠 Bài học hôm nay</h3>
+<p>Bạn có một file Excel 500 dòng. Bạn muốn biết: tổng theo tháng, top 10, xu hướng, bất thường. Với Excel truyền thống, bạn cần biết VLOOKUP, PIVOT TABLE, và mất 1-2 tiếng.</p>
+<p>Với Antigravity: <strong>paste dữ liệu vào → mô tả muốn gì → nhận kết quả trong 2 phút.</strong></p>
+<p><strong>Kỹ thuật "Data Dump &amp; Ask":</strong></p>
+<pre><code>Bước 1: Copy dữ liệu từ Excel (Ctrl+A → Ctrl+C)
+Bước 2: Paste vào chat Antigravity
+Bước 3: Mô tả câu hỏi phân tích
+Bước 4: Nhận kết quả + biểu đồ
+</code></pre>
+<h3>⚡ Thực hành ngay</h3>
+<p>Lấy bất kỳ file dữ liệu nào từ công việc (có thể xoá thông tin nhạy cảm trước), sau đó thử 3 câu hỏi phân tích:</p>
+<p><strong>Câu hỏi 1 — Tổng quan:</strong></p>
+<pre><code>Đây là dữ liệu [loại dữ liệu] của tôi:
+[PASTE DATA]
+
+Hãy cho tôi biết:
+- Tổng số bản ghi
+- Khoảng thời gian dữ liệu bao phủ
+- 3 insight nổi bật nhất
+- Có dữ liệu bất thường hoặc lỗi không?
+</code></pre>
+<p><strong>Câu hỏi 2 — So sánh:</strong></p>
+<pre><code>Từ dữ liệu trên, hãy so sánh hiệu suất theo [tuần/tháng/quý/phòng ban].
+Tạo bảng so sánh với % tăng giảm và màu sắc (xanh = tốt, đỏ = xấu).
+</code></pre>
+<p><strong>Câu hỏi 3 — Trực quan hoá:</strong></p>
+<pre><code>Tạo trang HTML với dashboard trực quan cho dữ liệu trên.
+Gồm: 1 biểu đồ cột, 1 biểu đồ đường xu hướng, bảng top 5.
+Màu sắc chuyên nghiệp, tiêu đề tiếng Việt.
+</code></pre>
+<h3>💡 Mẹo pro</h3>
+<blockquote>
+<p>Nếu dữ liệu quá lớn để paste, hãy copy 50-100 dòng mẫu đại diện. AI có thể phân tích mẫu và bạn áp dụng logic tương tự.</p>
+</blockquote>
+<h3>✅ Checkpoint ngày 5</h3>
+<ul>
+<li>[ ] Đã phân tích thành công một bộ dữ liệu thực tế</li>
+<li>[ ] Đã tạo được báo cáo trực quan từ dữ liệu</li>
+<li>[ ] Tiết kiệm được ít nhất 30 phút so với làm Excel thủ công</li>
+</ul>
+<hr />
+<h2>NGÀY 6: SIÊU NĂNG LỰC SỐ 3 — NGHIÊN CỨU &amp; TỔNG HỢP THÔNG TIN</h2>
+<h3>🧠 Bài học hôm nay</h3>
+<p>Đôi khi bạn cần nghiên cứu một chủ đề: tìm hiểu quy định pháp lý mới, so sánh giải pháp phần mềm, chuẩn bị cho buổi họp với đối tác mới. Trước đây: Google → đọc 10 trang → tổng hợp thủ công → 2-3 giờ.</p>
+<p>Với Antigravity: <strong>Mô tả nhu cầu nghiên cứu → Nhận báo cáo có cấu trúc → 15-20 phút.</strong></p>
+<p><strong>Framework nghiên cứu thông minh:</strong></p>
+<pre><code>Tôi cần nghiên cứu về [chủ đề] để [mục đích cụ thể].
+Góc độ cần phân tích:
+1. [Góc độ 1: ví dụ: định nghĩa, khái niệm cơ bản]
+2. [Góc độ 2: ví dụ: ứng dụng thực tế trong ngành của tôi]
+3. [Góc độ 3: ví dụ: ưu nhược điểm, rủi ro]
+4. [Góc độ 4: ví dụ: đề xuất bước tiếp theo cho tôi]
+
+Kết quả: Báo cáo ngắn gọn, có mục lục, tiếng Việt, khoảng [X] trang.
+</code></pre>
+<h3>⚡ Thực hành ngay</h3>
+<p>Chọn 1 trong 3 chủ đề sau (hoặc chủ đề thực tế bạn đang cần):</p>
+<p><strong>Chủ đề A — Pháp lý/quy định:</strong></p>
+<pre><code>Nghiên cứu về chính sách thuế thu nhập cá nhân hiện hành tại Việt Nam 2025-2026.
+Tôi là HR, cần hiểu để tư vấn cho nhân viên.
+Tóm tắt: mức thuế suất, cách tính, các khoản được giảm trừ, lưu ý quan trọng.
+Ví dụ minh hoạ với mức lương 20 triệu/tháng.
+</code></pre>
+<p><strong>Chủ đề B — Công nghệ/công cụ:</strong></p>
+<pre><code>So sánh 3 phần mềm quản lý dự án phổ biến nhất cho team văn phòng 10-50 người:
+Notion vs Trello vs Monday.com
+Tiêu chí: giá, ease of use, tính năng chính, phù hợp với team Việt Nam.
+Kết quả: bảng so sánh + đề xuất cho team của tôi (loại: [mô tả team của bạn]).
+</code></pre>
+<p><strong>Chủ đề C — Kỹ năng nghiệp vụ:</strong></p>
+<pre><code>Tổng hợp best practices về quản lý thời gian cho nhân viên văn phòng bận rộn.
+Phương pháp: GTD, Pomodoro, Time Blocking, Eat the Frog.
+Tôi cần: hiểu nguyên tắc mỗi phương pháp + cách áp dụng ngay + bảng so sánh.
+Đề xuất phương pháp phù hợp nhất cho người hay bị interrupt bởi email/meeting.
+</code></pre>
+<h3>💡 Mẹo pro</h3>
+<blockquote>
+<p>Sau khi có báo cáo, hãy hỏi tiếp: <em>"Hãy tạo slide ngắn 5 trang tóm tắt báo cáo trên để tôi trình bày trong cuộc họp 10 phút."</em> Vậy là bạn vừa có material cho meeting!</p>
+</blockquote>
+<h3>✅ Checkpoint ngày 6</h3>
+<ul>
+<li>[ ] Đã hoàn thành 1 nghiên cứu bằng Antigravity</li>
+<li>[ ] Tiết kiệm được ít nhất 1-2 giờ so với tự Google + tổng hợp</li>
+<li>[ ] Kết quả có thể dùng ngay trong công việc</li>
+</ul>
+<hr />
+<h2>NGÀY 7: TỔNG KẾT TUẦN 1 — XÂY THÓI QUEN AI-FIRST</h2>
+<h3>🧠 Bài học hôm nay</h3>
+<p>Tuần đầu tiên, bạn đã học 3 siêu năng lực cơ bản. Hôm nay không học thêm kỹ năng mới — thay vào đó, bạn sẽ <strong>đánh giá lại và xây thói quen</strong>.</p>
+<p><strong>Thói quen "AI-First Mindset":</strong></p>
+<p>Mỗi khi gặp một công việc mới, hỏi bản thân:</p>
+<pre><code>1. Tác vụ này mất bao lâu nếu tôi tự làm?
+2. Antigravity có thể làm được không?
+3. Tôi cần mô tả như thế nào để AI hiểu?
+→ Nếu AI có thể làm → Delegate ngay!
+</code></pre>
+<p><strong>"Delegation Matrix" cá nhân:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Loại công việc</th>
+<th>Tự làm</th>
+<th>Antigravity làm</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Soạn thảo văn bản</td>
+<td>❌</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Phân tích dữ liệu</td>
+<td>❌</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Nghiên cứu thông tin</td>
+<td>❌</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Ra quyết định quan trọng</td>
+<td>✅</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>Quan hệ &amp; giao tiếp</td>
+<td>✅</td>
+<td>Hỗ trợ</td>
+</tr>
+<tr>
+<td>Sáng tạo chiến lược</td>
+<td>✅</td>
+<td>Hỗ trợ</td>
+</tr>
+</tbody>
+</table>
+<h3>⚡ Thực hành ngay</h3>
+<p><strong>Bài tập "Kiểm kê thời gian" — 30 phút:</strong></p>
+<ol>
+<li>Viết ra <strong>10 tác vụ</strong> bạn hay làm nhất mỗi tuần</li>
+<li>Ước tính thời gian mỗi tác vụ hiện tại</li>
+<li>Đánh dấu tác vụ nào AI có thể làm</li>
+<li>Tính tổng giờ có thể tiết kiệm/tuần</li>
+<li>Viết vào Antigravity: <em>"Đây là danh sách tác vụ của tôi [paste]. Hãy đề xuất cách tôi có thể tự động hoá hoặc tăng tốc từng tác vụ bằng Antigravity."</em></li>
+</ol>
+<p><strong>Bài tập "Tuần Review":</strong></p>
+<pre><code>Nhìn lại tuần 1 học Antigravity của tôi.
+Tôi đã học: Prompt C.L.E.A.R, ANTIGRAVITY.md, xử lý văn bản, 
+phân tích data, nghiên cứu thông tin.
+
+Hãy tạo kế hoạch cụ thể cho tuần tới của tôi:
+- 3 tác vụ công việc tôi sẽ delegate hẳn cho Antigravity
+- 2 kỹ năng tôi cần luyện thêm
+- 1 &quot;dự án nhỏ&quot; tôi sẽ thử tạo bằng Vibe Coding
+</code></pre>
+<h3>💡 Mẹo pro</h3>
+<blockquote>
+<p>Thói quen mạnh nhất: Mỗi sáng khi mở máy tính, mở Antigravity <strong>trước tiên</strong> — giống như mở email. Biến nó thành default tool, không phải tool "thỉnh thoảng dùng."</p>
+</blockquote>
+<h3>✅ Checkpoint cuối tuần 1</h3>
+<p><strong>Bạn đã đạt được nếu:</strong><br />
+- [ ] Dùng Antigravity ít nhất 30 phút/ngày trong 7 ngày<br />
+- [ ] Tiết kiệm được tổng ít nhất 5 giờ trong tuần<br />
+- [ ] Có ANTIGRAVITY.md cá nhân hoàn chỉnh<br />
+- [ ] Có Prompt Library với ít nhất 5 prompt đã test</p>
+<p><strong>Kết quả kỳ vọng cuối tuần 1:</strong></p>
+<blockquote>
+<p>Bạn đã từ "người lạ" trở thành "người quen" với Antigravity.<br />
+Tuần tới, bạn sẽ trở thành <strong>"người thành thạo."</strong></p>
+</blockquote>
+<hr />
+<p><em>Hẹn gặp ở tuần 2 — nơi mọi thứ bắt đầu thực sự thú vị.</em></p>
+<h1>BỔ SUNG KIẾN TRÚC DỰ ÁN — TUẦN 1 &amp; 2</h1>
+<h2>ANTIGRAVITY.md Nâng Cao · Cấu Trúc Thư Mục Chuẩn · SKILL.md</h2>
+<blockquote>
+<p><strong>Cách dùng file này:</strong> Đây là nội dung mở rộng, chèn vào các ngày tương ứng trong TUAN-1.md và TUAN-2.md.<br />
+<strong>Ngày 3</strong> → Thay thế phần ANTIGRAVITY.md cơ bản bằng nội dung nâng cao bên dưới<br />
+<strong>Ngày 8</strong> → Bổ sung thêm nội dung SKILL.md sau phần Prompt Library</p>
+</blockquote>
+<hr />
+<h1>═══════════════════════════════════════════</h1>
+<h1>NGÀY 3 (NÂNG CAO): KIẾN TRÚC DỰ ÁN CHUẨN</h1>
+<h1>"Xây Nhà Đúng Cách Ngay Từ Đầu"</h1>
+<h1>═══════════════════════════════════════════</h1>
+<h3>🧠 Bài học hôm nay — Phần mở rộng</h3>
+<p>Ngày 3 cơ bản bạn đã hiểu ANTIGRAVITY.md là gì. Hôm nay đào sâu hơn: <strong>toàn bộ kiến trúc thư mục chuẩn</strong> mà mọi dự án Antigravity chuyên nghiệp đều cần có.</p>
+<hr />
+<h2>Kiến trúc dự án chuẩn — Toàn cảnh</h2>
+<p>Hãy tưởng tượng dự án Antigravity như một văn phòng được tổ chức tốt:</p>
+<pre><code>ten_du_an/                              ← Thư mục gốc — &quot;Tòa nhà&quot;
+│
+├── ANTIGRAVITY.md                      ← &quot;Nội quy văn phòng&quot; — AI đọc đầu tiên
+├── README.md                           ← &quot;Biển hiệu ngoài cửa&quot; — cho con người
+│
+├── docs/                               ← &quot;Phòng lưu trữ tài liệu&quot;
+│   ├── architecture.md                 ←   Sơ đồ tổng thể hệ thống
+│   ├── decisions/                      ←   Ghi chép lý do các quyết định quan trọng
+│   └── runbooks/                       ←   Hướng dẫn vận hành từng quy trình
+│
+├── .antigravity/                       ← &quot;Phòng kỹ thuật&quot; (thư mục ẩn)
+│   ├── settings.json                   ←   Cấu hình AI (model, style, language...)
+│   ├── hooks/                          ←   Kiểm tra tự động trước/sau mỗi task
+│   └── skills/                         ←   Kỹ năng tái sử dụng của AI
+│       ├── bao-cao/SKILL.md            ←     Kỹ năng: tạo báo cáo
+│       ├── phan-tich/SKILL.md          ←     Kỹ năng: phân tích dữ liệu
+│       └── soan-thao/SKILL.md          ←     Kỹ năng: soạn thảo văn bản
+│
+├── .agents/                            ← &quot;Phòng điều hành Agent&quot;
+│   └── workflows/                      ←   Quy trình tự động (gọi bằng /ten-lenh)
+│       ├── bao-cao-tuan.md
+│       └── phan-tich-nhanh.md
+│
+├── tools/                              ← &quot;Hộp công cụ&quot;
+│   ├── scripts/                        ←   Script tự động hoá
+│   └── prompts/                        ←   Prompt thô, chưa gắn context
+│
+└── src/                                ← &quot;Xưởng sản xuất&quot; — Kết quả đầu ra
+    ├── apps/                           ←   Các ứng dụng web đã tạo
+    ├── reports/                        ←   Báo cáo đã xuất
+    └── data/                           ←   Dữ liệu đầu vào, mẫu
+</code></pre>
+<hr />
+<h2>Vai trò của từng thành phần</h2>
+<h3>1. ANTIGRAVITY.md — "Bộ não dự án"</h3>
+<p><strong>Vị trí:</strong> Thư mục gốc — AI đọc ngay khi mở workspace</p>
+<p><strong>Chức năng:</strong> Là file <strong>Instructions</strong> (hướng dẫn) chính xác nhất, toàn diện nhất cho AI. Mọi hành động của AI trong dự án đều được định hướng bởi file này.</p>
+<blockquote>
+<p>🔑 <strong>Nguyên tắc vàng:</strong> ANTIGRAVITY.md = Hợp đồng giữa bạn và AI.<br />
+AI sẽ LUÔN tôn trọng những gì được viết ở đây.</p>
+</blockquote>
+<p><strong>Template đầy đủ chuẩn chuyên nghiệp:</strong></p>
+<pre><code class="language-markdown"># [TÊN DỰ ÁN]
+## Phiên bản: x.x | Cập nhật: DD/MM/YYYY
+
+---
+
+## 1. TỔNG QUAN DỰ ÁN
+**Mục đích:** [Dự án này tồn tại để giải quyết vấn đề gì?]
+**Người dùng chính:** [Ai sẽ dùng kết quả?]
+**Thành công được đo bằng:** [Chỉ số cụ thể]
+
+## 2. BỐI CẢNH TỔ CHỨC
+- **Công ty:** [Tên công ty, ngành]
+- **Phòng ban:** [Phòng của bạn]
+- **Quy mô team:** [X người]
+- **Ngôn ngữ làm việc:** Tiếng Việt (ưu tiên) / Tiếng Anh (khi cần)
+
+## 3. QUY TRÌNH NGHIỆP VỤ HIỆN TẠI
+[Mô tả CHI TIẾT quy trình bạn đang làm thủ công]
+[Càng cụ thể AI càng hiểu đúng]
+
+Ví dụ:
+- Mỗi thứ Hai: Thu thập báo cáo từ 8 phòng ban qua email
+- Mỗi thứ Tư: Tổng hợp vào Excel, gửi cho Giám đốc trước 9h sáng
+- Mỗi cuối tháng: Báo cáo tổng kết gửi Ban lãnh đạo
+
+## 4. YÊU CẦU BẤT BIẾN (AI PHẢI LUÔN TUÂN THEO)
+- Ngôn ngữ: Tiếng Việt (trừ khi tôi yêu cầu khác)
+- Định dạng ngày: DD/MM/YYYY
+- Đơn vị tiền tệ: VNĐ (viết đầy đủ, không viết tắt)
+- Tên người: Dùng họ tên đầy đủ lần đầu, sau đó dùng tên
+- Tone văn bản: [Trang trọng / Thân thiện / Chuyên nghiệp]
+
+## 5. DỮ LIỆU VÀ FILE QUAN TRỌNG
+- `src/data/`: Dữ liệu đầu vào
+- `src/reports/`: Kết quả xuất ra
+- File quan trọng: [Mô tả file nào cần chú ý]
+- Cấu trúc dữ liệu chính: [Mô tả các cột/trường quan trọng]
+
+## 6. CÁC KỸ NĂNG CÓ SẴN (SKILLS)
+- `.antigravity/skills/bao-cao/` → Dùng khi tạo báo cáo
+- `.antigravity/skills/phan-tich/` → Dùng khi phân tích data
+- [Thêm skills khác khi bạn tạo]
+
+## 7. QUY TẮC AN TOÀN — AI KHÔNG ĐƯỢC PHÉP
+- ❌ Xoá dữ liệu gốc mà không hỏi
+- ❌ Thay đổi cấu trúc file quan trọng mà không thông báo
+- ❌ Dùng thông tin nhạy cảm (lương, đánh giá cá nhân) ngoài context
+- ❌ Tự ý deploy hoặc publish lên internet
+- ✅ Luôn tạo bản backup trước khi sửa file lớn
+- ✅ Hỏi xác nhận khi không chắc ý định
+
+## 8. CONTEXT ĐẶC THÙ
+[Thông tin bổ sung giúp AI hiểu đặc thù ngành/công ty]
+[Ví dụ: Công ty hoạt động theo múi giờ GMT+7, tuần làm việc T2-T6]
+[Các thuật ngữ đặc thù: KPH = Kế hoạch, BC = Báo cáo...]
+</code></pre>
+<hr />
+<h3>2. README.md — "Biển hiệu cho con người"</h3>
+<p>Khác với ANTIGRAVITY.md (viết cho AI), README.md viết <strong>cho đồng nghiệp con người</strong> — giúp họ hiểu nhanh dự án là gì và cách bắt đầu dùng.</p>
+<pre><code class="language-markdown"># Tên Dự Án — Mô Tả Ngắn
+
+## Dự án này làm gì?
+[1-2 câu mô tả rõ ràng]
+
+## Bắt đầu nhanh
+1. Clone/copy thư mục về máy
+2. Mở trong Antigravity
+3. Gõ lệnh `/huong-dan` để xem hướng dẫn
+
+## Các tính năng chính
+- [Tính năng 1]
+- [Tính năng 2]
+
+## Liên hệ hỗ trợ
+[Tên người phụ trách] — [email/chat]
+</code></pre>
+<hr />
+<h3>3. docs/ — "Kho tài liệu sống"</h3>
+<p><strong>docs/architecture.md:</strong> Sơ đồ tổng thể — AI dùng để hiểu cấu trúc hệ thống, con người dùng để onboard nhanh.</p>
+<p><strong>docs/decisions/:</strong> Ghi chép lý do tại sao bạn chọn cách làm này thay vì cách khác. Rất hữu ích khi nhìn lại sau 6 tháng.</p>
+<pre><code class="language-markdown"># Quyết định: Chọn localStorage thay vì Google Sheets
+**Ngày:** DD/MM/YYYY
+**Bối cảnh:** Cần lưu dữ liệu form, không có server
+**Quyết định:** Dùng localStorage trong trình duyệt
+**Lý do:** Đơn giản, không cần tài khoản, hoạt động offline
+**Hệ quả:** Dữ liệu chỉ lưu trên máy đó, không chia sẻ được
+**Khi nào xem lại:** Khi team cần dùng chung dữ liệu
+</code></pre>
+<p><strong>docs/runbooks/:</strong> Hướng dẫn từng bước cho các quy trình quan trọng — giống SOP nhưng dành riêng cho hệ thống Antigravity.</p>
+<hr />
+<h3>4. .antigravity/settings.json — "Bảng điều khiển AI"</h3>
+<p>File cấu hình kiểm soát cách AI hành xử trong workspace này:</p>
+<pre><code class="language-json">{
+  &quot;model&quot;: &quot;gemini-3.1-pro&quot;,
+  &quot;language&quot;: &quot;vi&quot;,
+  &quot;response_style&quot;: &quot;professional&quot;,
+  &quot;max_tokens&quot;: 8192,
+  &quot;temperature&quot;: 0.3,
+  &quot;auto_save&quot;: true,
+  &quot;hooks&quot;: {
+    &quot;pre_answer&quot;: &quot;Luôn đọc ANTIGRAVITY.md trước khi trả lời&quot;,
+    &quot;post_answer&quot;: &quot;Tóm tắt action items nếu có&quot;
+  }
+}
+</code></pre>
+<blockquote>
+<p><strong>Giải thích đơn giản:</strong><br />
+- <code>language: "vi"</code> → AI mặc định trả lời tiếng Việt<br />
+- <code>temperature: 0.3</code> → AI ít sáng tạo hơn, chuẩn xác hơn (0 = robot, 1 = sáng tạo)<br />
+- <code>hooks</code> → Lệnh tự động chạy trước/sau mỗi câu trả lời</p>
+</blockquote>
+<hr />
+<h3>⚡ Thực hành ngày 3 — Nâng cao</h3>
+<p><strong>Bài tập "Kiến trúc dự án hoàn chỉnh" — 45 phút:</strong></p>
+<ol>
+<li><strong>Tạo cấu trúc thư mục chuẩn:</strong></li>
+</ol>
+<pre><code>Hãy giúp tôi tạo cấu trúc thư mục dự án Antigravity chuẩn
+cho phòng [tên phòng] với mục đích [mô tả ngắn].
+Tạo danh sách các thư mục và file cần có,
+kèm mô tả ngắn cho từng thư mục.
+</code></pre>
+<ol>
+<li>
+<p><strong>Viết ANTIGRAVITY.md đầy đủ:</strong><br />
+Dùng template 8 phần ở trên, điền thông tin thật của bạn.</p>
+</li>
+<li>
+<p><strong>Test với AI:</strong></p>
+</li>
+</ol>
+<pre><code>Đọc toàn bộ ANTIGRAVITY.md của tôi.
+Sau đó hãy:
+1. Tóm tắt bạn hiểu gì về dự án (80-100 từ)
+2. Liệt kê 3 điểm còn thiếu thông tin
+3. Đề xuất 2-3 quy tắc nên thêm vào phần &quot;AI không được phép&quot;
+</code></pre>
+<ol>
+<li><strong>Tạo settings.json:</strong></li>
+</ol>
+<pre><code>Tạo file .antigravity/settings.json phù hợp với dự án của tôi.
+Context: [mô tả ngắn dự án]
+Yêu cầu: Ngôn ngữ tiếng Việt, tone chuyên nghiệp,
+ưu tiên chính xác hơn sáng tạo.
+</code></pre>
+<hr />
+<h1>═══════════════════════════════════════════</h1>
+<h1>NGÀY 8 (MỞ RỘNG): SKILL.md — DẠY AI KỸ NĂNG MỚI</h1>
+<h1>"Từ AI Thông Minh Đến AI Chuyên Gia Của Bạn"</h1>
+<h1>═══════════════════════════════════════════</h1>
+<blockquote>
+<p><strong>Vị trí trong sách:</strong> Chèn sau phần "Prompt Library" của Ngày 8</p>
+</blockquote>
+<h3>🧠 Bài học bổ sung — SKILL.md</h3>
+<p>Prompt Library (Ngày 8 cơ bản) là kho prompt bạn tái sử dụng. <strong>SKILL.md</strong> đi xa hơn một bước: bạn <strong>dạy AI một kỹ năng hoàn toàn mới</strong> theo đúng cách làm việc của ngành/công ty bạn.</p>
+<p><strong>Sự khác biệt:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Prompt Library</th>
+<th>SKILL.md</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bạn nhớ và tạo prompt mỗi lần</td>
+<td>AI tự nhớ và áp dụng kỹ năng</td>
+</tr>
+<tr>
+<td>Phụ thuộc vào ngữ cảnh session</td>
+<td>Kỹ năng tồn tại vĩnh viễn trong dự án</td>
+</tr>
+<tr>
+<td>Phù hợp cho tác vụ đa dạng</td>
+<td>Phù hợp cho tác vụ lặp lại có quy trình cố định</td>
+</tr>
+<tr>
+<td>Bạn là người biết quy trình</td>
+<td>AI trở thành người biết quy trình</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Ví dụ thực tế:</strong></p>
+<p>Bạn viết promot "Tạo báo cáo tuần" mỗi tuần → Mất 5 phút setup.<br />
+Bạn tạo SKILL <code>bao-cao-tuan</code> → Gõ <code>/bao-cao-tuan</code> → AI tự làm đúng theo đặc thù công ty bạn, mãi mãi.</p>
+<hr />
+<h3>Cấu trúc SKILL.md — "Bản mô tả công việc cho AI"</h3>
+<pre><code>.antigravity/skills/
+└── ten-ky-nang/
+    └── SKILL.md
+</code></pre>
+<p><strong>Template SKILL.md đầy đủ:</strong></p>
+<pre><code class="language-markdown">---
+name: Tên Kỹ Năng (human-readable)
+description: Mô tả ngắn — kỹ năng này làm gì, dùng khi nào
+trigger: ten-ky-nang          ← Lệnh để gọi kỹ năng này
+version: 1.0
+author: [Tên bạn]
+---
+
+## Mục đích
+[Giải thích đầy đủ kỹ năng này phục vụ mục đích gì]
+
+## Khi nào dùng
+- [Tình huống 1]
+- [Tình huống 2]
+- [Tình huống 3]
+
+## Quy trình thực hiện (từng bước)
+1. [Bước 1 — mô tả cụ thể, không mơ hồ]
+2. [Bước 2]
+3. [Bước 3]
+...
+
+## Tiêu chuẩn chất lượng output
+- [Tiêu chí 1: ví dụ &quot;Ngắn gọn, không quá 1 trang A4&quot;]
+- [Tiêu chí 2: ví dụ &quot;Có đủ các phần: Tóm tắt / Chi tiết / Kết luận&quot;]
+- [Tiêu chí 3]
+
+## Ví dụ output tốt
+[Dán 1 ví dụ thực tế — đây là &quot;mẫu chuẩn&quot; AI sẽ học theo]
+
+## Context bổ sung
+[Thông tin đặc thù của công ty/ngành giúp AI làm đúng]
+</code></pre>
+<hr />
+<h3>3 SKILL.md mẫu cho nhân viên văn phòng</h3>
+<h4>SKILL #1: Soạn Báo Cáo Nghiệp Vụ</h4>
+<pre><code class="language-markdown">---
+name: Soạn Báo Cáo Nghiệp Vụ
+description: Tạo báo cáo nội bộ chuẩn định dạng công ty
+trigger: bao-cao
+version: 1.0
+---
+
+## Mục đích
+Tạo báo cáo nội bộ theo đúng chuẩn format công ty.
+AI sẽ hỏi thông tin cần thiết, sau đó tự soạn hoàn chỉnh.
+
+## Quy trình
+1. Xác nhận loại báo cáo (tuần/tháng/dự án/sự cố)
+2. Thu thập dữ liệu: hỏi người dùng hoặc đọc file được cung cấp
+3. Tính toán các chỉ số cần thiết
+4. Soạn theo cấu trúc: Tóm tắt → Chi tiết → Phân tích → Kết luận → Đề xuất
+5. Review: kiểm tra số liệu nhất quán, không mâu thuẫn
+6. Xuất kết quả dạng Markdown → có thể copy vào Word/Email
+
+## Tiêu chuẩn chất lượng
+- Số liệu phải có nguồn (từ file/dữ liệu được cung cấp)
+- Tiêu đề rõ ràng: [Loại BC] - [Kỳ] - [Phòng ban] - [Ngày]
+- Kết luận phải có ít nhất 1 đề xuất cụ thể, khả thi
+- Độ dài: Tóm tắt ≤ 100 từ; Toàn bộ ≤ 2 trang A4
+- Không dùng từ: &quot;hiện tại&quot;, &quot;thật ra&quot;, &quot;cơ bản là&quot;
+</code></pre>
+<h4>SKILL #2: Phân Tích Dữ Liệu Nghiệp Vụ</h4>
+<pre><code class="language-markdown">---
+name: Phân Tích Dữ Liệu Nghiệp Vụ
+description: Phân tích file data và trả về insights actionable
+trigger: phan-tich-data
+version: 1.0
+---
+
+## Quy trình
+1. Nhận dữ liệu (paste trực tiếp hoặc đọc file)
+2. Khám phá: số dòng, cột, kiểu dữ liệu, missing values
+3. Làm sạch: phát hiện và báo cáo dữ liệu bất thường
+4. Phân tích: tính toán theo yêu cầu + 3 insight tự phát hiện
+5. Trực quan hoá: tạo bảng + đề xuất loại biểu đồ phù hợp
+6. Kết luận: &quot;insight → hàm ý → đề xuất hành động&quot;
+
+## Tiêu chuẩn
+- Mỗi insight phải đi kèm số liệu cụ thể
+- Phân biệt rõ: Observation (thực tế) vs Interpretation (giải thích)
+- Kết thúc bằng: &quot;3 việc nên làm tiếp theo&quot;
+</code></pre>
+<h4>SKILL #3: Review &amp; Cải Thiện Văn Bản</h4>
+<pre><code class="language-markdown">---
+name: Review và Cải Thiện Văn Bản
+description: Kiểm tra và nâng cấp chất lượng mọi loại văn bản
+trigger: review-van-ban
+version: 1.0
+---
+
+## Quy trình
+1. Xác định loại và đối tượng đọc của văn bản
+2. Chạy checklist 5 điểm: Rõ ràng / Logic / Tone / Grammar / Hành động
+3. Đánh giá điểm: X/10 cho từng tiêu chí
+4. Sửa: Chỉ thay đổi những gì điểm dưới 7
+5. Giải thích: log từng thay đổi + lý do
+6. Trả về: Phiên bản gốc → Phiên bản cải thiện → Tóm tắt thay đổi
+
+## Nguyên tắc không được vi phạm
+- Không thay đổi ý chính, chỉ cải thiện cách diễn đạt
+- Giữ tone ban đầu của tác giả
+- Nếu không chắc ý định → Hỏi trước, không tự đoán
+</code></pre>
+<hr />
+<h3>⚡ Thực hành — Tạo SKILL đầu tiên</h3>
+<p><strong>Bài tập 45 phút:</strong></p>
+<p><strong>Bước 1 — Xác định kỹ năng cần thiết nhất:</strong></p>
+<pre><code>Dựa trên Prompt Library của tôi [paste danh sách],
+hãy phân tích prompt nào tôi dùng nhiều nhất và
+đề xuất 3 kỹ năng nên &quot;đóng gói&quot; thành SKILL.md.
+Giải thích lý do tại sao từng kỹ năng đáng đầu tư.
+</code></pre>
+<p><strong>Bước 2 — Tạo SKILL.md đầu tiên:</strong><br />
+Chọn kỹ năng được đề xuất, điền vào template và lưu vào <code>.antigravity/skills/</code></p>
+<p><strong>Bước 3 — Test và tinh chỉnh:</strong></p>
+<pre><code>Hãy đọc SKILL.md tôi vừa tạo tại [đường dẫn].
+Sau đó thực hiện kỹ năng này với dữ liệu mẫu:
+[Paste dữ liệu/nội dung test]
+
+Sau khi xong: Cho tôi biết bạn hiểu kỹ năng này
+đến mức nào (1-10) và phần nào còn chưa rõ.
+</code></pre>
+<p><strong>Bước 4 — Cải thiện dựa trên feedback:</strong><br />
+Dựa vào feedback của AI, cập nhật SKILL.md để nó rõ ràng hơn.</p>
+<h3>💡 Mẹo pro với SKILL.md</h3>
+<blockquote>
+<p><strong>"Ví dụ output tốt" là quan trọng nhất.</strong> Càng có nhiều ví dụ thực tế tốt → AI học được "tiêu chuẩn" của bạn chính xác hơn. Đây là kỹ thuật "few-shot learning" dành cho non-tech.</p>
+</blockquote>
+<h3>✅ Checkpoint bổ sung ngày 8</h3>
+<ul>
+<li>[ ] Hiểu sự khác biệt giữa Prompt Library và SKILL.md</li>
+<li>[ ] Đã tạo ít nhất 1 SKILL.md từ công việc thực tế</li>
+<li>[ ] AI thực hiện kỹ năng đúng ý mà không cần hướng dẫn thêm</li>
+<li>[ ] Thư mục <code>.antigravity/skills/</code> có ít nhất 1 skill</li>
+</ul>
+<h1>TUẦN 2: TĂNG TỐC &amp; CHUYÊN NGHIỆP HOÁ</h1>
+<h2>"Từ Người Quen Đến Người Thành Thạo"</h2>
+<h3>Ngày 8 → 14</h3>
+<blockquote>
+<p><em>Mục tiêu tuần này: Đạt x3 hiệu suất bằng cách xây dựng</em><br />
+<em>"hệ thống công cụ cá nhân" chạy trên Antigravity.</em></p>
+</blockquote>
+<hr />
+<h2>NGÀY 8: XÂY DỰNG PROMPT LIBRARY CÁ NHÂN</h2>
+<h3>🧠 Bài học hôm nay</h3>
+<p>Tuần 1, bạn đã viết nhiều prompt tốt. Hôm nay bạn <strong>hệ thống hoá</strong> chúng thành một thư viện tái sử dụng — giống như chef chuyên nghiệp có sẵn recipe book, không phải phát minh lại mỗi ngày.</p>
+<p><strong>Cấu trúc Prompt Library:</strong></p>
+<pre><code>tools/
+└── prompts/
+    ├── van-ban.md       → Email, báo cáo, văn bản
+    ├── du-lieu.md       → Phân tích Excel, thống kê
+    ├── nghien-cuu.md    → Research, so sánh, tóm tắt
+    ├── hop-tac.md       → Meeting notes, agenda, MoM
+    └── nganh-rieng.md   → Prompt đặc thù ngành bạn
+</code></pre>
+<p><strong>Định dạng mỗi prompt trong library:</strong></p>
+<pre><code class="language-markdown">## [Tên prompt]
+**Dùng khi:** [Tình huống nào]
+**Thời gian tiết kiệm:** [X phút/giờ]
+
+### Prompt:
+[Nội dung prompt đầy đủ, dùng [PLACEHOLDER] cho phần thay thế]
+
+### Ví dụ output tốt:
+[Paste ví dụ output mà bạn thấy tốt]
+</code></pre>
+<h3>⚡ Thực hành ngay</h3>
+<p>Lấy 5 prompt tốt nhất từ tuần 1, format lại theo chuẩn trên và lưu vào Prompt Library. Sau đó tạo thêm 3 prompt mới cho những tác vụ bạn chưa có.</p>
+<hr />
+<h2>NGÀY 9: MEETING PRODUCTIVITY — HỌP HIỆU QUẢ GẤP ĐÔI</h2>
+<h3>🧠 Bài học hôm nay</h3>
+<p>Trung bình người đi làm mất <strong>31 giờ/tháng</strong> cho các cuộc họp không hiệu quả. Antigravity có thể cứu bạn ít nhất một nửa con số đó.</p>
+<p><strong>3 giai đoạn meeting Antigravity hỗ trợ:</strong></p>
+<pre><code>TRƯỚC họp → TRONG họp → SAU họp
+   ↓              ↓           ↓
+Chuẩn bị    Ghi chép    Tổng hợp
+Agenda      Nhanh hơn   Action items
+Brief       Chính xác   Follow-up email
+</code></pre>
+<h3>⚡ Thực hành ngay</h3>
+<p><strong>Trước meeting — Tạo Agenda thông minh:</strong></p>
+<pre><code>Buổi họp ngày [ngày] về chủ đề: [chủ đề].
+Thành phần tham dự: [liệt kê].
+Thời lượng: [X] phút.
+Mục tiêu cuộc họp: [phải đạt được gì].
+
+Tạo agenda chi tiết bao gồm:
+- Thứ tự nội dung hợp lý
+- Thời gian cho từng phần
+- Câu hỏi gợi mở cho từng phần
+- Tài liệu cần chuẩn bị trước
+</code></pre>
+<p><strong>Sau meeting — Tổng hợp Minutes of Meeting:</strong></p>
+<pre><code>Tôi vừa kết thúc cuộc họp. Ghi chép thô của tôi:
+[Paste ghi chú lộn xộn của bạn]
+
+Hãy format thành MoM chuẩn:
+- Thông tin cuộc họp (ngày, thành phần, mục tiêu)
+- Tóm tắt nội dung thảo luận (theo từng điểm)
+- Quyết định đã đưa ra
+- Action items (Việc cần làm / Người phụ trách / Deadline)
+- Điểm cần theo dõi tiếp
+</code></pre>
+<h3>💡 Mẹo pro</h3>
+<blockquote>
+<p>Ghi âm cuộc họp (nếu được phép) → Gõ nhanh keyword trong lúc họp → Sau họp paste keyword cho AI "mở rộng thành MoM đầy đủ." Cực kỳ nhanh.</p>
+</blockquote>
+<h3>✅ Checkpoint ngày 9</h3>
+<ul>
+<li>[ ] Đã tạo Agenda cho 1 cuộc họp sắp tới</li>
+<li>[ ] Đã tổng hợp MoM từ ghi chép thô</li>
+</ul>
+<hr />
+<h2>NGÀY 10: EMAIL MASTERY — INBOX ZERO VỚI AI</h2>
+<h3>🧠 Bài học hôm nay</h3>
+<p>Email là "kẻ trộm thời gian vô hình" trong văn phòng. Người ta mất trung bình <strong>2.5 giờ/ngày</strong> cho email. Với Antigravity, bạn có thể cắt xuống còn 30-45 phút.</p>
+<p><strong>5 loại email khó → AI làm dễ:</strong></p>
+<ol>
+<li><strong>Email từ chối</strong> — Nói không mà vẫn giữ được quan hệ</li>
+<li><strong>Email leo thang</strong> — Nhắc nhở mà không gây căng thẳng</li>
+<li><strong>Email tổng hợp</strong> — Gộp nhiều thread thành 1 cập nhật rõ ràng</li>
+<li><strong>Email yêu cầu</strong> — Xin phê duyệt, xin tài nguyên</li>
+<li><strong>Email cảm ơn/xã giao</strong> — Chuyên nghiệp nhưng chân thành</li>
+</ol>
+<h3>⚡ Thực hành ngay</h3>
+<p><strong>Master Prompt cho Email:</strong></p>
+<pre><code>Tình huống: [Mô tả ngữ cảnh — bạn là ai, gửi cho ai, về vấn đề gì]
+Loại email: [từ chối / nhắc nhở / yêu cầu / thông báo / cảm ơn]
+Thông điệp chính: [1-2 câu điểm cốt lõi muốn truyền đạt]
+Tone: [lịch sự / thân thiện / chính thức / quyết đoán]
+Độ dài: [dưới 100/150/200 từ]
+Lưu ý đặc biệt: [nếu có — ví dụ: người nhận đang bực, hay đây là email follow-up lần 3]
+
+Viết email hoàn chỉnh bằng tiếng Việt.
+</code></pre>
+<p><strong>Bài tập:</strong> Lấy 5 email đang nằm trong hộp thư nháp (draft) hoặc email bạn đang ngại phải viết — dùng Master Prompt để hoàn thiện tất cả trong 30 phút hôm nay.</p>
+<hr />
+<h2>NGÀY 11: SỨC MẠNH CỦA TEMPLATES — TẠO MỘT LẦN, DÙNG MÃI MÃI</h2>
+<h3>🧠 Bài học hôm nay</h3>
+<p><strong>Template</strong> = Khuôn mẫu. Bạn tạo một lần → Dùng lại hàng trăm lần mà không cần suy nghĩ lại từ đầu.</p>
+<p>Những template đáng có nhất cho nhân viên văn phòng:</p>
+<table>
+<thead>
+<tr>
+<th>Template</th>
+<th>Tần suất dùng</th>
+<th>Tiết kiệm/lần</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Báo cáo tuần</td>
+<td>Mỗi tuần</td>
+<td>1 giờ</td>
+</tr>
+<tr>
+<td>Email follow-up</td>
+<td>5-10 lần/tuần</td>
+<td>10 phút</td>
+</tr>
+<tr>
+<td>Meeting Agenda</td>
+<td>3-5 lần/tuần</td>
+<td>20 phút</td>
+</tr>
+<tr>
+<td>Proposal/đề xuất</td>
+<td>2-4 lần/tháng</td>
+<td>2 giờ</td>
+</tr>
+<tr>
+<td>Phân tích dữ liệu</td>
+<td>2-3 lần/tuần</td>
+<td>45 phút</td>
+</tr>
+</tbody>
+</table>
+<h3>⚡ Thực hành ngay</h3>
+<p><strong>Tạo Template Báo Cáo Tuần Cá Nhân:</strong></p>
+<pre><code>Hãy tạo template báo cáo tuần cho vị trí [chức danh] của tôi.
+Context: [mô tả công việc]
+
+Template cần bao gồm:
+- Tiêu đề với tuần/ngày tự động
+- Phần: Việc đã hoàn thành (có % so với kế hoạch)
+- Phần: Thách thức gặp phải + Cách xử lý
+- Phần: Kế hoạch tuần tới (top 3 ưu tiên)
+- Phần: Yêu cầu hỗ trợ từ quản lý (nếu có)
+- Metrics/số liệu quan trọng của tuần
+
+Format: Tiếng Việt, chuyên nghiệp, dễ đọc, khoảng 1 trang A4.
+</code></pre>
+<p>Sau khi AI tạo template, hãy điền thông tin thật của tuần này và gửi thử cho quản lý.</p>
+<hr />
+<h2>NGÀY 12: QUẢN LÝ DỰ ÁN BẰNG NGÔN NGỮ TỰ NHIÊN</h2>
+<h3>🧠 Bài học hôm nay</h3>
+<p>Bạn không cần học Jira hay Microsoft Project. Với Antigravity, bạn quản lý dự án bằng cách <strong>kể chuyện</strong> — AI sẽ biến narrative của bạn thành kế hoạch có cấu trúc.</p>
+<p><strong>Project Brief → Kế hoạch đầy đủ trong 5 phút:</strong></p>
+<pre><code>Tôi cần lên kế hoạch cho dự án: [tên dự án]
+Mục tiêu: [mục tiêu cụ thể, đo lường được]
+Timeline: Từ [ngày bắt đầu] đến [deadline]
+Team: [Số người, vai trò chính]
+Nguồn lực: [Ngân sách nếu có, tools có sẵn]
+Rủi ro đã biết: [Liệt kê nếu có]
+
+Hãy tạo:
+1. Work breakdown structure (WBS) — các công việc theo giai đoạn
+2. Gantt chart đơn giản dạng bảng
+3. RACI matrix (Ai làm gì, ai duyệt, ai tư vấn, ai thông báo)
+4. Risk register với mức độ và kế hoạch giảm thiểu
+5. Checklist kick-off meeting
+</code></pre>
+<h3>⚡ Thực hành ngay</h3>
+<p>Lấy 1 dự án thực tế bạn đang tham gia hoặc sắp bắt đầu. Chạy prompt trên và so sánh kế hoạch AI tạo ra với kế hoạch hiện tại (nếu có). Điều chỉnh và làm kế hoạch hoàn chỉnh hơn.</p>
+<h3>💡 Mẹo pro</h3>
+<blockquote>
+<p>Update tiến độ dự án hàng tuần bằng cách paste ghi chú vào Antigravity: <em>"Đây là update tuần này [ghi chú]. Hãy cập nhật kế hoạch và highlight những gì bị trễ so với plan."</em></p>
+</blockquote>
+<hr />
+<h2>NGÀY 13: NÂNG CẤP KỸ NĂNG TRÌNH BÀY</h2>
+<h3>🧠 Bài học hôm nay</h3>
+<p>Bạn có ý tưởng tốt nhưng không biết trình bày thuyết phục? Antigravity là <strong>ghostwriter</strong> và <strong>presentation coach</strong> của bạn.</p>
+<p><strong>Công thức trình bày thuyết phục nhất: SCQA</strong></p>
+<pre><code>S — Situation  (Tình huống): Bối cảnh hiện tại là gì?
+C — Complication (Vấn đề): Điều gì làm tình huống trở nên khó khăn?
+Q — Question (Câu hỏi): Câu hỏi cốt lõi cần trả lời?
+A — Answer (Câu trả lời): Giải pháp/đề xuất của bạn?
+</code></pre>
+<h3>⚡ Thực hành ngay</h3>
+<p><strong>Tạo Slide Deck từ Ý Tưởng:</strong></p>
+<pre><code>Tôi cần trình bày [chủ đề] cho [đối tượng] trong [X] phút.
+Sử dụng cấu trúc SCQA:
+S: [Mô tả tình huống]
+C: [Vấn đề/thách thức]
+Q: Làm thế nào để [giải quyết]?
+A: [Giải pháp của tôi]
+
+Hãy tạo:
+- Outline đầy đủ (tiêu đề + nội dung chính từng slide)
+- Slide 1-3: Hook + Problem
+- Slide 4-7: Solution + Evidence  
+- Slide 8-9: Action plan
+- Slide 10: Call to action / Next steps
+- Speaker notes cho từng slide
+</code></pre>
+<hr />
+<h2>NGÀY 14: TỔNG KẾT TUẦN 2 — ĐO LƯỜNG IMPACT</h2>
+<h3>🧠 Bài học hôm nay</h3>
+<p>Không đo lường = Không cải thiện. Hôm nay bạn sẽ <strong>tính toán chính xác</strong> impact của Antigravity đối với công việc của mình sau 2 tuần.</p>
+<h3>⚡ Thực hành ngay</h3>
+<p><strong>Bài tập "ROI Calculator" cá nhân:</strong></p>
+<pre><code>Hãy giúp tôi tính ROI của việc dùng Antigravity trong 2 tuần qua.
+
+Dữ liệu tôi thu thập:
+- Tuần 1: Tiết kiệm [X] giờ cho [liệt kê tác vụ]
+- Tuần 2: Tiết kiệm [X] giờ cho [liệt kê tác vụ]
+- Lương theo giờ của tôi: [tính từ lương tháng / 176 giờ]
+- Chất lượng output: [tự đánh giá 1-10]
+- Stress giảm: [tự đánh giá 1-10]
+
+Tạo báo cáo ROI bao gồm:
+1. Tổng giờ tiết kiệm
+2. Giá trị kinh tế tương đương
+3. Tác vụ được tự động hoá hoàn toàn
+4. Dự báo 3 tháng tới nếu tiếp tục
+5. Top 3 quick wins để tăng impact trong tuần tới
+</code></pre>
+<h3>✅ Checkpoint cuối tuần 2</h3>
+<p><strong>Bạn đã đạt được nếu:</strong><br />
+- [ ] Có Prompt Library với 10+ prompt đã test<br />
+- [ ] Tự động hoá được meeting workflow (before/after/during)<br />
+- [ ] Có template báo cáo tuần cá nhân<br />
+- [ ] Đã tính ROI thực tế — tiết kiệm ít nhất 8-10 giờ/tuần<br />
+- [ ] Cảm giác: <em>"Antigravity là cánh tay phải của tôi"</em></p>
+<hr />
+<p><em>Tuần 3 đang chờ — đây là nơi bạn từ "user" trở thành "creator."</em></p>
+<h1>TUẦN 3: VIBE CODING — BẠN LÀ "GIÁM ĐỐC SẢN PHẨM", AI LÀ "LẬP TRÌNH VIÊN"</h1>
+<h2>"Từ Người Dùng Đến Người Tạo"</h2>
+<h3>Ngày 15 → 21</h3>
+<blockquote>
+<p><em>Mục tiêu tuần này: Tạo ra ít nhất 3 ứng dụng web thực sự</em><br />
+<em>hỗ trợ công việc — không viết một dòng code nào.</em></p>
+</blockquote>
+<hr />
+<h2>NGÀY 15: VIBE CODING LÀ GÌ VÀ TẠI SAO BẠN CÓ THỂ LÀM ĐƯỢC</h2>
+<h3>🧠 Bài học hôm nay</h3>
+<p><strong>Vibe Coding</strong> (thuật ngữ do AI researcher Andrej Karpathy đặt ra đầu năm 2025) = Bạn "cảm nhận" và mô tả điều bạn muốn; AI hiện thực hoá thành ứng dụng thực sự.</p>
+<p>Không phải phép màu. Đây là sự thật đơn giản:</p>
+<blockquote>
+<p><strong>Mọi ứng dụng web đều được tạo từ HTML + CSS + JavaScript.<br />
+AI đã học thuộc toàn bộ những ngôn ngữ này.<br />
+Nhiệm vụ của bạn chỉ là mô tả — AI sẽ viết.</strong></p>
+</blockquote>
+<p><strong>Vai trò mới của bạn: Product Manager (PM)</strong></p>
+<pre><code>PM giỏi không cần biết code.
+PM giỏi cần biết:
+✓ Vấn đề là gì?
+✓ Người dùng cần gì?
+✓ Trải nghiệm nên như thế nào?
+✓ Ưu tiên tính năng nào trước?
+</code></pre>
+<p>Đó chính xác là những gì bạn đã làm cả đời trong công việc. Bây giờ chỉ cần áp dụng cho việc tạo ứng dụng.</p>
+<h3>⚡ Thực hành ngay</h3>
+<p><strong>Bài tập "Hello World" Vibe Coding — 20 phút:</strong></p>
+<p>Tạo ứng dụng đầu tiên của bạn:</p>
+<pre><code>Tạo một trang web HTML single-file hoàn chỉnh — một &quot;Bộ đếm Pomodoro&quot;
+cho nhân viên văn phòng.
+
+Tính năng:
+- Đồng hồ đếm ngược 25 phút (làm việc) + 5 phút (nghỉ)
+- Nút Play / Pause / Reset
+- Âm thanh thông báo khi hết giờ (dùng Web Audio API)
+- Hiển thị số Pomodoro đã hoàn thành trong ngày
+- Giao diện đẹp, màu tím/xanh, font hiện đại (Google Fonts: Inter)
+- Responsive trên điện thoại
+
+Tất cả trong 1 file HTML duy nhất. Không dùng framework ngoài.
+</code></pre>
+<p>Sau khi AI tạo xong: Mở file trong Chrome → Test → Ghi nhận cảm giác <strong>"Tôi vừa tạo một app!"</strong></p>
+<h3>💡 Mẹo pro</h3>
+<blockquote>
+<p>Lần đầu tiên kết quả chưa hoàn hảo là bình thường. Vibe Coding là một quá trình iteration. <em>"Gần đúng rồi, thêm X"</em> mạnh hơn <em>"Làm lại từ đầu"</em>.</p>
+</blockquote>
+<hr />
+<h2>NGÀY 16: ỨNG DỤNG 1 — DASHBOARD KPI CÁ NHÂN</h2>
+<h3>🧠 Bài học hôm nay</h3>
+<p>Mỗi người đi làm đều có những chỉ số cần theo dõi để biết mình đang làm tốt hay không. Hôm nay bạn tạo <strong>Dashboard KPI cá nhân</strong> — một trang web đẹp hiển thị tình trạng công việc real-time.</p>
+<p><strong>Quy trình DIARI (5 bước Vibe Coding chuẩn):</strong></p>
+<pre><code>D — Describe  : Mô tả ứng dụng tổng thể
+I — Iterate   : Xem kết quả, yêu cầu chỉnh sửa chi tiết
+A — Add       : Thêm tính năng từng bước một
+R — Refine    : Tinh chỉnh giao diện, màu sắc, UX
+I — Integrate : Nhập dữ liệu thực tế của bạn vào
+</code></pre>
+<h3>⚡ Thực hành ngay</h3>
+<p><strong>Bước D — Describe:</strong></p>
+<pre><code>Tạo Dashboard KPI cá nhân bằng HTML/CSS/JS.
+
+KPI tôi cần theo dõi:
+1. [KPI 1 của bạn — ví dụ: Số email xử lý/tuần, target: 100]
+2. [KPI 2 — ví dụ: Số cuộc họp/tuần, target: ≤10]
+3. [KPI 3 — ví dụ: Tasks hoàn thành/tuần, target: 20]
+4. [KPI 4 — ví dụ: Giờ làm thêm/tuần, target: ≤5]
+
+Dashboard bao gồm:
+- 4 card KPI với số liệu hiện tại vs target, % đạt, màu xanh/vàng/đỏ
+- Biểu đồ đường xu hướng 4 tuần gần nhất
+- Có thể nhập/chỉnh số liệu trực tiếp
+- Lưu dữ liệu vào localStorage
+- Thiết kế dark mode chuyên nghiệp
+</code></pre>
+<p>Sau đó lần lượt thực hiện các bước I, A, R, I để hoàn thiện.</p>
+<hr />
+<h2>NGÀY 17: ỨNG DỤNG 2 — FORM TỔNG HỢP &amp; THEO DÕI</h2>
+<h3>🧠 Bài học hôm nay</h3>
+<p>Bạn đang dùng Google Form hay Excel để thu thập thông tin? Hôm nay tạo form xịn hơn — có validation, có đẹp, có lưu lịch sử, và <strong>100% thuộc về bạn</strong>.</p>
+<p><strong>Các loại form phổ biến nhất:</strong><br />
+- Phiếu yêu cầu mua sắm / phê duyệt<br />
+- Form nhận đơn hàng / đăng ký<br />
+- Checklist kiểm tra / nghiệm thu<br />
+- Phiếu đánh giá / khảo sát nội bộ<br />
+- Form báo cáo sự cố</p>
+<h3>⚡ Thực hành ngay</h3>
+<p>Chọn 1 form bạn đang dùng dạng paper hoặc Excel. Tạo phiên bản web:</p>
+<pre><code>Tạo form web cho [loại form] của phòng [tên phòng].
+
+Các trường cần nhập:
+- [Trường 1: tên, loại dữ liệu, bắt buộc/không]
+- [Trường 2]
+- [Trường 3]
+...
+
+Tính năng:
+1. Validation: [Mô tả rule — ví dụ: ngày không được trong quá khứ]
+2. Tự động tính toán: [Nếu có — ví dụ: tổng tiền từ số lượng × đơn giá]
+3. Preview trước khi submit
+4. Lưu danh sách tất cả submissions vào localStorage
+5. Tab thứ 2: Xem lại tất cả submissions dạng bảng, có thể lọc
+6. Nút export danh sách ra file CSV
+
+Thiết kế: màu [màu thương hiệu công ty], font Roboto.
+</code></pre>
+<hr />
+<h2>NGÀY 18: ỨNG DỤNG 3 — CÔNG CỤ TÍNH TOÁN NGHIỆP VỤ</h2>
+<h3>🧠 Bài học hôm nay</h3>
+<p>Mỗi ngành đều có phép tính đặc thù. Kế toán tính thuế, HR tính lương/BHXH, Kinh doanh tính margin/ROI... Những phép tính này lặp đi lặp lại mỗi ngày, gây sai sót và mất thời gian.</p>
+<p>Hôm nay tạo <strong>Calculator tool chuyên dụng</strong> — vừa nhanh, vừa chính xác, vừa đẹp.</p>
+<h3>⚡ Thực hành ngay</h3>
+<p>Chọn phép tính phổ biến nhất trong công việc của bạn:</p>
+<p><strong>Ví dụ — HR: Công cụ tính lương Net-từ-Gross:</strong></p>
+<pre><code>Tạo công cụ web tính lương net từ gross cho nhân viên Việt Nam.
+
+Đầu vào:
+- Lương gross (nhập trực tiếp)
+- Số người phụ thuộc (dropdown: 0-5)
+- Khu vực (dropdown: HN/HCM/Tỉnh → lương tối thiểu vùng tương ứng)
+- Loại hợp đồng (HĐLĐ có xác định thời hạn / HĐLĐ không xác định thời hạn / Thời vụ)
+
+Tự động tính:
+- BHXH NV đóng (8%), BHYT (1.5%), BHTN (1%) 
+- Thuế TNCN theo biểu lũy tiến (giảm trừ bản thân 11M, người phụ thuộc 4.4M)
+- Lương net cuối cùng
+
+Hiển thị: Bảng phân rã từng khoản, rõ ràng để NV hiểu.
+Thêm: So sánh nhanh gross 15M / 20M / 25M / 30M cùng lúc.
+</code></pre>
+<p><strong>Ví dụ — Kinh doanh: Công cụ tính giá bán &amp; margin:</strong></p>
+<pre><code>Tạo công cụ tính giá bán sản phẩm và margin.
+Đầu vào: Giá vốn, % Margin mong muốn, Thuế VAT (0/5/10%)
+Đầu ra: Giá bán chưa VAT, Giá bán có VAT, Lợi nhuận tuyệt đối
+Thêm: Simulator — &quot;Nếu tặng discount X%, margin còn lại là?&quot;
+</code></pre>
+<h3>💡 Mẹo pro</h3>
+<blockquote>
+<p>Sau khi Calculator hoạt động, thêm: <em>"Hãy thêm nút 'Lưu kết quả' để ghi lại lịch sử tính toán, xem lại được."</em> Vậy là bạn có audit trail miễn phí.</p>
+</blockquote>
+<hr />
+<h2>NGÀY 19: UX THINKING — LÀM CHO APP ĐẸP VÀ DỄ DÙNG</h2>
+<h3>🧠 Bài học hôm nay</h3>
+<p>Code chạy được ≠ App tốt. App tốt là app mà người dùng <strong>thích dùng</strong>. Hôm nay học cách nâng cấp giao diện từ "trung bình" lên "wow."</p>
+<p><strong>5 nguyên tắc UX cơ bản (áp dụng bằng prompt):</strong></p>
+<ol>
+<li><strong>Clarity</strong> — Người dùng biết phải làm gì ngay khi nhìn vào</li>
+<li><strong>Feedback</strong> — Mọi action đều có phản hồi (loading, success, error)</li>
+<li><strong>Consistency</strong> — Màu sắc, font, spacing nhất quán</li>
+<li><strong>Mobile-first</strong> — Dùng được trên điện thoại</li>
+<li><strong>Delight</strong> — Animation nhỏ tạo cảm giác "premium"</li>
+</ol>
+<h3>⚡ Thực hành ngay</h3>
+<p>Lấy 1 app bạn đã tạo trong 3 ngày trước. Chạy prompt nâng cấp UX:</p>
+<pre><code>Hãy nâng cấp toàn bộ giao diện và UX của app này:
+
+1. Thiết kế hệ thống màu sắc nhất quán (primary/secondary/accent/neutral)
+2. Import Google Fonts: [Chọn: Inter / Outfit / Be Vietnam Pro]
+3. Thêm loading state cho mọi action
+4. Thêm toast notification (thành công/lỗi) đẹp, tự biến mất sau 3s
+5. Thêm hover effects và transition 200ms cho mọi button/card
+6. Làm responsive hoàn toàn (breakpoints: 768px, 1024px)
+7. Thêm empty state đẹp khi chưa có dữ liệu
+8. Keyboard shortcuts: Ctrl+S để lưu, Esc để đóng modal
+9. Thêm dark/light mode toggle với animation
+10. Tối ưu spacing: padding/margin nhất quán theo bội số của 8px
+
+Giữ nguyên toàn bộ logic và data.
+</code></pre>
+<hr />
+<h2>NGÀY 20: MULTI-PAGE APP — KẾT NỐI NHIỀU MÀN HÌNH</h2>
+<h3>🧠 Bài học hôm nay</h3>
+<p>Đến đây bạn đã tạo được ứng dụng single-page. Hôm nay: <strong>kết nối nhiều màn hình thành một hệ thống hoàn chỉnh</strong>.</p>
+<p><strong>Ví dụ: Hệ thống quản lý đơn hàng nhỏ:</strong></p>
+<pre><code>Trang 1 - Dashboard: Tổng quan, số liệu, biểu đồ
+Trang 2 - Danh sách: Bảng tất cả đơn hàng, lọc, tìm kiếm
+Trang 3 - Thêm mới: Form nhập đơn hàng mới
+Trang 4 - Chi tiết: Xem và chỉnh sửa từng đơn
+</code></pre>
+<h3>⚡ Thực hành ngay</h3>
+<pre><code>Tạo ứng dụng web đa trang cho [hệ thống bạn muốn] gồm các trang:
+
+[Trang 1]: [Tên + mục đích]
+[Trang 2]: [Tên + mục đích]
+[Trang 3]: [Tên + mục đích]
+
+Navigation:
+- Sidebar cố định bên trái (desktop)
+- Bottom tab bar (mobile)
+- Breadcrumb hiển thị vị trí hiện tại
+
+Dữ liệu: Dùng chung 1 localStorage store, cập nhật realtime giữa các trang.
+Thiết kế: Nhất quán toàn bộ app, sidebar màu [màu], nội dung nền trắng.
+</code></pre>
+<hr />
+<h2>NGÀY 21: TỔNG KẾT TUẦN 3 — CAPSTONE VIBE CODING</h2>
+<h3>🧠 Bài học hôm nay</h3>
+<p>Hôm nay là ngày <strong>tạo ra ứng dụng hoàn chỉnh nhất từ trước đến giờ</strong> — tích hợp tất cả kỹ năng Vibe Coding của tuần 3.</p>
+<h3>⚡ Thực hành ngay</h3>
+<p><strong>Xác định bài toán "đau" nhất của phòng ban bạn.</strong> Câu hỏi để tìm:<br />
+- Cái gì tôi làm thủ công nhất hiện nay?<br />
+- Cái gì hay gây sai sót nhất?<br />
+- Cái gì đồng nghiệp hay hỏi tôi nhất?<br />
+- Cái gì mà khi có tool sẽ giúp cả team?</p>
+<p>Sau khi xác định: Xây dựng MVP (phiên bản đầu tiên) trong 3 giờ:</p>
+<pre><code>Giờ 1: Describe + lần đầu tiên (Bước D+I trong DIARI)
+Giờ 2: Add tính năng + Refine giao diện (Bước A+R)
+Giờ 3: Integrate dữ liệu thực + Test + Fix bugs (Bước I cuối)
+</code></pre>
+<h3>✅ Checkpoint cuối tuần 3</h3>
+<p><strong>Bạn đã đạt được nếu:</strong><br />
+- [ ] Đã tạo ít nhất 3 ứng dụng web hoạt động thực tế<br />
+- [ ] Hiểu và áp dụng được quy trình DIARI<br />
+- [ ] Biết cách nâng cấp UX bằng prompt<br />
+- [ ] Đã tạo app đa trang có navigation<br />
+- [ ] Cảm giác: <em>"Tôi có thể tạo bất cứ thứ gì!"</em> 🎉</p>
+<hr />
+<p><em>Tuần cuối cùng: Bạn sẽ kết nối tất cả lại thành một hệ thống x10 hiệu suất thực sự.</em></p>
+<h1>TUẦN 4: LÀM CHỦ HOÀN TOÀN — HỆ THỐNG X10 HIỆU SUẤT</h1>
+<h2>"Từ Người Thành Thạo Đến Người Làm Chủ"</h2>
+<h3>Ngày 22 → 30</h3>
+<blockquote>
+<p><em>Mục tiêu tuần này: Xây dựng một hệ thống tự động hoá</em><br />
+<em>hoàn chỉnh — để máy móc làm việc cả khi bạn ngủ.</em></p>
+</blockquote>
+<hr />
+<h2>NGÀY 22: WORKFLOW ENGINE — TẠO QUY TRÌNH TỰ ĐỘNG</h2>
+<h3>🧠 Bài học hôm nay</h3>
+<p>Đến đây bạn đã có: Prompt Library + App cá nhân. Hôm nay học cách <strong>kết nối chúng thành một quy trình (workflow) tự động</strong> — bạn trigger một lệnh, AI tự làm 5-10 bước liên tiếp.</p>
+<p><strong>Workflow = Chuỗi bước được lưu sẵn, gọi bằng <code>/ten-lenh</code></strong></p>
+<p>Thay vì mỗi tuần gõ lại 10 prompt → Bạn gõ <code>/bao-cao-tuan</code> → AI tự làm tất cả.</p>
+<p><strong>Tạo workflow file:</strong></p>
+<pre><code>Vị trí: .agents/workflows/ten-workflow.md
+
+Format:
+---
+description: Mô tả ngắn gọn workflow này làm gì
+---
+1. Bước 1...
+2. Bước 2...
+3. Bước 3...
+</code></pre>
+<h3>⚡ Thực hành ngay</h3>
+<p><strong>Tạo Workflow #1: <code>/bao-cao-tuan</code></strong></p>
+<pre><code class="language-markdown">---
+description: Tự động tổng hợp và tạo báo cáo tuần hoàn chỉnh
+---
+1. Hỏi tôi: &quot;Tuần này bạn đã hoàn thành những việc gì? (Liệt kê)&quot;
+2. Hỏi tiếp: &quot;Có khó khăn hoặc blockers nào không?&quot;
+3. Hỏi tiếp: &quot;3 ưu tiên của tuần tới là gì?&quot;
+4. Từ thông tin trên, tạo báo cáo tuần theo template sau:
+   [Dán template báo cáo bạn đã tạo ở Ngày 11]
+5. Format đẹp, tiếng Việt, professional tone
+6. Đề xuất 1-2 improvement từ patterns trong báo cáo
+</code></pre>
+<p><strong>Tạo Workflow #2: <code>/phan-tich-nhanh</code></strong></p>
+<pre><code class="language-markdown">---
+description: Phân tích nhanh file dữ liệu được paste vào
+---
+1. Xác nhận cấu trúc dữ liệu (số cột, kiểu dữ liệu, số dòng)
+2. Tính thống kê mô tả cơ bản
+3. Phát hiện top 3 insights nổi bật nhất
+4. Tìm dữ liệu bất thường hoặc lỗi (nếu có)
+5. Tạo dashboard HTML trực quan
+6. Đề xuất 2-3 câu hỏi phân tích sâu hơn nên làm tiếp
+</code></pre>
+<hr />
+<h2>NGÀY 23: NÂNG CẤP WORKFLOW — ĐIỀU KIỆN &amp; PHÂN NHÁNH</h2>
+<h3>🧠 Bài học hôm nay</h3>
+<p>Workflow cơ bản là tuyến tính (bước 1 → 2 → 3). Workflow nâng cao có <strong>điều kiện</strong> — như một nhân viên thực sự biết "nếu... thì... còn không thì..."</p>
+<p><strong>Pattern điều kiện trong workflow:</strong></p>
+<pre><code>3. Kiểm tra dữ liệu:
+   - Nếu có lỗi: báo cáo lỗi chi tiết và hỏi tôi cách xử lý
+   - Nếu dữ liệu sạch: tiến hành bước 4
+   - Nếu không chắc: hỏi tôi để xác nhận trước khi tiếp tục
+</code></pre>
+<h3>⚡ Thực hành ngay</h3>
+<p><strong>Tạo Workflow #3: <code>/kiem-tra-chat-luong</code> (với điều kiện)</strong></p>
+<pre><code class="language-markdown">---
+description: Kiểm tra chất lượng và hoàn thiện bất kỳ văn bản nào
+---
+1. Nhận văn bản cần kiểm tra từ tôi
+2. Phân tích: loại văn bản, đối tượng đọc, mục đích
+3. Kiểm tra theo checklist:
+   □ Ngữ pháp và chính tả tiếng Việt
+   □ Cấu trúc logic và mạch lạc
+   □ Tone phù hợp với đối tượng
+   □ Độ dài phù hợp
+   □ Call-to-action rõ ràng (nếu cần)
+4. - Nếu có ≥5 lỗi: cảnh báo và liệt kê tất cả, đề xuất viết lại
+   - Nếu có 1-4 lỗi: sửa trực tiếp, giải thích từng sửa đổi
+   - Nếu không có lỗi: xác nhận và đề xuất 1-2 cải thiện nhỏ
+5. Trả về phiên bản đã cải thiện hoàn chỉnh
+</code></pre>
+<hr />
+<h2>NGÀY 24: KẾT NỐI VỚI THẾ GIỚI THỰC — IMPORT/EXPORT DATA</h2>
+<h3>🧠 Bài học hôm nay</h3>
+<p>App của bạn đẹp nhưng vẫn còn "cô lập" với dữ liệu thực. Hôm nay học cách <strong>kết nối app với dữ liệu thực</strong> — import từ Excel, export ra các định dạng cần thiết.</p>
+<p><strong>3 cầu nối dữ liệu quan trọng:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Từ</th>
+<th>Đến</th>
+<th>Cách làm</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Excel/CSV</td>
+<td>App web</td>
+<td>Import file → Parse → Hiển thị</td>
+</tr>
+<tr>
+<td>App web</td>
+<td>Excel</td>
+<td>Export button → Download CSV</td>
+</tr>
+<tr>
+<td>Copy-paste</td>
+<td>App</td>
+<td>Detect và parse tự động</td>
+</tr>
+</tbody>
+</table>
+<h3>⚡ Thực hành ngay</h3>
+<p>Nâng cấp app Tuần 3 của bạn với tính năng import/export:</p>
+<p><strong>Prompt nâng cấp Import:</strong></p>
+<pre><code>Thêm tính năng import cho app hiện tại:
+1. Nút &quot;Import từ Excel/CSV&quot; — user chọn file
+2. Tự động đọc và parse file (hỗ trợ .xlsx, .csv, .tsv)
+3. Preview 5 dòng đầu tiên, hỏi xác nhận mapping cột
+4. Import toàn bộ dữ liệu, báo cáo số dòng thành công/lỗi
+5. Nếu có dòng lỗi: hiển thị chi tiết, hỏi bỏ qua hay dừng lại
+</code></pre>
+<p><strong>Prompt nâng cấp Export:</strong></p>
+<pre><code>Thêm tính năng export:
+- Nút &quot;Xuất Excel&quot; → download file .csv chuẩn UTF-8
+- Nút &quot;In báo cáo&quot; → trang print-friendly, ẩn menu/button
+- Nút &quot;Copy bảng&quot; → copy dữ liệu có thể paste thẳng vào Excel
+- Nút &quot;Xuất PDF&quot; → dùng window.print() với CSS @media print
+</code></pre>
+<hr />
+<h2>NGÀY 25: AUTOMATION MINDSET — NHÌN ĐÂU CŨNG THẤY CƠ HỘI TỰ ĐỘNG HOÁ</h2>
+<h3>🧠 Bài học hôm nay</h3>
+<p>Đây là bài học về <strong>tư duy</strong>, không phải kỹ thuật. Người làm chủ Antigravity không dùng nó như một công cụ rời rạc — họ nhìn <strong>toàn bộ công việc qua lăng kính tự động hoá</strong>.</p>
+<p><strong>Automation Audit Framework:</strong></p>
+<p>Mỗi tuần, hỏi bản thân 3 câu:</p>
+<pre><code>1. &quot;Việc gì tôi đã làm lần thứ 3 trở lên trong tuần này?&quot;
+   → Tự động hoá ngay!
+
+2. &quot;Việc gì ai cũng làm giống nhau trong team?&quot;
+   → Tạo workflow chia sẻ!
+
+3. &quot;Lỗi nào hay xảy ra vì thủ công?&quot;
+   → Dùng AI kiểm tra tự động!
+</code></pre>
+<h3>⚡ Thực hành ngay</h3>
+<p><strong>Bài tập "Automation Backlog":</strong></p>
+<pre><code>Giúp tôi tạo Automation Backlog cho công việc của mình.
+
+Đây là danh sách tác vụ hàng tuần của tôi:
+[Paste danh sách 10-15 tác vụ bạn hay làm]
+
+Hãy:
+1. Categorize: Có thể tự động hoá hoàn toàn / Một phần / Không thể
+2. Prioritize: Tác vụ nào tự động hoá sẽ tiết kiệm nhiều nhất
+3. Estimate: Thời gian xây dựng automation so với thời gian tiết kiệm được
+4. Roadmap: Đề xuất thứ tự nên làm trong 4 tuần tới
+5. Quick wins: 3 automation có thể làm ngay hôm nay (&lt;30 phút)
+</code></pre>
+<hr />
+<h2>NGÀY 26: XÂY HỆ THỐNG "DIGITAL TWIN" CHO PHÒNG BAN</h2>
+<h3>🧠 Bài học hôm nay</h3>
+<p><strong>Digital Twin của phòng ban</strong> = Bản sao số hoá toàn bộ quy trình và dữ liệu của phòng bạn — luôn cập nhật, luôn có thể truy vấn, không bao giờ mất thông tin.</p>
+<p>Cấu trúc Digital Twin:</p>
+<pre><code>phong-[ten-phong]/
+├── ANTIGRAVITY.md          → Ngữ cảnh phòng ban
+├── quy-trinh/
+│   ├── onboarding.md       → Quy trình tiếp nhận nhân viên mới
+│   ├── bao-cao.md          → Quy trình báo cáo
+│   └── phe-duyet.md        → Quy trình phê duyệt
+├── templates/
+│   ├── bao-cao-tuan.md
+│   └── email-templates.md
+├── tools/
+│   └── prompts/
+└── apps/
+    └── [các app Vibe Coding bạn đã tạo]
+</code></pre>
+<h3>⚡ Thực hành ngay</h3>
+<p>Bắt đầu xây Digital Twin cho phòng bạn:</p>
+<p><strong>Bước 1:</strong> Tạo cấu trúc thư mục trên<br />
+<strong>Bước 2:</strong> Viết ANTIGRAVITY.md cấp phòng ban (chi tiết hơn ANTIGRAVITY.md cá nhân)<br />
+<strong>Bước 3:</strong> Số hoá 2-3 quy trình quan trọng nhất:</p>
+<pre><code>Hãy giúp tôi tài liệu hoá quy trình [tên quy trình] của phòng tôi.
+
+Tôi mô tả quy trình hiện tại:
+[Mô tả bằng văn xuôi hoặc gạch đầu dòng]
+
+Hãy format thành:
+1. Lưu đồ quy trình (dạng text/ASCII)
+2. Bảng RACI (ai làm/phê duyệt/tư vấn/nhận thông báo)
+3. Checklist từng bước chi tiết
+4. Trigger condition (khi nào bắt đầu quy trình)
+5. Điều kiện kết thúc (khi nào quy trình hoàn tất)
+6. KPIs đo hiệu quả quy trình
+</code></pre>
+<hr />
+<h2>NGÀY 27: CHIA SẺ VÀ NHÂN RỘNG — BIẾN CÁ NHÂN THÀNH TEAM</h2>
+<h3>🧠 Bài học hôm nay</h3>
+<p>Kỹ năng của bạn có giá trị gấp bội khi bạn chia sẻ nó. Hôm nay học cách <strong>đóng gói những gì bạn đã xây dựng</strong> để đồng nghiệp có thể dùng được — không cần phải học lại từ đầu.</p>
+<p><strong>Knowledge Transfer Package gồm:</strong></p>
+<pre><code>1. README.md — Hướng dẫn bắt đầu nhanh (&lt; 1 trang)
+2. Prompt Library — Kho prompt đã test
+3. Workflow files — Các workflow sẵn dùng
+4. Apps — Link đến các tool đã tạo
+5. Video demo — Quay màn hình 5 phút hướng dẫn
+</code></pre>
+<h3>⚡ Thực hành ngay</h3>
+<p><strong>Tạo README.md cho đồng nghiệp:</strong></p>
+<pre><code>Giúp tôi viết README.md hướng dẫn đồng nghiệp sử dụng bộ công cụ 
+Antigravity tôi đã xây dựng cho phòng [tên phòng].
+
+Đối tượng đọc: Nhân viên không có kỹ thuật, lần đầu dùng Antigravity.
+Tone: Thân thiện, khích lệ, không dùng thuật ngữ kỹ thuật.
+
+Nội dung:
+1. &quot;Bộ công cụ này giúp bạn làm gì?&quot; (3-5 bullet points)
+2. &quot;Bắt đầu trong 5 phút&quot; (step-by-step cực đơn giản)
+3. &quot;3 việc bạn có thể làm ngay&quot; (quick wins cho người mới)
+4. &quot;Khi gặp vấn đề&quot; (FAQ / troubleshooting cơ bản)
+5. &quot;Muốn học thêm?&quot; (link đến tài nguyên)
+</code></pre>
+<hr />
+<h2>NGÀY 28: ADVANCED — AI AGENT TỰ ĐỘNG HOÀN TOÀN</h2>
+<h3>🧠 Bài học hôm nay</h3>
+<p>Hôm nay chạm đến sức mạnh thực sự của Antigravity: <strong>AI Agent tự chủ</strong> — bạn giao nhiệm vụ phức tạp, Agent tự lên kế hoạch và thực hiện nhiều bước, chỉ báo cáo kết quả cuối cùng.</p>
+<p><strong>Ví dụ Agent task phức tạp:</strong></p>
+<pre><code>&quot;Hãy phân tích toàn bộ thư mục dữ liệu của tôi,
+tổng hợp báo cáo tháng 2, tạo dashboard HTML,
+và đề xuất 5 cải thiện cụ thể cho tháng 3.&quot;
+</code></pre>
+<p>Agent sẽ tự: Đọc files → Phân tích → Tính toán → Tạo HTML → Viết đề xuất. Bạn chỉ chờ kết quả.</p>
+<h3>⚡ Thực hành ngay</h3>
+<p><strong>Bài tập Agent phức tạp — 45 phút:</strong></p>
+<p>Giao cho Agent một nhiệm vụ multi-step thực sự từ công việc của bạn. Không hướng dẫn từng bước — chỉ mô tả đầu ra mong muốn:</p>
+<pre><code>Nhiệm vụ: [Mô tả kết quả cuối cùng bạn muốn]
+Tài nguyên có sẵn: [Mô tả các file, dữ liệu trong workspace]
+Yêu cầu đặc biệt: [Nếu có]
+Deadline: [Không cần thực sự, nhưng ghi để AI biết ưu tiên]
+
+Hãy:
+1. Lên kế hoạch thực hiện (liệt kê các bước)
+2. Xác nhận kế hoạch với tôi trước khi làm
+3. Thực hiện từng bước
+4. Báo cáo kết quả và hỏi nếu cần điều chỉnh
+</code></pre>
+<hr />
+<h2>NGÀY 29: BUILD &amp; DEPLOY — ĐƯA APP LÊN MẠNG</h2>
+<h3>🧠 Bài học hôm nay</h3>
+<p>App của bạn hiện đang chạy trên máy tính cá nhân. Hôm nay học cách <strong>deploy lên internet</strong> — để đồng nghiệp có thể dùng qua link, không cần cài gì cả.</p>
+<p><strong>3 cách deploy đơn giản nhất, miễn phí:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Nền tảng</th>
+<th>Cách</th>
+<th>Phù hợp với</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>GitHub Pages</strong></td>
+<td>Kéo thả folder</td>
+<td>Static HTML app</td>
+</tr>
+<tr>
+<td><strong>Netlify</strong></td>
+<td>Drag &amp; drop</td>
+<td>HTML/CSS/JS app</td>
+</tr>
+<tr>
+<td><strong>Vercel</strong></td>
+<td>1 lệnh deploy</td>
+<td>Mọi loại app</td>
+</tr>
+</tbody>
+</table>
+<h3>⚡ Thực hành ngay</h3>
+<p><strong>Deploy app lên Netlify (dễ nhất, 5 phút):</strong></p>
+<pre><code>Hướng dẫn tôi từng bước deploy app HTML này lên Netlify:
+1. Chuẩn bị file cần thiết
+2. Tạo tài khoản và deploy
+3. Lấy public URL để chia sẻ
+4. Setup custom domain (nếu cần)
+5. Cách update khi có thay đổi
+
+Tôi có file: [tên file .html]
+Tôi chưa có tài khoản Netlify.
+</code></pre>
+<p>Sau khi deploy: Chia sẻ link cho ít nhất 2 đồng nghiệp. Quan sát họ dùng và ghi nhận feedback.</p>
+<hr />
+<h2>NGÀY 30: NGÀY CUỐI — LỄ TỐT NGHIỆP &amp; KẾ HOẠCH 90 NGÀY TIẾP THEO</h2>
+<h3>🧠 Bài học hôm nay</h3>
+<p>Xin chúc mừng — bạn đã hoàn thành 30 ngày! Hôm nay không học kỹ năng mới. Hôm nay là ngày <strong>nhìn lại, ăn mừng, và vạch ra con đường phía trước</strong>.</p>
+<h3>⚡ Thực hành ngay</h3>
+<p><strong>Bài tập "30-Day Retrospective":</strong></p>
+<pre><code>Tôi vừa hoàn thành 30 ngày học Antigravity. Giúp tôi tổng kết:
+
+Những gì tôi đã xây dựng:
+- [Liệt kê tất cả app, workflow, template đã tạo]
+
+Thời gian tiết kiệm được:
+- Trước: [X giờ/tuần cho các tác vụ thủ công]
+- Sau: [Y giờ/tuần]
+- Tiết kiệm: [Z giờ/tuần = W giờ/tháng]
+
+Hãy tạo cho tôi:
+1. &quot;Certificate of Achievement&quot; đẹp dạng HTML (để screenshot chia sẻ)
+2. Tóm tắt hành trình 30 ngày — thành tích, bài học, điểm nổi bật
+3. Kế hoạch 90 ngày tiếp theo:
+   - Tháng 2: Những kỹ năng cần deep-dive
+   - Tháng 3: Dự án nào sẽ xây dựng
+   - Tháng 4: Cách chia sẻ/nhân rộng trong tổ chức
+4. Top 5 lời khuyên bạn sẽ nói với phiên bản của mình 30 ngày trước
+</code></pre>
+<h3>✅ Checkpoint cuối hành trình 30 ngày</h3>
+<p><strong>Bạn đã là "Người làm chủ Antigravity" nếu:</strong></p>
+<ul>
+<li>[ ] Tiết kiệm được ít nhất <strong>10 giờ/tuần</strong> (x10 so với 1 giờ đầu tiên)</li>
+<li>[ ] Có ít nhất <strong>5 apps</strong> đang chạy thực tế</li>
+<li>[ ] Có <strong>Workflow Library</strong> với 5+ workflow tái sử dụng</li>
+<li>[ ] Có <strong>Prompt Library</strong> cá nhân với 15+ prompt đã test</li>
+<li>[ ] Đã <strong>deploy ít nhất 1 app</strong> lên internet cho team dùng</li>
+<li>[ ] Đã <strong>chia sẻ kỹ năng</strong> với ít nhất 1 đồng nghiệp</li>
+<li>[ ] <strong>Digital Twin</strong> của phòng ban đã có hình hài</li>
+</ul>
+<hr />
+<h2>LỜI KẾT</h2>
+<h3>Bạn đã thay đổi điều gì?</h3>
+<p>30 ngày trước, bạn là một nhân viên văn phòng bình thường — giỏi công việc, nhưng còn đang bị giam cầm bởi sự lặp lại và thủ công.</p>
+<p>Hôm nay, bạn là người khác. Bạn nhìn thấy công việc theo cách khác — không phải như một đống việc phải làm tay, mà như một hệ thống có thể được tối ưu hoá, tự động hoá, và mở rộng.</p>
+<p><strong>Nhưng điều quan trọng nhất không phải là bạn biết dùng Antigravity.</strong></p>
+<p>Điều quan trọng là bạn đã <strong>thay đổi tư duy</strong>: từ "làm theo quy trình cũ" sang "liên tục hỏi: có thể làm tốt hơn không?"</p>
+<p>Đó là tư duy của người dẫn đầu trong kỷ nguyên AI.</p>
+<hr />
+<blockquote>
+<p><em>"Tương lai thuộc về những người không biết lập trình —</em><br />
+<em>nhưng biết chính xác điều họ muốn AI làm."</em></p>
+<p>— Antigravity User Manifesto, 2026</p>
+</blockquote>
+<hr />
+<p><em>Cảm ơn bạn đã đồng hành trong 30 ngày này.<br />
+Hẹn gặp lại ở x100 hiệu suất!</em> 🚀</p>
+<h1>BỔ SUNG KIẾN TRÚC DỰ ÁN — TUẦN 4</h1>
+<h2>Agent Nâng Cao · MCP (Model Context Protocol) · Kết Nối Hệ Thống</h2>
+<blockquote>
+<p><strong>Cách dùng file này:</strong> Nội dung mở rộng cho các ngày trong TUAN-4.md<br />
+<strong>Ngày 22-23</strong> → Mở rộng phần Workflow/Agent với cấu trúc <code>.agents/</code> đầy đủ<br />
+<strong>Ngày 25</strong> → Thay thế/bổ sung bằng nội dung MCP hoàn chỉnh<br />
+<strong>Ngày 28</strong> → Mở rộng phần AI Agent với cấu trúc Multi-Agent</p>
+</blockquote>
+<hr />
+<h1>═══════════════════════════════════════════</h1>
+<h1>NGÀY 22-23 (NÂNG CAO): AGENT &amp; WORKFLOW — CẤU TRÚC CHUYÊN NGHIỆP</h1>
+<h1>"Xây Đội Ngũ AI Tự Động Làm Việc Cho Bạn"</h1>
+<h1>═══════════════════════════════════════════</h1>
+<h3>🧠 Bài học bổ sung — Hiểu sâu về Agent</h3>
+<p><strong>Agent</strong> trong Antigravity không phải chỉ là AI trả lời câu hỏi. Agent là một <strong>"nhân viên ảo tự chủ"</strong> với đầy đủ năng lực:</p>
+<pre><code>Bạn (Manager)
+    ↓
+Agent (Nhân viên ảo)
+    ├── Lên kế hoạch       → Tự phân tích yêu cầu, chia nhỏ nhiệm vụ
+    ├── Tìm kiếm thông tin → Đọc files trong workspace, tìm context
+    ├── Thực thi           → Viết code, tạo file, chạy lệnh
+    ├── Mở browser         → Kiểm tra kết quả bằng công cụ duyệt web thật
+    ├── Báo cáo            → Thông báo hoàn thành, hỏi nếu cần
+    └── Lặp lại            → Tự sửa lỗi và thử lại nếu thất bại
+</code></pre>
+<hr />
+<h2>Kiến trúc <code>.agents/</code> — "Văn Phòng Agent"</h2>
+<pre><code>.agents/                            ← Thư mục ẩn quản lý Agents
+└── workflows/                      ← Quy trình Agent (gọi bằng /ten-lenh)
+    ├── bao-cao-tuan.md             ← `/bao-cao-tuan`
+    ├── phan-tich-data.md           ← `/phan-tich-data`
+    ├── kiem-tra-chat-luong.md      ← `/kiem-tra-chat-luong`
+    ├── tao-proposal.md             ← `/tao-proposal`
+    └── onboard-nhan-vien.md        ← `/onboard-nhan-vien`
+</code></pre>
+<blockquote>
+<p><strong>Quy tắc đặt tên workflow:</strong> Dùng dấu gạch ngang, không dấu, viết thường.<br />
+<code>/ten-workflow</code> ← Gọi ngay trong chat</p>
+</blockquote>
+<hr />
+<h2>Anatomy of a Perfect Workflow File</h2>
+<p>Workflow file không chỉ liệt kê bước — nó là <strong>"bản mô tả công việc chi tiết"</strong> cho Agent:</p>
+<pre><code class="language-markdown">---
+description: Mô tả 1 dòng — dùng khi nào, làm gì
+version: 1.0
+author: [Tên bạn]
+last_updated: DD/MM/YYYY
+---
+
+## Mục đích
+[Giải thích rõ workflow này giải quyết vấn đề gì]
+
+## Điều kiện tiên quyết
+- [Cần có file/data gì trước khi chạy]
+- [Cần quyền truy cập gì]
+
+## Quy trình
+
+### Giai đoạn 1: Thu thập
+1. [Bước thu thập thông tin — hỏi user hoặc đọc file]
+2. [Bước xác nhận dữ liệu đầu vào]
+
+### Giai đoạn 2: Xử lý
+3. [Bước xử lý chính]
+4. [Bước kiểm tra chất lượng]
+   - Nếu [điều kiện A]: [làm gì]
+   - Nếu [điều kiện B]: [làm gì khác]
+
+### Giai đoạn 3: Output
+5. [Tạo kết quả]
+6. [Lưu/export theo định dạng]
+7. [Thông báo hoàn thành, tóm tắt kết quả]
+
+## Tiêu chuẩn output
+- [Chỉ tiêu 1]
+- [Chỉ tiêu 2]
+
+## Khi gặp lỗi
+- [Lỗi thường gặp 1] → [Cách xử lý]
+- [Lỗi thường gặp 2] → [Cách xử lý]
+</code></pre>
+<hr />
+<h2>Thư viện Workflow mẫu cho văn phòng</h2>
+<h3>Workflow 1: <code>/tao-proposal</code></h3>
+<pre><code class="language-markdown">---
+description: Tạo tài liệu đề xuất/proposal hoàn chỉnh từ ý tưởng ban đầu
+---
+
+## Quy trình
+
+### Giai đoạn 1: Thu thập yêu cầu
+1. Hỏi tuần tự (mỗi câu một lần, chờ trả lời):
+   - &quot;Tên đề xuất/dự án là gì?&quot;
+   - &quot;Vấn đề bạn muốn giải quyết là gì?&quot;
+   - &quot;Đối tượng đọc proposal này là ai?&quot;
+   - &quot;Ngân sách tham khảo? (nếu có)&quot;
+   - &quot;Thời hạn thực hiện?&quot;
+
+### Giai đoạn 2: Soạn thảo
+2. Tạo cấu trúc proposal:
+   - Tóm tắt điều hành (Executive Summary) — ≤ 200 từ
+   - Bối cảnh &amp; Vấn đề
+   - Giải pháp đề xuất (chi tiết)
+   - Kế hoạch thực hiện (timeline dạng bảng)
+   - Ngân sách ước tính (dạng bảng)
+   - Rủi ro &amp; Giảm thiểu
+   - Kết luận &amp; Kêu gọi hành động
+
+### Giai đoạn 3: Hoàn thiện
+3. Kiểm tra: Số liệu nhất quán? Logic mạch lạc? Tone phù hợp?
+4. Nếu còn thiếu thông tin: Hỏi bổ sung, không tự bịa
+5. Xuất ra: Markdown hoàn chỉnh + hướng dẫn copy vào Word/Google Docs
+
+## Tiêu chuẩn
+- Executive Summary phải đứng độc lập, không cần đọc phần sau
+- Không dùng từ khoa trương: &quot;đột phá&quot;, &quot;tuyệt vời&quot;, &quot;hoàn hảo&quot;
+- Mỗi đề xuất phải có ROI hoặc lợi ích đo lường được
+</code></pre>
+<h3>Workflow 2: <code>/onboard-nhan-vien</code></h3>
+<pre><code class="language-markdown">---
+description: Tạo bộ tài liệu và checklist onboarding cho nhân viên mới
+---
+
+## Quy trình
+1. Hỏi: Tên NV mới, vị trí, ngày bắt đầu, team, người hướng dẫn (buddy)
+2. Tạo gói onboarding:
+   - Email chào mừng (thay mặt Manager)
+   - Checklist ngày đầu tiên (giờ theo giờ)
+   - Checklist tuần đầu tiên
+   - Danh sách hệ thống cần cấp quyền truy cập
+   - Danh sách người cần gặp trong tháng đầu
+   - FAQ 10 câu hỏi NV mới hay hỏi nhất
+3. Tạo kế hoạch 30-60-90 ngày cho vị trí cụ thể
+4. Đóng gói thành tài liệu Word-ready
+
+## Tiêu chuẩn
+- Tone: Ấm áp, khích lệ, không quá trang trọng
+- Checklist: Cụ thể, có thể check được ngay (không mơ hồ)
+</code></pre>
+<h3>Workflow 3: <code>/review-du-an</code></h3>
+<pre><code class="language-markdown">---
+description: Review toàn diện tiến độ và sức khoẻ của một dự án
+---
+
+## Quy trình
+1. Thu thập: Tên dự án, deadline, team, budget, ngày review
+2. Hỏi về từng chiều:
+   - Tiến độ: % hoàn thành? Đang ở giai đoạn nào?
+   - Blockers: Có vấn đề gì đang chặn tiến độ?
+   - Budget: Đã tiêu bao nhiêu % ngân sách?
+   - Risks: Rủi ro nào đang tăng?
+   - Team: Morale và capacity như thế nào?
+3. Phân tích và ra tín hiệu RAG (Red/Amber/Green) cho từng chiều
+4. Tạo báo cáo Project Health với:
+   - Dashboard tóm tắt (màu RAG)
+   - Top 3 vấn đề cần giải quyết ngay
+   - Đề xuất 3 hành động cụ thể cho tuần tới
+5. Format ready để copy vào email gửi sponsor
+
+## Tiêu chuẩn RAG
+- 🟢 Green: Đúng kế hoạch, không có rủi ro lớn
+- 🟡 Amber: Chậm/nguy cơ nhưng có thể kiểm soát
+- 🔴 Red: Cần escalate ngay, cần sự can thiệp
+</code></pre>
+<hr />
+<h3>⚡ Thực hành ngày 22-23 — Nâng cao</h3>
+<p><strong>Bài tập "Workflow Library hoàn chỉnh" — 60 phút:</strong></p>
+<ol>
+<li><strong>Audit workflows hiện tại:</strong></li>
+</ol>
+<pre><code>Đây là danh sách workflows tôi đã tạo: [liệt kê]
+Hãy đánh giá mỗi workflow theo thang:
+- Completeness: Đủ bước chưa? (1-10)
+- Clarity: AI hiểu rõ chưa? (1-10)  
+- Error handling: Xử lý trường hợp lỗi chưa? (1-10)
+Đề xuất cách cải thiện workflow điểm thấp nhất.
+</code></pre>
+<ol>
+<li><strong>Tạo workflow cho quy trình đặc thù ngành bạn:</strong></li>
+</ol>
+<pre><code>Hãy giúp tôi thiết kế một workflow hoàn chỉnh cho quy trình:
+[Mô tả quy trình — ví dụ: &quot;Xử lý khiếu nại khách hàng&quot;]
+
+Workflow cần:
+- Chia thành 3 giai đoạn rõ ràng
+- Có điều kiện phân nhánh (if/else)
+- Có tiêu chuẩn chất lượng output
+- Có xử lý khi gặp lỗi/thiếu thông tin
+</code></pre>
+<ol>
+<li><strong>Test workflow bằng "dry run":</strong></li>
+</ol>
+<pre><code>Hãy giả lập chạy workflow /[tên] với dữ liệu sau:
+[Cung cấp dữ liệu test]
+
+Sau mỗi bước: Mô tả bạn sẽ làm gì và tại sao.
+Nếu gặp tình huống không rõ: Dừng lại và hỏi tôi.
+</code></pre>
+<hr />
+<h1>═══════════════════════════════════════════</h1>
+<h1>NGÀY 25 (MỚI): MCP — KẾT NỐI ANTIGRAVITY VỚI MỌI HỆ THỐNG</h1>
+<h1>"Từ AI Biệt Lập Đến AI Kết Nối Thế Giới"</h1>
+<h1>═══════════════════════════════════════════</h1>
+<blockquote>
+<p><strong>Vị trí:</strong> Thay thế/bổ sung cho nội dung Ngày 25 (Automation Mindset)<br />
+<em>Phần Automation Mindset giữ nguyên — MCP là phần thực hành nâng cao</em></p>
+</blockquote>
+<h3>🧠 Bài học hôm nay — MCP là gì?</h3>
+<p><strong>MCP</strong> = <strong>Model Context Protocol</strong> — ngôn ngữ chung để Antigravity "nói chuyện" với các phần mềm khác.</p>
+<p><strong>Hãy nghĩ theo nghĩa đơn giản:</strong></p>
+<pre><code>Không có MCP:
+Antigravity ←→ Chỉ làm việc trong workspace của nó
+→ Muốn dữ liệu Google Sheets? Copy-paste thủ công.
+→ Muốn gửi email? Tự copy nội dung sang Gmail.
+→ Muốn xem lịch họp? Phải mở riêng ra xem.
+
+Có MCP:
+Antigravity ←→ Kết nối trực tiếp với:
+  ├── Google Drive / Sheets / Docs ← Đọc/ghi file real-time
+  ├── Gmail / Outlook              ← Soạn và gửi email
+  ├── Google Calendar              ← Xem lịch, đặt meeting
+  ├── Slack / Teams                ← Gửi tin nhắn, tóm tắt kênh
+  ├── Notion / Confluence          ← Viết/cập nhật tài liệu
+  ├── Jira / Trello                ← Cập nhật task, tạo ticket
+  └── Database nội bộ             ← Truy vấn dữ liệu công ty
+</code></pre>
+<p><strong>Ví dụ thực tế sau khi có MCP:</strong></p>
+<blockquote>
+<p><em>"Hãy đọc Google Sheet báo cáo doanh số tuần này, so sánh với tuần trước, viết email tóm tắt và gửi cho team@company.com, sau đó đăng tóm tắt lên kênh #sales trên Slack."</em></p>
+<p>← 1 câu lệnh. AI tự làm tất cả. Bạn không cần làm gì cả.</p>
+</blockquote>
+<hr />
+<h2>MCP trong thế giới thực — Không cần biết kỹ thuật</h2>
+<p><strong>Cách hình dung:</strong> MCP như "ổ cắm điện đa năng" — Antigravity cắm vào bất kỳ thiết bị nào có MCP connector.</p>
+<p><strong>Bảng MCP servers phổ biến cho văn phòng:</strong></p>
+<table>
+<thead>
+<tr>
+<th>MCP Server</th>
+<th>Kết nối với</th>
+<th>Bạn có thể nhờ AI làm</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Google Drive MCP</strong></td>
+<td>Google Drive</td>
+<td>Đọc, tạo, sửa file Docs/Sheets/Slides</td>
+</tr>
+<tr>
+<td><strong>Gmail MCP</strong></td>
+<td>Gmail</td>
+<td>Đọc inbox, soạn và gửi email, label</td>
+</tr>
+<tr>
+<td><strong>Google Calendar MCP</strong></td>
+<td>Google Calendar</td>
+<td>Xem lịch, tạo event, tìm thời gian rảnh</td>
+</tr>
+<tr>
+<td><strong>Slack MCP</strong></td>
+<td>Slack</td>
+<td>Đọc kênh, gửi tin, tóm tắt conversation</td>
+</tr>
+<tr>
+<td><strong>Notion MCP</strong></td>
+<td>Notion</td>
+<td>Đọc/viết pages, cập nhật database</td>
+</tr>
+<tr>
+<td><strong>GitHub MCP</strong></td>
+<td>GitHub</td>
+<td>Xem code, tạo issue, review PR</td>
+</tr>
+<tr>
+<td><strong>Jira MCP</strong></td>
+<td>Jira</td>
+<td>Tạo ticket, cập nhật status, xem sprint</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>Thiết lập MCP — Hướng dẫn cho non-tech</h2>
+<h3>Bước 1: Hiểu cấu trúc</h3>
+<p>MCP server được cấu hình qua file <code>settings.json</code>:</p>
+<pre><code class="language-json">{
+  &quot;mcpServers&quot;: {
+    &quot;google-drive&quot;: {
+      &quot;command&quot;: &quot;npx&quot;,
+      &quot;args&quot;: [&quot;-y&quot;, &quot;@modelcontextprotocol/server-gdrive&quot;],
+      &quot;env&quot;: {
+        &quot;GDRIVE_CREDENTIALS&quot;: &quot;path/to/credentials.json&quot;
+      }
+    },
+    &quot;gmail&quot;: {
+      &quot;command&quot;: &quot;npx&quot;,
+      &quot;args&quot;: [&quot;-y&quot;, &quot;@modelcontextprotocol/server-gmail&quot;],
+      &quot;env&quot;: {
+        &quot;GMAIL_OAUTH_TOKEN&quot;: &quot;your-token-here&quot;
+      }
+    }
+  }
+}
+</code></pre>
+<blockquote>
+<p><strong>Giải thích đơn giản:</strong> Đây như "danh bạ điện thoại" — bạn đăng ký số của từng dịch vụ để Antigravity biết cách gọi đến.</p>
+</blockquote>
+<h3>Bước 2: Xác thực (Authentication)</h3>
+<p>Mỗi MCP server cần bạn cho phép Antigravity truy cập:</p>
+<pre><code>Google Drive MCP setup:
+1. Antigravity yêu cầu: &quot;Cần quyền truy cập Google Drive&quot;
+2. Mở link xác thực trong trình duyệt
+3. Đăng nhập Google → Chấp nhận quyền
+4. Copy token về dán vào Antigravity
+→ Xong! Antigravity có thể đọc/ghi Drive của bạn
+</code></pre>
+<p><em>Giống như lần đầu đăng nhập app điện thoại bằng tài khoản Google.</em></p>
+<h3>Bước 3: Test kết nối</h3>
+<p>Sau khi setup, test ngay:</p>
+<pre><code>&quot;Hãy liệt kê 5 file gần nhất trong Google Drive của tôi&quot;
+→ Nếu AI liệt kê được tên file thật → Kết nối thành công!
+</code></pre>
+<hr />
+<h2>Use cases MCP mạnh nhất cho văn phòng</h2>
+<h3>Use Case 1: "Báo Cáo Tự Động Hoàn Toàn"</h3>
+<p><strong>Trước MCP:</strong><br />
+1. Mở Google Sheets → Copy data<br />
+2. Paste vào Antigravity → Phân tích<br />
+3. Copy kết quả → Paste vào email<br />
+4. Gửi email</p>
+<p><strong>Sau MCP:</strong></p>
+<pre><code>&quot;Đọc file 'Báo cáo doanh số T2' trong Drive,
+phân tích so với T1, tạo summary đẹp,
+và gửi email cho giam-doc@company.com
+với subject 'Báo cáo doanh số tháng 2/2026'&quot;
+</code></pre>
+<p>→ AI tự làm tất cả. Bạn chỉ cần xác nhận nếu muốn.</p>
+<hr />
+<h3>Use Case 2: "Meeting-to-Action tự động"</h3>
+<pre><code>&quot;Đọc lịch Google Calendar tuần này,
+tóm tắt các meeting đã qua (từ Notes/transcript nếu có),
+tạo danh sách action items còn chưa close,
+và nhắc nhở người phụ trách qua Slack&quot;
+</code></pre>
+<hr />
+<h3>Use Case 3: "Inbox Intelligence"</h3>
+<pre><code>&quot;Đọc 20 email chưa đọc quan trọng nhất trong Gmail,
+phân loại theo: Cần reply ngay / Chờ đến thứ 2 / Có thể xoá,
+soạn sẵn draft reply cho emails cần trả lời ngay,
+và tóm tắt cho tôi biết có gì quan trọng cần xử lý hôm nay&quot;
+</code></pre>
+<hr />
+<h3>Use Case 4: "Knowledge Base tự cập nhật"</h3>
+<pre><code>&quot;Sau mỗi meeting tôi mời bạn tham gia (qua lịch),
+hãy tự động:
+1. Tạo meeting notes trong Notion (dựa trên agenda)
+2. Cập nhật action items vào Notion task board
+3. Gửi MoM qua email cho người tham dự
+4. Tạo reminder trên Calendar cho các deadline&quot;
+</code></pre>
+<hr />
+<h2>⚡ Thực hành ngày 25 — Thiết lập MCP đầu tiên</h2>
+<p><strong>Bài tập — Kết nối Antigravity với Google Drive (45 phút):</strong></p>
+<p><strong>Bước 1 — Xác định nhu cầu:</strong></p>
+<pre><code>Hãy phân tích workflow công việc của tôi:
+[Mô tả 3-5 tác vụ bạn hay làm với file Google]
+
+Đề xuất MCP server nào nên ưu tiên thiết lập trước
+để tiết kiệm nhiều thời gian nhất?
+Ước tính thời gian tiết kiệm/tuần sau khi có MCP.
+</code></pre>
+<p><strong>Bước 2 — Hướng dẫn setup:</strong></p>
+<pre><code>Hướng dẫn tôi từng bước thiết lập MCP server cho [tên dịch vụ].
+Tôi đang dùng Antigravity trên Mac/Windows.
+Tôi không có background kỹ thuật — hãy giải thích đơn giản nhất.
+Nếu có lệnh terminal, giải thích lệnh đó làm gì.
+</code></pre>
+<p><strong>Bước 3 — Test và mở rộng:</strong></p>
+<pre><code>MCP đã kết nối. Test với tác vụ thực tế:
+&quot;Hãy đọc [tên file cụ thể] trong Drive và tóm tắt nội dung chính&quot;
+</code></pre>
+<p><strong>Bước 4 — Tạo "Automation Recipe" đầu tiên:</strong></p>
+<pre><code>Dựa trên MCP đã thiết lập, hãy thiết kế cho tôi
+một automation recipe hoàn chỉnh cho công việc [tên công việc]:
+
+Mô tả: Mỗi [thứ mấy], Agent sẽ tự động:
+1. [Đọc từ đâu]
+2. [Xử lý gì]
+3. [Ghi/gửi đến đâu]
+4. [Thông báo cho tôi như thế nào]
+
+Hãy viết thành workflow file sẵn sàng để lưu vào .agents/workflows/
+</code></pre>
+<h3>💡 Mẹo pro với MCP</h3>
+<blockquote>
+<p><strong>Bắt đầu với 1 MCP, dùng thật thành thạo trước.</strong> Đừng kết nối hết tất cả ngay — sẽ choáng ngợp và khó debug. Google Drive hoặc Gmail là điểm bắt đầu tốt nhất cho nhân viên văn phòng.</p>
+</blockquote>
+<hr />
+<h2>Bảo mật &amp; An toàn khi dùng MCP</h2>
+<blockquote>
+<p><strong>Lưu ý quan trọng cho nhân viên văn phòng:</strong></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Cần làm</th>
+<th>Không nên làm</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>✅ Chỉ cấp quyền đọc (read-only) lúc đầu</td>
+<td>❌ Cấp full access ngay khi chưa quen</td>
+</tr>
+<tr>
+<td>✅ Kiểm tra kỹ trước khi AI gửi email</td>
+<td>❌ Để AI tự động gửi email cho khách hàng</td>
+</tr>
+<tr>
+<td>✅ Test với dữ liệu giả trước</td>
+<td>❌ Test trực tiếp với dữ liệu nhạy cảm</td>
+</tr>
+<tr>
+<td>✅ Báo IT biết bạn đang dùng MCP</td>
+<td>❌ Kết nối MCP với hệ thống nội bộ mà không báo IT</td>
+</tr>
+<tr>
+<td>✅ Thu hồi quyền khi không dùng nữa</td>
+<td>❌ Để token/credentials lâu dài không xem lại</td>
+</tr>
+</tbody>
+</table>
+<h3>✅ Checkpoint bổ sung ngày 25</h3>
+<ul>
+<li>[ ] Hiểu MCP là gì và tại sao nó mạnh hơn copy-paste</li>
+<li>[ ] Đã thiết lập thành công ít nhất 1 MCP server</li>
+<li>[ ] Đã test và xác nhận AI có thể đọc/ghi dữ liệu thực</li>
+<li>[ ] Đã tạo ít nhất 1 "Automation Recipe" kết hợp MCP</li>
+<li>[ ] Đã báo IT/Quản lý về việc sử dụng MCP</li>
+</ul>
+<hr />
+<h1>═══════════════════════════════════════════</h1>
+<h1>BẢN ĐỒ TÍCH HỢP: 4 TẦNG KIẾN TRÚC ANTIGRAVITY</h1>
+<h1>Tóm tắt toàn bộ kiến trúc theo hành trình 30 ngày</h1>
+<h1>═══════════════════════════════════════════</h1>
+<pre><code>TẦNG 1 — INSTRUCTION (Ngày 1-7)
+ANTIGRAVITY.md ← &quot;Hợp đồng với AI&quot;
+└── Ai bạn là, bạn muốn gì, AI được làm gì
+
+TẦNG 2 — SKILLS (Ngày 8-14)
+.antigravity/skills/*/SKILL.md ← &quot;Kỹ năng chuyên môn&quot;
+└── Dạy AI làm theo đúng cách của bạn, lặp đi lặp lại
+
+TẦNG 3 — AGENT/WORKFLOWS (Ngày 22-23)
+.agents/workflows/*.md ← &quot;Quy trình tự động&quot;
+└── Chuỗi bước chạy tự động, gọi bằng /ten-lenh
+
+TẦNG 4 — MCP (Ngày 25)
+settings.json + MCP servers ← &quot;Kết nối thế giới thực&quot;
+└── AI đọc/ghi trực tiếp Google Drive, Gmail, Slack...
+
+                    ┌─────────────────────────────┐
+                    │     BẠN (AI Director)        │
+                    └──────────────┬──────────────┘
+                                   │ Chỉ huy
+                    ┌──────────────▼──────────────┐
+                    │   ANTIGRAVITY.md (Tầng 1)   │ ← &quot;Hiểu bạn là ai&quot;
+                    └──────────────┬──────────────┘
+                                   │ Hướng dẫn
+              ┌────────────────────┼────────────────────┐
+              │                    │                    │
+   ┌──────────▼──────┐  ┌──────────▼──────┐  ┌────────▼────────┐
+   │  SKILL.md        │  │  Workflows       │  │  MCP Servers    │
+   │  (Tầng 2)        │  │  (Tầng 3)        │  │  (Tầng 4)       │
+   │ &quot;Làm thế nào&quot;    │  │ &quot;Làm khi nào&quot;    │  │ &quot;Lấy/gửi đâu&quot;  │
+   └──────────────────┘  └──────────────────┘  └─────────────────┘
+</code></pre>
+<p><strong>Công thức thành công:</strong></p>
+<blockquote>
+<p><strong>1 ANTIGRAVITY.md tốt</strong> + <strong>3-5 SKILL.md đặc thù</strong> + <strong>5-10 Workflows</strong> + <strong>2-3 MCP kết nối</strong><br />
+= <strong>Hệ thống AI văn phòng x10 hiệu suất, chạy tự động</strong></p>
+</blockquote>
+</body>
+</html>

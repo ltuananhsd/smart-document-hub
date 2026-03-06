@@ -6,6 +6,68 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Document Hub — Đọc tài liệu</title>
     <link rel="stylesheet" href="css/index.css">
+    <!-- Quill.js CSS v2 cho hiển thị -->
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
+    <style>
+        /* CSS làm đẹp Markdown và Hình ảnh trong Reader */
+        .custom-reader-style {
+            padding: 40px; 
+            text-align: left; 
+            line-height: 1.8;
+            font-size: 16px;
+            color: #1e293b;
+        }
+        .custom-reader-style img {
+            max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); margin: 20px auto; display: block;
+        }
+        .custom-reader-style h1, .custom-reader-style h2, .custom-reader-style h3 { color: #0f172a; margin-top: 32px; margin-bottom: 16px; scroll-margin-top: 100px; }
+        .custom-reader-style h1 { font-size: 2.2rem; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px; }
+        .custom-reader-style h2 { font-size: 1.75rem; }
+        .custom-reader-style blockquote {
+            border-left: 4px solid var(--color-primary) !important;
+            background: rgba(79, 142, 247, 0.05) !important;
+            padding: 16px 20px; border-radius: 4px 8px 8px 4px; margin: 24px 0; color: #1e3a8a !important; font-style: italic; font-size: 1.05rem;
+        }
+        .custom-reader-style table { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 0.95rem; }
+        .custom-reader-style th, .custom-reader-style td { border: 1px solid #e2e8f0; padding: 12px 16px; }
+        .custom-reader-style th { background: #f8fafc; font-weight: 600; color: #0f172a; }
+        
+        /* Gitbook Style cho Code */
+        .custom-reader-style pre,
+        .custom-reader-style pre.ql-syntax {
+            background-color: #1e3a8a !important; /* Xanh dương đậm */
+            color: #eff6ff !important;
+            padding: 16px 20px; border-radius: 8px; overflow-x: auto; margin: 24px 0; font-family: 'Courier New', monospace; font-size: 0.9rem; line-height: 1.5;
+        }
+        
+        .custom-reader-style code { font-family: 'Courier New', monospace; background-color: #f1f5f9; color: #d926a9; padding: 2px 6px; border-radius: 4px; font-size: 0.9em; word-wrap: break-word; }
+        .custom-reader-style pre code { background-color: transparent; color: inherit; padding: 0; border-radius: 0; }
+        
+        /* Cột TOC */
+        .toc-link {
+            color: var(--text-secondary); text-decoration: none; padding: 6px 0; border-left: 3px solid transparent; transition: all 0.2s ease; display: block;
+            white-space: normal; word-break: break-word; line-height: 1.4; /* Sửa lỗi cắt chữ mục lục dài */
+        }
+        .toc-link:hover { color: var(--color-primary); border-left: 3px solid var(--color-primary); padding-left: 8px !important; background: rgba(79, 142, 247, 0.05); }
+
+        /* Dark Mode Preferences */
+        body.dark-mode { background-color: #0f172a; color: #f1f5f9; }
+        body.dark-mode .header { background-color: #1e293b; border-bottom: 1px solid #334155; color: #f8fafc; }
+        body.dark-mode .custom-reader-style { color: #e2e8f0; }
+        body.dark-mode .viewer-wrapper { background-color: #0f172a !important; border-left-color: #334155 !important; }
+        body.dark-mode .doc-page { background-color: transparent !important; color: #f1f5f9; border: none; box-shadow: none; }
+        body.dark-mode .custom-reader-style h1, body.dark-mode .custom-reader-style h2, body.dark-mode .custom-reader-style h3 { color: #f8fafc; border-bottom-color: #334155; }
+        body.dark-mode .custom-reader-style blockquote { background: rgba(59, 130, 246, 0.15) !important; color: #93c5fd !important; }
+        body.dark-mode .custom-reader-style th, body.dark-mode .custom-reader-style td { border-color: #334155; }
+        body.dark-mode .custom-reader-style th { background-color: #1e293b; color: #f1f5f9; }
+        body.dark-mode .custom-reader-style code { background-color: #1e293b; color: #f472b6; }
+        body.dark-mode .card { background-color: #1e293b; border: 1px solid #334155; }
+        body.dark-mode .viewer-toolbar { border-bottom-color: #334155 !important; }
+        body.dark-mode .breadcrumb, body.dark-mode .breadcrumb a { color: #94a3b8; }
+        body.dark-mode .breadcrumb a:hover { color: #60a5fa; }
+        body.dark-mode .breadcrumb .current { color: #e2e8f0; }
+        body.dark-mode #themeToggleBtn { color: #f1f5f9; }
+    </style>
 </head>
 
 <body>
@@ -16,6 +78,7 @@
         <div class="header-spacer"></div>
         <div style="font-size:0.85rem;color:var(--text-muted)" id="viewerMeta"></div>
         <div class="header-nav">
+            <button class="btn btn-ghost btn-sm" id="themeToggleBtn" onclick="toggleTheme()" title="Giao diện Sáng/Tối">Sáng ☀️</button>
             <div class="live-dot"></div>
             <span style="font-size:0.75rem;color:var(--text-muted)">Đang theo dõi</span>
             <span id="readTimer"
@@ -51,6 +114,12 @@
         let timerInterval;
 
         document.addEventListener('DOMContentLoaded', () => {
+            // Khôi phục cài đặt Sáng/Tối từ LocalStorage
+            if (localStorage.getItem('docHubTheme') === 'dark') {
+                document.body.classList.add('dark-mode');
+                document.getElementById('themeToggleBtn').innerHTML = 'Tối 🌙';
+            }
+            
             initData();
             if (!isLoggedIn()) { openLoginModal(`viewer.html?id=${docId}`); return; }
             updateHeaderUI();
@@ -77,6 +146,20 @@
             }, 1000);
         }
 
+        // Đổi chế độ Sáng/Tối
+        function toggleTheme() {
+            const body = document.body;
+            body.classList.toggle('dark-mode');
+            const btn = document.getElementById('themeToggleBtn');
+            if (body.classList.contains('dark-mode')) {
+                btn.innerHTML = 'Tối 🌙';
+                localStorage.setItem('docHubTheme', 'dark');
+            } else {
+                btn.innerHTML = 'Sáng ☀️';
+                localStorage.setItem('docHubTheme', 'light');
+            }
+        }
+
         function goBack() { endViewSession(docId); history.back(); }
         function handleDownload() {
             const btn = document.getElementById('downloadBtn');
@@ -88,7 +171,6 @@
 
         function renderViewer(doc) {
             const user = getCurrentUser();
-            // Generate mock pages based on content_preview
             const pages = generateMockPages(doc);
 
             document.getElementById('mainContent').innerHTML = `
@@ -98,22 +180,17 @@
       <span class="current">Đọc toàn bộ</span>
     </div>
 
-    <div style="display:grid;grid-template-columns:1fr 260px;gap:24px;max-width:1200px;margin:0 auto" class="viewer-grid">
-      <div>
-        <div class="viewer-wrapper">
-          <div class="viewer-toolbar">
-            <span style="font-size:0.85rem;color:var(--text-secondary)">📄 ${doc.title}</span>
-            <div class="header-spacer"></div>
-            <span style="font-size:0.78rem;color:var(--text-muted)">${doc.pages} trang · ${doc.size}</span>
-          </div>
-          <div class="doc-pages">
-            ${pages}
-          </div>
+    <!-- Đảo Sidebar sang TRÁI -->
+    <div style="display:grid;grid-template-columns:280px 1fr;gap:40px;max-width:1200px;margin:0 auto" class="viewer-grid">
+      
+      <!-- Cột Trái: Sidebar chứa TOC và Thông tin -->
+      <div style="position:sticky;top:80px;display:flex;flex-direction:column;gap:16px;align-self:start;height:calc(100vh - 100px);overflow-y:auto;padding-right:8px;" class="custom-scrollbar"> 
+        
+        <div class="card" id="tocCard" style="display:none;">
+          <div class="section-title" style="margin-bottom:12px; color:var(--text-primary); font-size:0.95rem;">📑 Mục lục</div>
+          <div id="tocContainer" style="display:flex;flex-direction:column;gap:4px;font-size:0.85rem;line-height:1.4"></div>
         </div>
-      </div>
 
-      <!-- Sidebar -->
-      <div style="position:sticky;top:80px;display:flex;flex-direction:column;gap:16px">
         <div class="card">
           <div class="section-title">Thông tin tài liệu</div>
           <div style="display:flex;flex-direction:column;gap:10px;font-size:0.82rem">
@@ -123,6 +200,7 @@
             <div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Trang</span><strong>${doc.pages}</strong></div>
           </div>
         </div>
+
         <div class="card" style="background:rgba(79,142,247,0.06)">
           <div style="font-size:0.8rem;color:var(--text-secondary)">👤 Đang đọc với tư cách</div>
           <div style="display:flex;align-items:center;gap:8px;margin-top:8px">
@@ -132,36 +210,75 @@
               <div style="font-size:0.72rem;color:var(--text-muted)">${user?.email || ''}</div>
             </div>
           </div>
-          <div style="margin-top:12px">
-            <div style="display:flex;justify-content:space-between;font-size:0.75rem;color:var(--text-muted);margin-bottom:4px"><span>Lead Score</span><strong style="color:var(--color-primary)">${user?.lead_score || 0} điểm</strong></div>
-            <div class="score-bar"><div class="score-fill" style="width:${Math.min((user?.lead_score || 0) * 2, 100)}%"></div></div>
-          </div>
-          <span class="badge badge-${(user?.lead_stage || 'cold').toLowerCase()} mt-sm">${user?.lead_stage || 'Cold'} Lead</span>
         </div>
-        <a href="activity.html" class="btn btn-ghost btn-sm">📈 Xem lịch sử đọc</a>
       </div>
+      
+      <!-- Cột Phải: Nội dung Đọc -->
+      <div>
+        <div class="viewer-wrapper" style="box-shadow: none; border-left: 1px solid #e2e8f0; border-radius: 0; padding-left: 20px;">
+          <div class="viewer-toolbar" style="background: transparent; border: none; padding: 0 0 16px 0; border-bottom: 1px solid #e2e8f0; margin-bottom: 24px;">
+            <span style="font-size:1.1rem;color:var(--text-primary); font-weight:600;">📑 ${doc.title}</span>
+            <div class="header-spacer"></div>
+            <span style="font-size:0.85rem;color:var(--text-muted)">${doc.size}</span>
+          </div>
+          <div class="doc-pages" style="padding: 0;">
+            ${pages}
+          </div>
+        </div>
+      </div>
+
     </div>
-    <style>@media(max-width:900px){.viewer-grid{grid-template-columns:1fr !important}}</style>
+    <style>
+      @media(max-width:900px){.viewer-grid{grid-template-columns:1fr !important}}
+      .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+      .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+      .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+      .custom-scrollbar:hover::-webkit-scrollbar-thumb { background: #94a3b8; }
+    </style>
   `;
         }
 
         function generateMockPages(doc) {
-            const preview = doc.content_preview || '<p>Nội dung tài liệu...</p>';
-            const mockSections = [
-                { h: 'Tổng quan', p: 'Tài liệu này cung cấp phân tích chuyên sâu và dữ liệu thực tế từ các nghiên cứu hàng đầu trong ngành. Các số liệu được cập nhật và xác minh qua nhiều nguồn uy tín, đảm bảo tính chính xác và có thể ứng dụng trực tiếp vào thực tiễn kinh doanh.' },
-                { h: 'Phương pháp nghiên cứu', p: 'Chúng tôi đã thu thập dữ liệu từ hơn 200 nguồn khác nhau, bao gồm khảo sát thực địa với 500+ doanh nghiệp, phỏng vấn chuyên gia, và phân tích dữ liệu thứ cấp từ các báo cáo ngành. Phương pháp mixed-method đảm bảo tính đa chiều và độ tin cậy của kết quả.' },
-                { h: 'Phát hiện chính', p: 'Kết quả từ nghiên cứu chỉ ra 5 xu hướng quan trọng đang định hình ngành trong năm 2024-2025. Những xu hướng này có tác động mạnh đến chiến lược vận hành và cơ hội tăng trưởng của các doanh nghiệp ở mọi quy mô.' },
-                { h: 'Phân tích theo phân khúc', p: 'Sự phân hóa rõ ràng theo quy mô doanh nghiệp và ngành nghề cho thấy không có giải pháp "one-size-fits-all". SMEs và Enterprise có nhu cầu, khả năng đầu tư, và lộ trình triển khai khác biệt đáng kể.' },
-                { h: 'Khuyến nghị chiến lược', p: 'Dựa trên phân tích toàn diện, chúng tôi đề xuất lộ trình 3 giai đoạn (0-3 tháng / 3-12 tháng / 12-24 tháng) với các ưu tiên rõ ràng, KPI đo lường được, và nguồn lực cần thiết cho từng giai đoạn.' },
-                { h: 'Case Studies thực tế', p: '5 case study từ doanh nghiệp Việt Nam và quốc tế minh họa cả thành công lẫn thất bại, rút ra bài học thực tiễn giúp tránh các sai lầm phổ biến và tối ưu xác suất thành công khi triển khai.' },
-                { h: 'Kết luận & Bước tiếp theo', p: 'Tổng hợp 10 điểm then chốt cần nhớ và action plan cụ thể cho tuần tiếp theo. Tài liệu bổ sung và tài nguyên hỗ trợ có sẵn tại thư viện của chúng tôi.' }
-            ];
-            let html = `<div class="doc-page">${preview}</div>`;
-            mockSections.forEach((s, i) => {
-                html += `<div class="doc-page"><h2 style="color:#1e3a5f;margin-bottom:16px;font-size:1.3rem">${i + 2}. ${s.h}</h2><p style="color:#2d3748;line-height:1.9">${s.p}</p><p style="color:#4a5568;margin-top:16px;line-height:1.8">Chi tiết phân tích và dữ liệu hỗ trợ được trình bày trong phần phụ lục kèm theo. Các số liệu thống kê được cập nhật định kỳ theo quý để đảm bảo tính thời sự và phù hợp với bối cảnh thị trường hiện tại.</p></div>`;
-            });
+            const preview = doc.content_preview || '<p>Nội dung đang được cập nhật...</p>';
+            let html = `<div class="doc-page ql-editor custom-reader-style">${preview}</div>`;
             return html;
         }
+
+        // Tạo Mục lục tự động
+        function generateTOC() {
+            const contentArea = document.querySelector('.custom-reader-style');
+            if (!contentArea) return;
+            
+            const headings = contentArea.querySelectorAll('h1, h2, h3');
+            const tocContainer = document.getElementById('tocContainer');
+            const tocCard = document.getElementById('tocCard');
+            
+            if (headings.length === 0) return; // Nếu không có heading nào, giấu TOC
+            
+            let tocHTML = '';
+            headings.forEach((h, index) => {
+                // Tạo ID cho heading nếu chưa có
+                if (!h.id) h.id = 'heading-' + index;
+                
+                // Thụt lề dựa trên level (h1, h2, h3)
+                const level = parseInt(h.tagName.substring(1));
+                const indent = (level - 1) * 12; 
+                
+                tocHTML += `<a href="#${h.id}" class="toc-link" style="margin-left:${indent}px;">
+                    ${h.textContent}
+                </a>`;
+            });
+            
+            tocContainer.innerHTML = tocHTML;
+            tocCard.style.display = 'block'; // Hiển thị khung TOC
+        }
+        
+        // Gọi hàm Render TOC sau khi DOM Viewer đã update
+        const originalRenderViewer = renderViewer;
+        renderViewer = function(doc) {
+            originalRenderViewer(doc);
+            setTimeout(generateTOC, 100);
+        };
     </script>
 </body>
 
